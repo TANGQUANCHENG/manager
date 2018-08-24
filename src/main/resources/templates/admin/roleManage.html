@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" th:href="@{/js/easyui/icon.css}"/>
+    <link rel="stylesheet" th:href="@{/js/easyui/bootstrap/easyui.css}"/>
+    <link rel="stylesheet" th:href="@{/js/bootstrap/dist/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/js/jquery.confirm/jquery-confirm.min.css}"/>
+    <script type="text/javascript" th:attr="src=@{/js/jquery.js}"></script>
+    <script type="text/javascript" th:attr="src=@{/js/topbar.min.js}"></script>
+    <script type="text/javascript" th:attr="src=@{/js/easyui/jquery.easyui.min.js}"></script>
+    <script type="text/javascript" th:attr="src=@{/js/bootstrap/dist/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:attr="src=@{/js/jquery.confirm/jquery-confirm.min.js}"></script>
+    <script type="text/javascript" th:attr="src=@{/js/roleManage.js}"></script>
+
+    <style>
+        .mask{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            background: url("/images/loading/6.png") no-repeat center #fff;
+        }
+        .panel-body{
+            padding: 0;
+        }
+    </style>
+</head>
+<body style="width: 97%;opacity: 0" >
+<div class="mask"></div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <input hidden th:value="${roleId}" id="roleId"/>
+            <div class="panel-body">
+                <table id="tt" ></table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

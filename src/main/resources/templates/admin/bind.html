@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" th:href="@{/js/easyui/icon.css}"/>
+    <link rel="stylesheet" th:href="@{/js/easyui/bootstrap/easyui.css}"/>
+    <link rel="stylesheet" th:href="@{/js/bootstrap/dist/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/js/jquery.confirm/jquery-confirm.min.css}"/>
+    <script type="text/javascript" th:attr="src=@{/js/jquery.js}"></script>
+    <script type="text/javascript" th:attr="src=@{/js/topbar.min.js}"></script>
+    <script>
+        topbar.show();
+    </script>
+    <script type="text/javascript" th:attr="src=@{/js/easyui/jquery.easyui.min.js}"></script>
+    <script type="text/javascript" th:attr="src=@{/js/bootstrap/dist/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:attr="src=@{/js/jquery.confirm/jquery-confirm.min.js}"></script>
+    <script type="text/javascript" th:attr="src=@{/js/bind.js}"></script>
+    <style>
+        .layout-panel {
+            border: 1px solid #ccc;
+        }
+        .panel-body{
+            padding: 0;
+        }
+        .panel-title{
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body style="padding: 15px;opacity: 0">
+<input hidden id="roleId" th:value="${ roleId }"/>
+<div class="easyui-layout" style="width:100%;" data-options="height:$(window).height()-100">
+    <div data-options="region:'west'" title="选择功能" style="width:300px;">
+        <table id="tt"></table>
+
+    </div>
+    <div data-options="region:'center',title:'选择角色'">
+        <table id="dg"></table>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="menuModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">权限绑定</h4>
+            </div>
+            <div class="modal-body" style="height: 600px">
+
+                <div class="row">
+                    <div class="col-md-6">
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">已选择的功能</div>
+                            <div class="panel-body" style="padding: 20px;" id="navContent">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">已选择的角色</div>
+                            <div class="panel-body" style="padding: 20px;" id="roleContent">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" id="navArr"/>
+            <input type="hidden" id="roleArr"/>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="toBind">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

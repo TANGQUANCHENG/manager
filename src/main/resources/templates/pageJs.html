@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<div th:fragment="pageJs">
+    <input id="contextPath" hidden th:value="${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #httpServletRequest.getServerPort() +  #httpServletRequest.getContextPath() + '/'}"  />
+    <script type="text/javascript" th:attr="src=@{/js/jquery.js}"></script>
+    <script type="text/javascript" th:attr="src=@{/js/topbar.min.js}"></script>
+    <script>
+        topbar.show();
+    </script>
+    <script type="text/javascript" th:attr="src=@{/js/bootstrap/dist/js/bootstrap.min.js#deVersion=2018080201}"></script>
+    <script type="text/javascript" th:attr="src=@{/js/bootstrap.table/bootstrap-table.min.js#deVersion=2018080201}"></script>
+    <script type="text/javascript" th:attr="src=@{/js/bootstrap.table/locale/bootstrap-table-zh-CN.min.js#deVersion=2018080201}"></script>
+    <script type="text/javascript" th:attr="src=@{/js/jquery.confirm/jquery-confirm.min.js#deVersion=2018080201}"></script>
+    <script type="text/javascript" th:attr="src=@{/js/jquery.validate.js#deVersion=2018080201}"></script>
+    <script type="text/javascript" th:attr="src=@{/js/laydate/laydate.js#deVersion=2018080201}"></script>
+    <script type="text/javascript" th:attr="src=@{/js/jquery.form.js#deVersion=2018080201}"></script>
+    <script type="text/javascript" th:attr="src=@{/js/jquery.parser.js#deVersion=2018080201}"></script>
+    <script type="text/javascript" th:attr="src=@{/js/app/currency.js#deVersion=2018080201}"></script>
+    <script type="text/javascript" th:attr="src=@{/js/tablesMergeCell.js#deVersion=2018080201}"></script>
+    <script type="text/javascript" th:attr="src=@{/js/jquery.nicescroll.min.js#deVersion=2018080201}"></script>
+    <script type="text/javascript" th:attr="src=@{/js/loading/loading.js#deVersion=2018080201}"></script>
+    <script type="text/javascript" th:attr="src=@{/js/layer/layer.js#deVersion=2018080201}"></script>
+    <script type="text/javascript" th:attr="src=@{/js/conttab_child.js#deVersion=2018080201}"></script>
+    <!-- Bootstrap core JavaScript
+      ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript">
+        var basePath=$("#contextPath").val();
+        window.onload=function (ev) {
+            console.log(basePath);
+            topbar.hide();
+            $(".fixed-table-body").niceScroll({cursorcolor: "#ccc", cursorborder: "0px solid #fff"});
+            $("body").animate({opacity: 1});
+        };
+    </script>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="css :: css">
+
+</head>
+<style>
+    .block-flat .form-group{
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+</style>
+<body style="overflow: hidden;opacity: 0">
+
+<div id="cl-wrapper" style="padding-top: 0;">
+    <div class="container-fluid" id="pcont">
+        <div class="cl-mcont">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="block-flat">
+                        <form class="form-horizontal group-border-dashed">
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="searchText">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-primary" type="button" id="searchRole"><i class="fa fa-search"></i>搜索</button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <button type="button" class="btn btn-success btn-flat" id="toAdd">
+                                        <i class="fa fa-plus"></i>
+                                        新增角色
+                                    </button>
+                                    <button type="button" class="btn btn-info btn-flat" id="toBind">
+                                        <i class="fa fa-magnet"></i>
+                                        权限绑定
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="block-flat">
+                        <div class="content">
+                            <div class="table-responsive">
+                                <table class="table hover" id="dataTable">
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">新增角色</h4>
+                </div>
+                <div class="modal-body">
+
+                    <form class="form-horizontal" role="form" id="addForm">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">角色名称</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="inputEmail3" placeholder="角色名称" name="name">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="addRole">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel2">修改角色</h4>
+                </div>
+                <div class="modal-body">
+
+                    <form class="form-horizontal" role="form" id="editForm">
+                        <input name="id" type="hidden"/>
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">角色名称</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"  placeholder="角色名称" name="name">
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="updateRole">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="menuModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">管理权限:<span id="roleName"></span></h4>
+                </div>
+                <div class="modal-body" style="height: 500px">
+
+                    <iframe  style="width: 100%;height: 100%;border: none" id="navigationFrame">
+
+                    </iframe>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:include="pageJs :: pageJs"></div>
+<script>
+    window.onload=function (ev) {
+        topbar.hide();
+        $("body").animate({opacity: 1});
+    };
+    $("#addForm").validate({
+        rules: {
+            name: {
+                required: true,
+                minlength: 2
+            },
+        }
+    });
+    $("#editForm").validate({
+        rules: {
+            name: {
+                required: true,
+                minlength: 2
+            },
+        }
+    });
+    $('#dataTable').bootstrapTable({
+        url: '/role/list',
+        height: $(window).height() - 200,
+        pageSize: 30,
+        pagination: true,
+        pageList: [30, 50, 100],
+        clickToSelect: true,
+        singleSelect: true,
+        queryParams: queryParams,
+        uniqueId: 'id',
+        columns: [
+            {
+                width: '3px',
+                align: 'center',
+                formatter: function (v, row, index) {
+                    return index + 1
+                }
+            },
+            {
+                width: '40px',
+                align: 'center',
+                field: 'name',
+                title: '名称'
+
+            },
+            {
+                width: '40px',
+                align: 'center',
+                field: 'code',
+                title: '代码'
+
+            }, {
+                width: '40px',
+                align: 'center',
+                field: 'available',
+                title: '状态',
+                formatter: function (v, row, index) {
+                    return v?'<span class="label plain label-success" onclick="disableRole('+row.id+')">正常</span>'
+                        :'<span class="label plain label-warning" onclick="enableRole('+row.id+')">停用</span>';
+                }
+            }, {
+                width: '65px',
+                align: 'center',
+                field: 'createTime',
+                title: '创建时间'
+
+            }, {
+                align: 'center',
+                width: '80px',
+                field: 'comment',
+                title: '操作',
+                formatter: function (v, row, index) {
+                    return '<a class="label label-default" href="javascript:void(0)" onclick="toUpdate('+row.id+')"><i class="fa fa-pencil"></i></a>&nbsp;' +
+                        '<a class="label label-danger" href="javascript:void(0)" onclick="deleteRole('+row.id+')"><i class="fa fa-times"></i></a>&nbsp;'+
+                        '<a class="label label-danger" href="javascript:void(0)" onclick="editRole('+row.id+')"><i class="fa fa-user"></i></a>';
+                }
+
+            }
+        ],
+    });
+
+    $("#searchRole").click(function () {
+        $("#dataTable").bootstrapTable("refresh");
+    });
+
+    $("#toAdd").click(function () {
+        $("#addForm input").val("");
+        $("#myModal").modal("show");
+    });
+
+    $("#toBind").click(function () {
+
+        addTab("/bind","bind","权限绑定");
+
+    })
+
+    $("#addRole").click(function () {
+
+        var v=$("#addForm").valid();
+        if(!v){
+            return;
+        }
+
+        $.ajax({
+            type: "GET",
+            url: "/role/add",
+            data: $("#addForm").serialize(),
+            dataType: "json",
+            success: function (data) {
+                data=data.data;
+                if(data.errorCode===200){
+                    layer.msg("新增成功");
+                    $("#dataTable").bootstrapTable("refresh");
+                    $("#myModal").modal("hide");
+                }else {
+                    layer.msg("新增失败");
+                }
+            },
+            beforeSend: function () {
+            }
+        });
+
+
+    });
+    $("#updateRole").click(function () {
+        var v=$("#editForm").valid();
+        if(!v){
+            return;
+        }
+
+        $.ajax({
+            type: "GET",
+            url: "/role/update",
+            data: $("#editForm").serialize(),
+            dataType: "json",
+            success: function (data) {
+                data=data.data;
+                if(data.errorCode===200){
+                    layer.msg("修改成功");
+                    $("#dataTable").bootstrapTable("refresh");
+                    $("#myModal2").modal("hide");
+                }else {
+                    layer.msg("修改失败");
+                }
+            },
+            beforeSend: function () {
+            }
+        });
+    })
+
+    function deleteRole(id) {
+
+        $.confirm({
+            title: '确认!',
+            content: '确定要删除这个角色吗？',
+            confirm: function(){
+
+                $.ajax({
+                    type: "GET",
+                    url: "/role/delete/"+id,
+                    data: $("#addForm").serialize(),
+                    dataType: "json",
+                    success: function (data) {
+                        data=data.data;
+                        if(data.errorCode===200){
+                            layer.msg("删除成功");
+                            $("#dataTable").bootstrapTable("refresh");
+                        }else {
+                            layer.msg( '删除失败!'+data.errorMsg);
+                        }
+                    },
+                    beforeSend: function () {
+                    }
+                });
+
+
+            },
+            cancel: function(){
+            }
+        });
+    }
+    function toUpdate(id) {
+        var row = $("#dataTable").bootstrapTable("getRowByUniqueId", id);
+        $("#editForm").form("load",row);
+        $("#myModal2").modal("show");
+    }
+    function editRole(id) {
+        var row = $("#dataTable").bootstrapTable("getRowByUniqueId", id);
+        console.log(id);
+        $("#navigationFrame").hide();
+        $("#menuModal").modal("show");
+        $("#roleName").text(row.name);
+        setTimeout(function () {
+            $("#navigationFrame").show().attr("src","/manageMenu/"+id);
+        },250);
+
+    }
+
+    function disableRole(id) {
+        var row = $("#dataTable").bootstrapTable("getRowByUniqueId", id);
+
+        $.confirm({
+            title: '确认!',
+            content: '确定要停用['+row.name+']这个角色吗？',
+            confirm: function () {
+                $.ajax({
+                    type: "GET",
+                    url: "/role/updateStatus/"+id,
+                    data: {
+                        available:false
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        data=data.data;
+                        if (data.errorCode === 200) {
+                            layer.msg("操作成功");
+                            $("#dataTable").bootstrapTable("refresh");
+                        } else {
+                            layer.msg('操作失败!'+data.errorMsg);
+                        }
+                    },
+                    beforeSend: function () {
+                    }
+                });
+            },
+            cancel: function () {
+            }
+        });
+    }
+    function enableRole(id) {
+        var row = $("#dataTable").bootstrapTable("getRowByUniqueId", id);
+
+        $.confirm({
+            title: '确认!',
+            content: '确定要启用['+row.name+']这个角色吗？',
+            confirm: function () {
+                $.ajax({
+                    type: "GET",
+                    url: "/role/updateStatus/"+id,
+                    data: {
+                        available:true
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        data=data.data;
+                        if (data.errorCode === 200) {
+                            layer.msg("操作成功");
+                            $("#dataTable").bootstrapTable("refresh");
+                        } else {
+                            layer.msg('操作失败!'+data.errorMsg);
+                        }
+                    },
+                    beforeSend: function () {
+                    }
+                });
+            },
+            cancel: function () {
+            }
+        });
+    }
+    function queryParams(params) {
+        return {
+            pageSize: params.pageSize,
+
+            pageNumber: params.pageNumber,
+
+            searchText: $("#searchText").val()
+
+        };
+    }
+</script>
+</body>
+</html>

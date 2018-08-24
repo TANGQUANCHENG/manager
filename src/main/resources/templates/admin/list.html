@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="css :: css">
+
+</head>
+<style>
+    .block-flat .form-group{
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+</style>
+<body style="overflow: hidden;opacity: 0">
+
+<div id="cl-wrapper" style="padding-top: 0">
+    <div class="container-fluid" id="pcont">
+        <div class="cl-mcont">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="block-flat">
+                        <form class="form-horizontal group-border-dashed">
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="searchText">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-primary" type="button" id="searchAdmin"><i class="fa fa-search"></i>搜索</button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <button type="button" class="btn btn-success btn-flat" id="toAdd">
+                                        <i class="fa fa-plus"></i>
+                                        新增管理员
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="block-flat">
+                        <div class="content">
+                            <div class="table-responsive">
+                                <table class="table hover" id="dataTable">
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">新增管理员</h4>
+                </div>
+                <div class="modal-body">
+
+                    <form class="form-horizontal" role="form" id="addForm">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">姓名<span class="text-danger">*</span></label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="inputEmail3" placeholder="管理员姓名" name="name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-2 control-label">手机号码<span class="text-danger">*</span></label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="inputPassword3" placeholder="管理员手机号码" name="phoneNo">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword4" class="col-sm-2 control-label">密码</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" id="inputPassword4" placeholder="管理员密码" name="loginPwd">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">角色<span class="text-danger">*</span></label>
+                            <div class="col-sm-10">
+                                <select class="form-control" name="roleId">
+                                    <option th:each="role:${roles}" th:text="${role.name}" th:value="${role.id}">1</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="addAdmin">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel2">修改管理员</h4>
+                </div>
+                <div class="modal-body">
+
+                    <form class="form-horizontal" role="form" id="editForm">
+                        <input name="id" type="hidden"/>
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">姓名</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"  placeholder="管理员姓名" name="name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-2 control-label">手机号码</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control"  placeholder="管理员手机号码" name="phoneNo" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">角色</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" name="roleId">
+                                    <option th:each="role:${roles}" th:text="${role.name}" th:value="${role.id}">1</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="updateAdmin">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:include="pageJs :: pageJs"></div>
+<script>
+    jQuery.validator.addMethod("isNormalPwd", function(value, element) {
+        var tel = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,12}$/;
+        return this.optional(element) || (tel.test(value));
+    }, "请输入6-12位字母数字组合");
+    jQuery.validator.addMethod("isNormalPhone", function(value, element) {
+        var tel = /^1[3|4|5|7|8][0-9]\d{8}$/;
+        return this.optional(element) || (tel.test(value));
+    }, "请输入正确的手机号");
+    $("#addForm").validate({
+        rules: {
+            name: {
+                required: true,
+                minlength: 2
+            },
+            phoneNo: {
+                required: true,
+                isNormalPhone:true
+            },
+            loginPwd: {
+                isNormalPwd:true,
+                minlength: 6,
+                maxlength: 20
+            }
+        }
+    });
+    $('#dataTable').bootstrapTable({
+        url: '/admin/list',
+        height: $(window).height() - 200,
+        pageSize: 30,
+        pagination: true,
+        pageList: [30, 50, 100],
+        clickToSelect: true,
+        singleSelect: true,
+        queryParams: queryParams,
+        uniqueId: 'id',
+        queryParamsType: '',
+        sidePagination: 'server',
+        columns: [
+            {
+                width: '3px',
+                align: 'center',
+                formatter: function (v, row, index) {
+                    return index + 1
+                }
+            },
+            {
+                width: '40px',
+                align: 'center',
+                field: 'name',
+                title: '名称',
+                formatter: function (v, row, index) {
+                    var str=row.superAdmin?'<span class="label label-danger">'+v+'</span>':'<span>'+v+'</span>';
+                    return str;
+                }
+            }, {
+                width: '40px',
+                align: 'center',
+                field: 'status',
+                title: '状态',
+                formatter: function (v, row, index) {
+                    return v?'<span class="label label-success" onclick="disableAdmin('+row.id+')">正常</span>'
+                        :'<span class="label label-warning" onclick="enableAdmin('+row.id+')">停用</span>';
+                }
+            }, {
+                width: '40px',
+                align: 'center',
+                field: 'phoneNo',
+                title: '手机号码',
+
+            }, {
+                width: '65px',
+                align: 'center',
+                field: 'role',
+                title: '角色'
+
+            }, {
+                align: 'center',
+                width: '80px',
+                field: 'comment',
+                title: '操作',
+                formatter: function (v, row, index) {
+                    return '<a class="label label-default" href="javascript:void(0)" onclick="toUpdate('+row.id+')"><i class="fa fa-pencil"></i></a>&nbsp;' +
+                        '<a class="label label-danger" href="javascript:void(0)" onclick="deleteAdmin('+row.id+')"><i class="fa fa-times"></i></a>';
+                }
+
+            }
+        ],
+    });
+
+    $("#toAdd").click(function () {
+        $("#addForm input").val("");
+        $("#myModal").modal("show");
+    });
+
+    $("#searchAdmin").click(function () {
+        $("#dataTable").bootstrapTable("refresh");
+    });
+
+    $("#addAdmin").click(function () {
+        var v=$("#addForm").valid();
+        if(!v){
+            return;
+        }
+        $.ajax({
+                type: "GET",
+                url: "/admin/add",
+                data: $("#addForm").serialize(),
+                dataType: "json",
+                success: function (data) {
+                    data=data.data;
+                    if(data.errorCode===200){
+                        layer.msg("新增成功");
+                        $("#dataTable").bootstrapTable("refresh");
+                        $("#myModal").modal("hide");
+                    }else {
+                        layer.msg('新增失败!'+data.errorMsg);
+                    }
+                },
+                beforeSend: function () {
+                }
+            });
+
+
+    });
+    $("#updateAdmin").click(function () {
+        var v=$("#addForm").valid();
+        if(!v){
+            return;
+        }
+        $.ajax({
+            type: "GET",
+            url: "/admin/update",
+            data: $("#editForm").serialize(),
+            dataType: "json",
+            success: function (data) {
+                data=data.data;
+                if(data.errorCode===200){
+
+                    layer.msg("修改成功");
+                    $("#dataTable").bootstrapTable("refresh");
+                    $("#myModal2").modal("hide");
+                }else {
+                    layer.msg('修改失败!'+data.errorMsg);
+                }
+            },
+            beforeSend: function () {
+            }
+        });
+    })
+
+    function queryParams(params) {
+        return {
+            pageSize: params.pageSize,
+            pageNumber: params.pageNumber,
+            searchText: $("#searchText").val()
+        };
+    }
+    function deleteAdmin(id) {
+
+        $.confirm({
+            title: '确认!',
+            content: '确定要删除这个管理员吗？',
+            confirm: function(){
+
+                $.ajax({
+                    type: "GET",
+                    url: "/admin/delete/"+id,
+                    data: $("#addForm").serialize(),
+                    dataType: "json",
+                    success: function (data) {
+                        data=data.data;
+                        if(data.errorCode===200){
+                            layer.msg("删除成功");
+                            $("#dataTable").bootstrapTable("refresh");
+                        }else {
+                            layer.msg('删除失败!'+data.errorMsg);
+                        }
+                    },
+                    beforeSend: function () {
+                    }
+                });
+            },
+            cancel: function(){
+            }
+        });
+    }
+    function toUpdate(id) {
+
+        var row = $("#dataTable").bootstrapTable("getRowByUniqueId", id);
+        console.log(row);
+        $("#editForm").form("load",row);
+        $("#myModal2").modal("show");
+    }
+
+    function disableAdmin(id) {
+        var row = $("#dataTable").bootstrapTable("getRowByUniqueId", id);
+        $.confirm({
+            title: '确认!',
+            content: '确定要停用['+row.name+']这个管理员吗？',
+            confirm: function () {
+                $.ajax({
+                    type: "GET",
+                    url: "/admin/updateStatus",
+                    data: {
+                        id:id,
+                        status:false
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        data=data.data;
+                        if (data.errorCode === 200) {
+                            layer.msg("操作成功");
+                            $("#dataTable").bootstrapTable("refresh");
+                        } else {
+                            layer.msg('操作失败!'+data.errorMsg);
+                        }
+                    },
+                    beforeSend: function () {
+                    }
+                });
+            },
+            cancel: function () {
+            }
+        });
+    }
+    function enableAdmin(id) {
+        var row = $("#dataTable").bootstrapTable("getRowByUniqueId", id);
+        $.confirm({
+            title: '确认!',
+            content: '确定要启用['+row.name+']这个管理员吗？',
+            confirm: function () {
+                $.ajax({
+                    type: "GET",
+                    url: "/admin/updateStatus",
+                    data: {
+                        id:id,
+                        status:true
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        data=data.data;
+                        if (data.errorCode === 200) {
+                            layer.msg("操作成功");
+                            $("#dataTable").bootstrapTable("refresh");
+                        } else {
+                            layer.msg('操作失败!'+data.errorMsg);
+                        }
+                    },
+                    beforeSend: function () {
+                    }
+                });
+            },
+            cancel: function () {
+            }
+        });
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head th:include="css :: css">
+
+</head>
+
+<body>
+
+<div th:include="common :: header"></div>
+
+<div id="cl-wrapper" class="fixed-menu">
+    <div class="cl-sidebar" data-position="right" data-step="1">
+        <div class="cl-toggle"><i class="fa fa-bars"></i></div>
+        <div class="cl-navblock">
+            <div class="menu-space">
+                <div class="content">
+                    <ul class="cl-vnavigation">
+                        <li th:each="menu:${menus}" th:if="${menu.parentId } == null">
+                            <a href="#">
+                                <i class="fa fa-home" th:class="${menu.icon}"></i>
+                                <span th:text="${menu.functionName}"></span>
+                            </a>
+                            <ul class="sub-menu">
+                                <li th:each="subMenu:${menus}" th:if="${subMenu.parentId eq menu.id}"><a
+                                        th:href="${subMenu.url}" class="J_menuItem"
+                                        th:text="${subMenu.functionName}"></a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-right collapse-button" style="padding:7px 9px;">
+                <button id="sidebar-collapse" class="btn btn-default" style="">
+                    <i style="color:#666;" class="fa fa-angle-left"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid" id="pcont" style="overflow: hidden">
+
+        <div class="page-head fixed content-tabs">
+            <button class="roll-nav roll-left J_tabLeft navbar-minimalize"><i class="fa fa-backward"></i>
+            </button>
+            <nav class="page-tabs J_menuTabs">
+                <div class="page-tabs-content">
+                    <a href="javascript:;" class="active J_menuTab" data-id="/sellOrder">首页</a>
+                </div>
+            </nav>
+            <button class="roll-nav roll-right J_tabRight"><i class="fa fa-forward"></i>
+            </button>
+            <div class="btn-group roll-nav roll-right" style="margin-left: 0;margin-right: 0">
+                <button class="dropdown J_tabClose" data-toggle="dropdown">关闭操作<span class="caret"></span>
+
+                </button>
+                <ul role="menu" class="dropdown-menu dropdown-menu-right">
+                    <li class="J_tabShowActive"><a>定位当前选项卡</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li class="J_tabCloseAll"><a>关闭全部选项卡</a>
+                    </li>
+                    <li class="J_tabCloseOther"><a>关闭其他选项卡</a>
+                    </li>
+                </ul>
+            </div>
+            <a href="javascript:void(0)" id="logout" class="roll-nav roll-right J_tabExit"><i
+                    class="fa fa fa-sign-out"></i> 退出</a>
+        </div>
+        <div class="J_mainContent" id="content-main" style="height: 96%;position: relative">
+            <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="/sellOrder" frameborder="0"
+                    data-id="/sellOrder"></iframe>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel2">修改密码</h4>
+                </div>
+                <div class="modal-body">
+
+                    <form class="form-horizontal"
+                          id="updateForm">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">原密码：<span class="text-danger">*</span></label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" placeholder="原密码" id="oldPwd" name="oldPassword">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">新密码：<span class="text-danger">*</span></label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" placeholder="新密码"  name="newPassword" id="newPwd">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">再次输入：<span class="text-danger">*</span></label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" placeholder="再次输入"  name="repeatPwd">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="updatePassword">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+
+<div th:include="js :: js">
+
+</div>
+<script src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
+<script src="https://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
+<script>
+    jQuery.validator.addMethod("isNormalPwd", function(value, element) {
+        var tel = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,12}$/;
+        return this.optional(element) || (tel.test(value));
+    }, "请输入6-12位字母数字组合");
+    $("#updateForm").validate({
+        rules: {
+            oldPassword: {
+                required: true,
+            },
+            newPassword: {
+                required: true,
+                isNormalPwd:true
+            },
+            repeatPwd: {
+                required: true,
+                equalTo:'#newPwd'
+            }
+        },
+        errorClass: "help-inline",
+        errorElement: "p",
+        highlight: function (element, errorClass, validClass) {
+            $(element).parents('.control-group').addClass('error');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $(element).parents('.control-group').removeClass('error');
+        }
+    });
+    $("#updatePassword").click(function () {
+        var v=$("#updateForm").valid();
+        if(!v){
+            return;
+        }
+        $.ajax({
+            type: "GET",
+            url: "/updatePassword",
+            data: $("#updateForm").serialize(),
+            dataType: "json",
+            success: function (data) {
+                if(data.errorCode===200){
+                    $.dialog({
+                        title: '提示!',
+                        content: '修改成功!',
+                        backgroundDismiss: true
+                    });
+                    $("#myModal2").modal("hide");
+                }else {
+                    $.dialog({
+                        title: '提示!',
+                        content: '修改失败!'+data.errorMsg,
+                        backgroundDismiss: true
+                    });
+                }
+            },
+            beforeSend: function () {
+            }
+        });
+    })
+    $("#logout").click(function () {
+        $.confirm({
+            title: '确认!',
+            content: '确定要退出吗？',
+            confirm: function () {
+                window.location.href="/logout";
+            },
+            cancel: function () {
+
+            }
+        });
+    })
+    $("#toUpdatePwd").click(function () {
+
+        $("#myModal2").modal("show");
+    });
+
+    // var stompClient = null;
+    // var socket=null;
+    // window.onload=function (e) {
+    //     connect();
+    // };
+    // window.onunload =function() {
+    //     socket.close();
+    // };
+    // function connect() {
+    //     var userId=$("#headUserName").text();
+    //     userId= userId.replace(/(^\s*)|(\s*$)/g, "");
+    //     //1连接SockJS的endpoint是“endpointWisely”，与后台代码中注册的endpoint要一样。
+    //     socket = new SockJS('/endpointWisely');
+    //     //2创建STOMP协议的webSocket客户端。
+    //     stompClient = Stomp.over(socket);
+    //     //3连接webSocket的服务端。
+    //     stompClient.connect({}, function(frame) {
+    //         //通过stompClient.subscribe（）订阅服务器的目标是'/testWebsocket'发送过来的地址，与@SendTo中的地址对应。
+    //         stompClient.subscribe('/index', function(respnose){
+    //             showResponse(JSON.parse(respnose.body));
+    //         });
+    //         //通过stompClient.subscribe（）订阅服务器的目标是'/testWebsocket'发送过来的地址，与@SendTo中的地址对应。
+    //         stompClient.subscribe('/user/'+ userId+'/notify', function(respnose){
+    //             showResponse(JSON.parse(respnose.body));
+    //         });
+    //     });
+    // }
+    // function showResponse(response) {
+    //     var id="_collectOrder";
+    //     var id2="_ticket";
+    //     var ele= $("#"+id).contents().find("#uniqueCode");
+    //     var confirmBtn= $("#"+id).contents().find("#confirmBtn");
+    //     var auditFailBtn= $("#"+id).contents().find("#auditFailBtn");
+    //     if(ele===undefined||ele==null||ele.length===0){
+    //          ele= $("#"+id2).contents().find("#uniqueCode");
+    //          confirmBtn= $("#"+id2).contents().find("#confirmBtn");
+    //          auditFailBtn= $("#"+id2).contents().find("#auditFailBtn");
+    //     }
+    //     if(response.batchNo==="0000"){
+    //         ele.val("");
+    //         confirmBtn.hide();
+    //         auditFailBtn.show()
+    //         $.gritter.add({
+    //             position: 'bottom-right',
+    //             title: response.title+"<br/>"+format(response.operationTime),
+    //             text: '<a href="javascript:void(0)" onclick="toAuditOrder()" style="color: #ffd873;font-weight: 600">'
+    //             +response.commodityName + '</a>',
+    //             class_name: "danger",
+    //             time:15000
+    //         });
+    //     }else if(response.batchNo==="1000"){
+    //         ele.val(response.commodityName);
+    //         confirmBtn.show();
+    //         auditFailBtn.hide();
+    //         $.gritter.add({
+    //             position: 'bottom-right',
+    //             title: response.title+"<br/>"+format(response.operationTime),
+    //             text: '<a href="javascript:void(0)" onclick="toAuditOrder()" style="color: #ffd873;font-weight: 600">'
+    //             +response.commodityName +'<br/>卡券不存在可以入库</a>',
+    //             class_name: "info",
+    //             time:15000
+    //         });
+    //     }else {
+    //         $.gritter.add({
+    //             position: 'bottom-right',
+    //             title: response.title+"<br/>"+format(response.operationTime),
+    //             text: '<a href="javascript:void(0)" onclick="toAuditOrder()" style="color: #ffd873;font-weight: 600">'
+    //             +response.commodityName + "<br/>"+response.batchNo+'</a>',
+    //             class_name: "info",
+    //             time:15000
+    //         });
+    //     }
+    // }
+    // function toAuditOrder() {
+    //     addTab("/collectOrder","/collectOrder","收券订单")
+    // }
+</script>
+</body>
+
+</html>
