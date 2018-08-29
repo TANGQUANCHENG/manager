@@ -6,32 +6,35 @@
 <body>
 
 <div th:fragment="js">
-    <script type="text/javascript" th:attr="src=@{${basePath} + /js/jquery.js}"></script>
-    <script type="text/javascript" th:attr="src=@{/js/topbar.min.js}"></script>
+    <input id="contextPath" hidden th:value="${session.basePath}"  />
+    <script type="text/javascript" th:attr="src=${session.basePath+'js/jquery.js'}"></script>
+    <script type="text/javascript" th:attr="src=${session.basePath+'js/topbar.min.js'}"></script>
     <script>
         topbar.show();
     </script>
-    <script type="text/javascript" th:attr="src=@{/js/jquery.gritter/js/jquery.gritter.js#deVersion=2018080203}"></script>
-    <script type="text/javascript" th:attr="src=@{/js/jquery.nanoscroller/jquery.nanoscroller.js#deVersion=2018080203}"></script>
-    <script type="text/javascript" th:attr="src=@{/js/behaviour/general.js#deVersion=2018080203}"></script>
-    <script type="text/javascript" th:attr="src=@{/js/jquery.nestable/jquery.nestable.js#deVersion=2018080203}"></script>
-    <script type="text/javascript" th:attr="src=@{/js/bootstrap.switch/bootstrap-switch.min.js#deVersion=2018080203}"></script>
-    <script type="text/javascript" th:attr="src=@{/js/jquery.select2/select2.min.js#deVersion=2018080203}"></script>
-    <script type="text/javascript" th:attr="src=@{/js/skycons/skycons.js#deVersion=2018080203}"></script>
-    <script type="text/javascript" th:attr="src=@{/js/bootstrap.slider/js/bootstrap-slider.js#deVersion=2018080203}"></script>
-    <script type="text/javascript" th:attr="src=@{/js/intro.js/intro.js#deVersion=2018080203}"></script>
-    <script type="text/javascript" th:attr="src=@{/js/bootstrap/dist/js/bootstrap.min.js#deVersion=2018080203}"></script>
-    <script type="text/javascript" th:attr="src=@{/js/bootstrap.table/bootstrap-table.min.js#deVersion=2018080203}"></script>
-    <script type="text/javascript" th:attr="src=@{/js/jquery.icheck/icheck.min.js#deVersion=2018080203}"></script>
-    <script type="text/javascript" th:attr="src=@{/js/app/currency.js#deVersion=2018080203}"></script>
-    <script type="text/javascript" th:attr="src=@{/js/contabs.min.js#deVersion=2018080203}"></script>
-    <script type="text/javascript" th:attr="src=@{/js/conttab_child.js#deVersion=2018080203}"></script>
-    <script type="text/javascript" th:attr="src=@{/js/jquery.validate.js#deVersion=2018080203}"></script>
-    <script type="text/javascript" th:attr="src=@{/js/jquery.confirm/jquery-confirm.min.js#deVersion=2018080203}"></script>
+    <script type="text/javascript" th:attr="src=${session.basePath+'js/jquery.gritter/js/jquery.gritter.js#deVersion=2018080203'}"></script>
+    <script type="text/javascript" th:attr="src=${session.basePath+'js/jquery.nanoscroller/jquery.nanoscroller.js#deVersion=2018080203'}"></script>
+    <script type="text/javascript" th:attr="src=${session.basePath+'js/behaviour/general.js#deVersion=2018080203'}"></script>
+    <script type="text/javascript" th:attr="src=${session.basePath+'js/jquery.nestable/jquery.nestable.js#deVersion=2018080203'}"></script>
+    <script type="text/javascript" th:attr="src=${session.basePath+'js/bootstrap.switch/bootstrap-switch.min.js#deVersion=2018080203'}"></script>
+    <script type="text/javascript" th:attr="src=${session.basePath+'js/jquery.select2/select2.min.js#deVersion=2018080203'}"></script>
+    <script type="text/javascript" th:attr="src=${session.basePath+'js/skycons/skycons.js#deVersion=2018080203'}"></script>
+    <script type="text/javascript" th:attr="src=${session.basePath+'js/bootstrap.slider/js/bootstrap-slider.js#deVersion=2018080203'}"></script>
+    <script type="text/javascript" th:attr="src=${session.basePath+'js/intro.js/intro.js#deVersion=2018080203'}"></script>
+    <script type="text/javascript" th:attr="src=${session.basePath+'js/bootstrap/dist/js/bootstrap.min.js#deVersion=2018080203'}"></script>
+    <script type="text/javascript" th:attr="src=${session.basePath+'js/bootstrap.table/bootstrap-table.min.js#deVersion=2018080203'}"></script>
+    <script type="text/javascript" th:attr="src=${session.basePath+'js/jquery.icheck/icheck.min.js#deVersion=2018080203'}"></script>
+    <script type="text/javascript" th:attr="src=${session.basePath+'js/app/currency.js#deVersion=2018080203'}"></script>
+    <script type="text/javascript" th:attr="src=${session.basePath+'js/contabs.min.js#deVersion=2018080203'}"></script>
+    <script type="text/javascript" th:attr="src=${session.basePath+'js/conttab_child.js#deVersion=2018080203'}"></script>
+    <script type="text/javascript" th:attr="src=${session.basePath+'js/jquery.validate.js#deVersion=2018080203'}"></script>
+    <script type="text/javascript" th:attr="src=${session.basePath+'js/jquery.confirm/jquery-confirm.min.js#deVersion=2018080203'}"></script>
+    <script type="text/javascript" th:attr="src=@{/js/layer/layer.js#deVersion=2018080201}"></script>
     <!-- Bootstrap core JavaScript
       ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script type="text/javascript">
+        var basePath=$("#contextPath").val();
         $(document).ready(function () {
             //initialize the javascript
             App.init();

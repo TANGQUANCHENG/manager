@@ -3,9 +3,9 @@ package cn.decentchina.manager.common.enums;
 /**
  * 全局http错误编码
  *
- * @author wangyx
+ * @author 唐全成
  */
-public enum ResponseCodeEnum {
+public enum ErrorCodeEnum {
     /**
      * 错误码
      */
@@ -33,16 +33,17 @@ public enum ResponseCodeEnum {
     UN_CERTIFICATED(3002,"转账账号未通过实名认证"),
 
     NEED_RE_UPLOAD(3003, "图片上传异常,请重新上传");
-    private int code;
+
+    private Integer code;
 
     private String message;
 
-    ResponseCodeEnum(int code, String message) {
+    ErrorCodeEnum(Integer code, String message) {
         this.code = code;
         this.message = message;
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
     }
 

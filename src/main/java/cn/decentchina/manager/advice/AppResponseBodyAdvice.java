@@ -1,6 +1,6 @@
 package cn.decentchina.manager.advice;
 
-import cn.decentchina.manager.common.enums.ResponseCodeEnum;
+import cn.decentchina.manager.common.enums.ErrorCodeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.MethodParameter;
@@ -50,7 +50,7 @@ public class AppResponseBodyAdvice implements ResponseBodyAdvice<Object> {
             return body;
         }
         MessageBean result = new MessageBean();
-        result.setErrorCode(ResponseCodeEnum.OK.getCode());
+        result.setErrorCode(ErrorCodeEnum.OK.getCode());
         result.setErrorMsg("OK");
         result.setData(body);
         log.info("[{}]接口响应[{}]", request.getURI(), StringUtils.left(body.toString(), 200));

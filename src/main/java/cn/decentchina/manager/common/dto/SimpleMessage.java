@@ -1,6 +1,6 @@
 package cn.decentchina.manager.common.dto;
 
-import cn.decentchina.manager.common.enums.ResponseCodeEnum;
+import cn.decentchina.manager.common.enums.ErrorCodeEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -8,18 +8,12 @@ import java.io.Serializable;
 /**
  * 接口简易返回信息
  *
- * @author 唐全成
+ * @author wangyx
  */
 @Data
 public class SimpleMessage implements Serializable {
     private static final long serialVersionUID = -2957516153008725933L;
-    /**
-     * 接口返回码
-     */
     private Integer errorCode;
-    /**
-     * 返回消息
-     */
     private String errorMsg;
 
     public SimpleMessage() {
@@ -30,12 +24,12 @@ public class SimpleMessage implements Serializable {
         this.errorMsg = errorMsg;
     }
 
-    public SimpleMessage(ResponseCodeEnum errorCode) {
+    public SimpleMessage(ErrorCodeEnum errorCode) {
         this.errorCode = errorCode.getCode();
         this.errorMsg = errorCode.getMessage();
     }
 
-    public SimpleMessage(ResponseCodeEnum errorCode, String errorMsg) {
+    public SimpleMessage(ErrorCodeEnum errorCode, String errorMsg) {
         this.errorCode = errorCode.getCode();
         this.errorMsg = errorMsg;
     }

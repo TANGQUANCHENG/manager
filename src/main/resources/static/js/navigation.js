@@ -32,7 +32,7 @@ var navigationLayer = {
 };
 
 $('#dataTable').treegrid({
-    height: $(window).height() - 140,
+    height: $(window).height() - 100,
     url: "navigation/list",
     emptyMsg: '<span class="no-record"></span>',
     idField: 'id',
@@ -45,7 +45,7 @@ $('#dataTable').treegrid({
                 return navigationLayer[value];
             }
         },
-        {title: '地址', field: 'url', width: 180,align:'center'},
+        {title: '地址', field: 'url', width: 120,align:'center'},
         {title: '排序', field: 'sort', width: 30,align:'center'},
         {
             title: '状态',align:'center', field: 'available', width: 40, formatter: function (value, row) {
@@ -91,7 +91,6 @@ $("#addMenu").click(function () {
         data: $("#addForm").serialize(),
         dataType: "json",
         success: function (data) {
-            data=data.data;
             if (data.errorCode === 200) {
 
                 layer.msg("新增成功");
@@ -118,7 +117,6 @@ $("#updateMenu").click(function () {
         data: $("#editForm").serialize(),
         dataType: "json",
         success: function (data) {
-            data=data.data;
             if (data.errorCode === 200) {
                 layer.msg("修改成功");
                 $("#dataTable").treegrid("reload");
@@ -144,7 +142,6 @@ $("#addLink").click(function () {
         data: $("#linkForm").serialize(),
         dataType: "json",
         success: function (data) {
-            data=data.data;
             if (data.errorCode === 200) {
                 layer.msg("新增成功");
                 $("#dataTable").treegrid("reload");
@@ -169,8 +166,6 @@ function reloadParents() {
         data: {},
         dataType: "json",
         success: function (data) {
-            data=data.data;
-
             var str = " <option value=\"\">无</option>";
             var menus = data;
             for (var i = 0; i < menus.length; i++) {
@@ -197,8 +192,6 @@ function deleteMenu(id) {
                 data: {},
                 dataType: "json",
                 success: function (data) {
-                    data=data.data;
-
                     if (data.errorCode === 200) {
                         layer.msg("删除成功");
                         $("#dataTable").treegrid("reload");
@@ -249,7 +242,6 @@ function disableNav(id) {
                 },
                 dataType: "json",
                 success: function (data) {
-                    data=data.data;
                     if (data.errorCode === 200) {
                         layer.msg("操作成功");
                         $("#dataTable").treegrid("reload");
@@ -280,7 +272,6 @@ function enableNav(id) {
                 },
                 dataType: "json",
                 success: function (data) {
-                    data=data.data;
                     if (data.errorCode === 200) {
                         layer.msg("操作成功");
                         $("#dataTable").treegrid("reload");

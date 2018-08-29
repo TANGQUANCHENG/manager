@@ -176,13 +176,6 @@
                 field: 'name',
                 title: '名称'
 
-            },
-            {
-                width: '40px',
-                align: 'center',
-                field: 'code',
-                title: '代码'
-
             }, {
                 width: '40px',
                 align: 'center',
@@ -241,7 +234,6 @@
             data: $("#addForm").serialize(),
             dataType: "json",
             success: function (data) {
-                data=data.data;
                 if(data.errorCode===200){
                     layer.msg("新增成功");
                     $("#dataTable").bootstrapTable("refresh");
@@ -268,7 +260,6 @@
             data: $("#editForm").serialize(),
             dataType: "json",
             success: function (data) {
-                data=data.data;
                 if(data.errorCode===200){
                     layer.msg("修改成功");
                     $("#dataTable").bootstrapTable("refresh");
@@ -295,7 +286,6 @@
                     data: $("#addForm").serialize(),
                     dataType: "json",
                     success: function (data) {
-                        data=data.data;
                         if(data.errorCode===200){
                             layer.msg("删除成功");
                             $("#dataTable").bootstrapTable("refresh");
@@ -345,7 +335,6 @@
                     },
                     dataType: "json",
                     success: function (data) {
-                        data=data.data;
                         if (data.errorCode === 200) {
                             layer.msg("操作成功");
                             $("#dataTable").bootstrapTable("refresh");
@@ -376,7 +365,6 @@
                     },
                     dataType: "json",
                     success: function (data) {
-                        data=data.data;
                         if (data.errorCode === 200) {
                             layer.msg("操作成功");
                             $("#dataTable").bootstrapTable("refresh");

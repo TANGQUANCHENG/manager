@@ -6,7 +6,7 @@
 <body>
 
 <div th:fragment="pageJs">
-    <input id="contextPath" hidden th:value="${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #httpServletRequest.getServerPort() +  #httpServletRequest.getContextPath() + '/'}"  />
+    <input id="contextPath" hidden th:value="${session.basePath}"  />
     <script type="text/javascript" th:attr="src=@{/js/jquery.js}"></script>
     <script type="text/javascript" th:attr="src=@{/js/topbar.min.js}"></script>
     <script>
@@ -16,6 +16,7 @@
     <script type="text/javascript" th:attr="src=@{/js/bootstrap.table/bootstrap-table.min.js#deVersion=2018080201}"></script>
     <script type="text/javascript" th:attr="src=@{/js/bootstrap.table/locale/bootstrap-table-zh-CN.min.js#deVersion=2018080201}"></script>
     <script type="text/javascript" th:attr="src=@{/js/jquery.confirm/jquery-confirm.min.js#deVersion=2018080201}"></script>
+    <script type="text/javascript" th:attr="src=@{/js/jquery.gritter/js/jquery.gritter.js#deVersion=2018080203}"></script>
     <script type="text/javascript" th:attr="src=@{/js/jquery.validate.js#deVersion=2018080201}"></script>
     <script type="text/javascript" th:attr="src=@{/js/laydate/laydate.js#deVersion=2018080201}"></script>
     <script type="text/javascript" th:attr="src=@{/js/jquery.form.js#deVersion=2018080201}"></script>
