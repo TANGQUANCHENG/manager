@@ -9,6 +9,10 @@
         margin: 0 !important;
         padding: 0 !important;
     }
+
+    .bg-red {
+        background-color: #FFE4E1 !important;
+    }
 </style>
 <body style="overflow: hidden;opacity: 0">
 
@@ -60,7 +64,7 @@
                     <div class="block-flat">
                         <div class="content">
                             <div class="table-responsive">
-                                <table class="table hover" id="dataTable">
+                                <table class="table hover" id="dataTable"  data-detail-view="true">
                                 </table>
                             </div>
                         </div>
@@ -216,6 +220,35 @@
         uniqueId: 'id',
         queryParamsType: '',
         sidePagination: 'server',
+        detailFormatter: function (index, row){
+            var str = "<div class='ticket-detail-area'>" ;
+            $.ajax({
+                type: "GET",
+                url: basePath+"/member/queryDetail/"+row.id,
+                async: false,
+                data: {},
+                dataType: "json",
+                success: function (data) {
+                    var list=data.data;
+                    str += "<ul>";
+                    for (var i = 0; i < list.length; i++) {
+                        str += "<li>"+list[i]+"</li>";
+                    }
+                    str += "</ul>";
+                },
+                beforeSend: function () {
+                }
+            });
+            str += "</div>";
+            return str;
+        },
+        rowAttributes: function (row, index) {
+            if (row.age===18||row.age==='18') {
+                return {class: 'bg-red'};
+            } else {
+                return "";
+            }
+        },
         columns: [
             {
                 width: '3px',

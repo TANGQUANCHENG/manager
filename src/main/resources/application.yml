@@ -54,3 +54,5 @@ logging:
   config: classpath:logback.xml
   level:
     root: info
+shiro-customer:
+  session-time-out: -1000 #session永不过期

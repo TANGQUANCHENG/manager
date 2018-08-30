@@ -176,16 +176,18 @@
                 field: 'name',
                 title: '名称'
 
-            }, {
-                width: '40px',
-                align: 'center',
-                field: 'available',
-                title: '状态',
-                formatter: function (v, row, index) {
-                    return v?'<span class="label plain label-success" onclick="disableRole('+row.id+')">正常</span>'
-                        :'<span class="label plain label-warning" onclick="enableRole('+row.id+')">停用</span>';
-                }
-            }, {
+            },
+            // {
+            //     width: '40px',
+            //     align: 'center',
+            //     field: 'available',
+            //     title: '状态',
+            //     formatter: function (v, row, index) {
+            //         return v?'<span class="label plain label-success" onclick="disableRole('+row.id+')">正常</span>'
+            //             :'<span class="label plain label-warning" onclick="enableRole('+row.id+')">停用</span>';
+            //     }
+            // },
+            {
                 width: '65px',
                 align: 'center',
                 field: 'createTime',

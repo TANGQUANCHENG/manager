@@ -67,6 +67,12 @@ public interface MemberDao {
     @SelectProvider(type = MemberDaoProvider.class, method = "queryMemberList")
     List<MemberVO> queryList(@Param("dto") MemberQueryDTO memberQueryDTO);
 
+    /**
+     * 用于选中下载
+     *
+     * @param ids
+     * @return
+     */
     @Select("  select id," +
             " member_name as name," +
             " age," +

@@ -94,6 +94,13 @@ public class AdminController {
         return adminService.updateStatus(admin);
     }
 
+    /**
+     * 修改密码
+     * @param oldPwd
+     * @param newPwd
+     * @return
+     * @throws Exception
+     */
     @RequestMapping("/updatePassword")
     public SimpleMessage updatePassword(String oldPwd, String newPwd) throws Exception {
         if(StringUtils.isAnyBlank(oldPwd,newPwd)){

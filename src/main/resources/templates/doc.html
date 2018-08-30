@@ -8,36 +8,102 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="block-flat">
-                        <div><h4>Voice Recognition</h4>
-                            <div><p class="text-left">Thanks to Google Speech API we can do <a
-                                    href="https://dvcs.w3.org/hg/speech-api/raw-file/tip/speechapi.html">Speech
-                                Recognition</a> in our web sites, initially Chrome 25+ and up versions support this, but
-                                don't worry! browsers are working on a <a
-                                        href="https://wiki.mozilla.org/HTML5_Speech_API">standard</a> and soon we will
-                                see this working on our favorites browsers. </p><h4 class="spacer2">Let the party
-                                begin</h4>
-                                <p>First you must to allow microphone access clicking on <strong>"Allow"</strong> option
-                                    above this modal. After this you'll see the Microphone icon with a blur effect, this
-                                    means that voice recognition starts.</p><h4 class="spacer2">Voice Commands</h4>
-                                <p>After that, try to say <strong>"Hello"</strong> at your mic. Do you see what happens?
-                                    things in template start to change, now try these commands:</p>
+                        <div>
+                            <div>
+                                <p>角色管理</p>
                                 <ul>
-                                    <li><strong>"Go to"</strong>: wait for a message and then say a page title like
-                                        "tables"
+                                    <li>增、删、改、查
                                     </li>
-                                    <li><strong>"Change title"</strong> - Sets template title</li>
-                                    <li><strong>"Scroll down"</strong> and <strong>"Scroll up"</strong></li>
-                                    <li><strong>"Go top"</strong> and <strong>"Go bottom"</strong></li>
-                                    <li><strong>"Toggle sidebar"</strong></li>
-                                    <li><strong>"log out"</strong></li>
-                                    <li><strong>"Thank you"</strong></li>
-                                    <li><strong>"Stop"</strong> - Stops recognition</li>
-                                    <li><strong>"Email"</strong> - Compose an e-mail with your voice, to end dictation
-                                        just say "end of email"
+                                    <li>
+                                        <p>点击“权限”查看该角色下的权限</p>
+                                        <ul>
+                                            <li>
+                                                选中某权限进行删除
+                                            </li>
+                                            <li>
+                                                针对该角色进行重新绑定
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <p>点击“权限绑定”跳转至角色权限绑定页面</p>
+                                        <ul>
+                                            <li>
+                                                多选权限资源树，对选角色执行绑定操作；
+                                                该操作意义：为选中的角色赋予选中资源的权限
+                                            </li>
+                                        </ul>
                                     </li>
                                 </ul>
-                                <p>Do you want more commands? you can add a voice command easily with our own API.</p>
+                                <p>用户管理</p>
+                                <ul>
+                                    <li>增、删、改、查
+                                    </li>
+                                    <li>点击状态按钮修改用户账号状态：点击“正常”将提示是否停用；点击“停用”将提示是否启用。</li>
+                                    <li>超级管理员无法被删除</li>
+                                    <li>只有超级管理员可以删除用户</li>
+                                    <li>超级管理员有标红提示</li>
+                                </ul>
+                                <p>资源管理</p>
+                                <ul>
+                                    <li>树形列表展示，展示顺序与菜单顺序一致
+                                    </li>
+                                    <li>新增菜单
+                                        <ul>
+                                            <li>新增一级菜单：填写菜单名称，父级菜单不选择，icon填写方式为<a
+                                                    href="http://fontawesome.dashgame.com/" target="_blank">fontawesome字体</a>,例：
+                                                fa fa-user<br/>
+                                                填写排序（排序方式为正序，即0在前1在后）
+                                            </li>
+                                            <li>
+                                                新增二级菜单：填写菜单名称，选择所属父级菜单，填写地址,地址为页面请求地址以“/”开头,例：/admin<br/>
+                                                填写排序（排序方式为正序，即0在前1在后）
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>修改、删除</li>
+                                    <li>停用、启用：点击“状态”列，停用、启用按钮会出现相应提示。停用后的菜单普通管理员无法查看，超级管理员不受限制</li>
+                                    <li>增加功能：填写功能名称、地址（同菜单）；在相应页面，相应功能按钮（连接）标签上添加标签 th:hasPermission="/admin" (地址为填写的地址)
+                                        ，然后将功能权限赋予某角色
+                                    </li>
+                                </ul>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="block-flat">
+                        <div>
+                            <p>页面功能</p>
+                            <ul>
+                                <li>首页：index.html
+                                    46行附近，69行附近iframe修改为想要的首页地址,注：data-id必须与46行一致（默认指向/sellOrder，系统不存在该地址，故显示404页面）
+                                </li>
+                                <li>
+                                    左侧菜单导航：点击导航底部右端按钮可收起、展开菜单
+                                </li>
+                                <li>
+                                    账户：页面右上角显示当前登录账号，点击后下拉菜单：修改密码、退出登录等
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="block-flat">
+                        <div>
+                            <p>业务功能示例</p>
+                            <ul>
+                                <li>模拟会员管理：增、删、改、查</li>
+                                <li>列表数据导出（按钮相同）
+                                    <ul>
+                                        <li>条件导出，导出内容为通过搜索出的列表内容</li>
+                                        <li>选中导出，即直接勾选列表中的数据点击导出后下载选中的数据</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    列表详情：点击列表中的“+号”同步向后台请求数据后展示；常用于查看详情、查询订单记录等场景
+                                </li>
+                                <li>排序：示例，按照年龄排序</li>
+                            </ul>
                         </div>
                     </div>
                 </div>

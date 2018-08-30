@@ -161,7 +161,7 @@ public class AdminServiceImpl implements AdminService {
         if (!StringUtils.equals(pwdAndRandom, realAndRandom)) {
             return new SimpleMessage(ErrorCodeEnum.NO, "密码错误");
         }
-        log.info("手机号[{}],时间[{}],登录ip[{}]", phoneNo, System.currentTimeMillis(), httpServletRequest.getRemoteAddr());
+        log.info("登录账号[{}],时间[{}],登录ip[{}]", phoneNo, System.currentTimeMillis(), httpServletRequest.getRemoteAddr());
         //登录
         SecurityUtils.getSubject().login(new UsernamePasswordToken(admin.getPhoneNo(), admin.getLoginPwd()));
         return new SimpleMessage(ErrorCodeEnum.OK);

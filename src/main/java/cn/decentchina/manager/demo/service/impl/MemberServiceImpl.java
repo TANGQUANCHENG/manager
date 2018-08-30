@@ -12,6 +12,7 @@ import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,5 +53,16 @@ public class MemberServiceImpl implements MemberService {
     public Page<MemberVO> queryList(Page page, MemberQueryDTO dto) {
         PageHelper.startPage(page.getPageNumber(), page.getPageSize());
         return new Page<>(memberDao.queryList(dto));
+    }
+
+    @Override
+    public List<String> queryDetail(Integer id) {
+        //todo 模拟数据库详情（日志）列表信息查询
+        List<String> logs=new ArrayList<>();
+        logs.add("2018-08-08 12:00:00 admin delete ");
+        logs.add("2018-08-08 12:01:00 admin add ");
+        logs.add("2018-08-08 12:02:00 admin update ");
+        logs.add("2018-08-08 12:03:00 admin delete ");
+        return logs;
     }
 }

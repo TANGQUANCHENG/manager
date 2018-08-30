@@ -41,23 +41,23 @@ $('#dataTable').treegrid({
     columns: [[
         {title: '菜单名称', field: 'functionName', width: 60},
         {
-            title: '类型', field: 'type',align:'center', width: 60, formatter: function (value, row) {
+            title: '类型', field: 'type',align:'center', width: 30, formatter: function (value, row) {
                 return navigationLayer[value];
             }
         },
-        {title: '地址', field: 'url', width: 120,align:'center'},
-        {title: '排序', field: 'sort', width: 30,align:'center'},
+        {title: '地址', field: 'url', width: 80,align:'center'},
+        {title: '排序', field: 'sort', width: 20,align:'center'},
         {
-            title: '状态',align:'center', field: 'available', width: 40, formatter: function (value, row) {
+            title: '状态',align:'center', field: 'available', width: 30, formatter: function (value, row) {
                 return value ? '<span class="label label-success" onclick="disableNav('+row.id+')">正常</span>' :
                     '<span class="label label-danger" onclick="enableNav('+row.id+')">停用</span>'
             }
         },
-        {title: '创建时间', field: 'createTime', width: 80,align:'center'},
-        {title: 'icon', field: 'icon', width: 50,align:'center'},
-        {title: '说明', field: 'comment', width: 60,align:'center'},
+        {title: '创建时间', field: 'createTime', width: 50,align:'center'},
+        {title: 'icon', field: 'icon', width: 40,align:'center'},
+        {title: '说明', field: 'comment', width: 40,align:'center'},
         {
-            title: '操作', field: 'comment2', width: 60, formatter: function (value, row) {
+            title: '操作', field: 'comment2', width: 80, formatter: function (value, row) {
 
                 var str='<a href="javascript:void(0)" class="label plain label-primary" onclick="toUpdate(' + row.id + ')">修改</a>&nbsp;' +
                     '<a href="javascript:void(0)"  class="label plain label-danger" onclick="deleteMenu(' + row.id + ')">删除</a>&nbsp;';
