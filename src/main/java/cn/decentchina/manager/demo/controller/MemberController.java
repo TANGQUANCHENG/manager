@@ -21,8 +21,8 @@ import java.util.Map;
  * @author 唐全成
  * @date 2018-08-29
  */
-@Controller
-//@RestController
+//@Controller
+@RestController
 @RequestMapping("member")
 public class MemberController {
     @Autowired

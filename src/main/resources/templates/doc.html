@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:include="css :: css">
+<body>
+<div id="cl-wrapper" style="padding-top: 0;">
+    <div class="container-fluid" id="pcont">
+        <div class="cl-mcont">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="block-flat">
+                        <div><h4>Voice Recognition</h4>
+                            <div><p class="text-left">Thanks to Google Speech API we can do <a
+                                    href="https://dvcs.w3.org/hg/speech-api/raw-file/tip/speechapi.html">Speech
+                                Recognition</a> in our web sites, initially Chrome 25+ and up versions support this, but
+                                don't worry! browsers are working on a <a
+                                        href="https://wiki.mozilla.org/HTML5_Speech_API">standard</a> and soon we will
+                                see this working on our favorites browsers. </p><h4 class="spacer2">Let the party
+                                begin</h4>
+                                <p>First you must to allow microphone access clicking on <strong>"Allow"</strong> option
+                                    above this modal. After this you'll see the Microphone icon with a blur effect, this
+                                    means that voice recognition starts.</p><h4 class="spacer2">Voice Commands</h4>
+                                <p>After that, try to say <strong>"Hello"</strong> at your mic. Do you see what happens?
+                                    things in template start to change, now try these commands:</p>
+                                <ul>
+                                    <li><strong>"Go to"</strong>: wait for a message and then say a page title like
+                                        "tables"
+                                    </li>
+                                    <li><strong>"Change title"</strong> - Sets template title</li>
+                                    <li><strong>"Scroll down"</strong> and <strong>"Scroll up"</strong></li>
+                                    <li><strong>"Go top"</strong> and <strong>"Go bottom"</strong></li>
+                                    <li><strong>"Toggle sidebar"</strong></li>
+                                    <li><strong>"log out"</strong></li>
+                                    <li><strong>"Thank you"</strong></li>
+                                    <li><strong>"Stop"</strong> - Stops recognition</li>
+                                    <li><strong>"Email"</strong> - Compose an e-mail with your voice, to end dictation
+                                        just say "end of email"
+                                    </li>
+                                </ul>
+                                <p>Do you want more commands? you can add a voice command easily with our own API.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="pageJs :: pageJs"></div>
+</body>
+</html>

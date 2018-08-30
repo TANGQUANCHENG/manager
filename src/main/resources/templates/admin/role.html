@@ -154,7 +154,7 @@
     });
     $('#dataTable').bootstrapTable({
         url: '/role/list',
-        height: $(window).height() - 200,
+        height: $(window).height() - 150,
         pageSize: 30,
         pagination: true,
         pageList: [30, 50, 100],
@@ -197,9 +197,9 @@
                 field: 'comment',
                 title: '操作',
                 formatter: function (v, row, index) {
-                    return '<a class="label label-default" href="javascript:void(0)" onclick="toUpdate('+row.id+')"><i class="fa fa-pencil"></i></a>&nbsp;' +
-                        '<a class="label label-danger" href="javascript:void(0)" onclick="deleteRole('+row.id+')"><i class="fa fa-times"></i></a>&nbsp;'+
-                        '<a class="label label-danger" href="javascript:void(0)" onclick="editRole('+row.id+')"><i class="fa fa-user"></i></a>';
+                    return '<a class="label label-default" href="javascript:void(0)" onclick="toUpdate('+row.id+')">修改</a>&nbsp;' +
+                        '<a class="label label-danger" href="javascript:void(0)" onclick="deleteRole('+row.id+')">删除</a>&nbsp;'+
+                        '<a class="label label-danger" href="javascript:void(0)" onclick="editRole('+row.id+')">权限</a>';
                 }
 
             }

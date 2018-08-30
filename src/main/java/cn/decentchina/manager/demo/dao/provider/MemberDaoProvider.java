@@ -1,6 +1,7 @@
 package cn.decentchina.manager.demo.dao.provider;
 
 import cn.decentchina.manager.demo.dto.MemberQueryDTO;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 
@@ -26,7 +27,7 @@ public class MemberDaoProvider {
                 " from tbl_member " +
                 " where 1=1 ");
         queryCondition(map, sql);
-        sql.append(" order by o.gmt_create desc");
+        sql.append(" order by gmt_create desc");
         return sql.toString();
     }
 
@@ -38,5 +39,24 @@ public class MemberDaoProvider {
      */
     private void queryCondition(HashMap<String, Object> map, StringBuffer sql) {
         MemberQueryDTO dto = (MemberQueryDTO) map.get("dto");
+
+        if (StringUtils.isNotBlank(dto.getName())) {
+            sql.append(" and instr(member_name.#{dto.name})>0 ");
+        }
+        if (dto.getMinAge() != null) {
+            sql.append(" and age>#{dto.minAge} ");
+        }
+        if (dto.getMaxAge() != null) {
+            sql.append(" and age<#{dto.maxAge} ");
+        }
+        if (dto.getQueryStartTime() != null) {
+            sql.append(" and gmt_create>=#{dto.queryStartTime} ");
+        }
+        if (dto.getQueryEndTime() != null) {
+            sql.append(" and gmt_create<=#{dto.queryEndTime} ");
+        }
+        if (dto.getGender() != null) {
+            sql.append(" and gender=#{dto.gender}");
+        }
     }
 }

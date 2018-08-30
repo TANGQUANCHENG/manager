@@ -145,4 +145,12 @@ public class IndexController {
         return publicKeyService.getPublicKey(httpServletRequest);
     }
 
+    /**
+     * 文档介绍
+     * @return
+     */
+    @RequestMapping("/doc")
+    public ModelAndView doc(){
+        return new ModelAndView("doc");
+    }
 }

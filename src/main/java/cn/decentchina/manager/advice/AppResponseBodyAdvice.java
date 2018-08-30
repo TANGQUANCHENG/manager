@@ -46,14 +46,14 @@ public class AppResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 
         }
         if (body instanceof SimpleMessage) {
-            log.info("[{}]接口响应[{}]", request.getURI(), body);
+//            log.info("[{}]接口响应[{}]", request.getURI(), body);
             return body;
         }
         MessageBean result = new MessageBean();
         result.setErrorCode(ErrorCodeEnum.OK.getCode());
         result.setErrorMsg("OK");
         result.setData(body);
-        log.info("[{}]接口响应[{}]", request.getURI(), StringUtils.left(body.toString(), 200));
+//        log.info("[{}]接口响应[{}]", request.getURI(), StringUtils.left(body.toString(), 200));
         body = result;
         return body;
     }

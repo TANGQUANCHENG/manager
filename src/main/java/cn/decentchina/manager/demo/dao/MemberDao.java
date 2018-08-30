@@ -51,7 +51,7 @@ public interface MemberDao {
      * @return
      */
     @Update("update tbl_member set " +
-            " name=#{member.name} ," +
+            " member_name=#{member.name} ," +
             " age=#{member.age}," +
             " gender=#{member.gender} ," +
             " gmt_modified=now() " +
@@ -67,4 +67,13 @@ public interface MemberDao {
     @SelectProvider(type = MemberDaoProvider.class, method = "queryMemberList")
     List<MemberVO> queryList(@Param("dto") MemberQueryDTO memberQueryDTO);
 
+    @Select("  select id," +
+            " member_name as name," +
+            " age," +
+            " gender," +
+            " gmt_create as createTime," +
+            " gmt_modified as modifyTime" +
+            " from tbl_member " +
+            " where id in (${ids}) ")
+    List<MemberVO> queryByIds(@Param("ids") String ids);
 }
