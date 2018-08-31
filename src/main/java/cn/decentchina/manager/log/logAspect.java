@@ -21,9 +21,10 @@ import java.util.List;
 @Component
 @Slf4j
 public class logAspect {
-    @Pointcut("@annotation(org.springframework.stereotype.Controller) || @annotation(org.springframework.web.bind.annotation.RestController)")
+    @Pointcut("@annotation(org.springframework.web.bind.annotation.RequestMapping)")
     private void controllerAspect() {
     }
+
 
     /**
      * 日志切面
@@ -72,6 +73,5 @@ public class logAspect {
         }
         return object;
     }
-
 
 }

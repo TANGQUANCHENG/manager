@@ -9,9 +9,12 @@ import org.apache.shiro.web.filter.mgt.FilterChainResolver;
 import org.apache.shiro.web.filter.mgt.PathMatchingFilterChainResolver;
 import org.apache.shiro.web.mgt.WebSecurityManager;
 import org.apache.shiro.web.servlet.AbstractShiroFilter;
+import org.apache.shiro.web.servlet.ShiroHttpServletRequest;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletResponse;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -91,5 +94,10 @@ public class CustomerShiroFilterFactoryBean extends BaseShiroFactoryBean {
                 setFilterChainResolver(resolver);
             }
         }
+        @Override
+        protected ServletResponse wrapServletResponse(HttpServletResponse orig, ShiroHttpServletRequest request) {
+            return new MyShiroHttpServletResponse(orig, getServletContext(), request);
+        }
     }
+
 }
