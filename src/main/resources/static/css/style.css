@@ -5932,3 +5932,6 @@ nav.page-tabs .page-tabs-content {
   color: #aa1111;
   margin-top: 5px;
 }
+::-webkit-scrollbar {
+  display: none;
+}
