@@ -82,4 +82,13 @@ public interface MemberDao {
             " from tbl_member " +
             " where id in (${ids}) ")
     List<MemberVO> queryByIds(@Param("ids") String ids);
+
+    @Select("  select id," +
+            " member_name as name," +
+            " age," +
+            " gender," +
+            " gmt_create as createTime," +
+            " gmt_modified as modifyTime" +
+            " from tbl_member " )
+    List<Member> queryAll();
 }

@@ -1,3 +1,5 @@
+quartz:
+  enabled: true
 spring:
   resources:
     static-locations: classpath:/static/
