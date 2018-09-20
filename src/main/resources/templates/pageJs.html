@@ -33,9 +33,8 @@
     <script type="text/javascript">
         var basePath=$("#contextPath").val();
         window.onload=function (ev) {
-            console.log(basePath);
             topbar.hide();
-            $(".fixed-table-body").niceScroll({cursorcolor: "#ccc", cursorborder: "0px solid #fff"});
+            $(".fixed-table-body").niceScroll({cursorcolor: "#666", cursorborder: "6px solid #ccc",autohidemode:false});
             $("body").animate({opacity: 1});
         };
     </script>

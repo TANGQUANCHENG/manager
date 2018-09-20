@@ -22,6 +22,7 @@ public class MemberDaoProvider {
                 " member_name as name," +
                 " age," +
                 " gender," +
+                " avatar,"+
                 " gmt_create as createTime," +
                 " gmt_modified as modifyTime" +
                 " from tbl_member " +

@@ -5,6 +5,7 @@ import cn.decentchina.manager.demo.dto.MemberQueryDTO;
 import cn.decentchina.manager.demo.entity.Member;
 import cn.decentchina.manager.demo.vo.MemberVO;
 import cn.decentchina.manager.system.vo.Page;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public interface MemberService {
      * @param member
      * @return
      */
-    SimpleMessage insertMember(Member member);
+    SimpleMessage insertMember(Member member, MultipartFile imgFile);
 
     /**
      * 修改

@@ -74,4 +74,9 @@ public class Member {
      */
     private Date modifyTime;
 
+    /**
+     * 头像
+     */
+    private String avatar;
+
 }

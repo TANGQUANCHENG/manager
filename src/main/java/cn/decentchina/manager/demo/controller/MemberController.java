@@ -2,6 +2,7 @@ package cn.decentchina.manager.demo.controller;
 
 import cn.decentchina.manager.common.dto.SimpleMessage;
 import cn.decentchina.manager.common.enums.ErrorCodeEnum;
+import cn.decentchina.manager.common.util.UploadUtil;
 import cn.decentchina.manager.demo.dto.MemberQueryDTO;
 import cn.decentchina.manager.demo.entity.Member;
 import cn.decentchina.manager.demo.service.MemberService;
@@ -12,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
@@ -71,7 +74,7 @@ public class MemberController {
      * @return
      */
     @RequestMapping("/add")
-    public SimpleMessage addMember(Member member) {
+    public SimpleMessage addMember(Member member, @RequestParam("imgFile") MultipartFile imgFile) {
         if (StringUtils.isBlank(member.getName())) {
             return new SimpleMessage(ErrorCodeEnum.INVALID_PARAMS, "会员名称不能为空");
         }
@@ -81,7 +84,16 @@ public class MemberController {
         if (member.getGender() == null) {
             return new SimpleMessage(ErrorCodeEnum.INVALID_PARAMS, "会员性别不能为空");
         }
-        return memberService.insertMember(member);
+
+        String fileName = imgFile.getOriginalFilename();
+        if (!UploadUtil.checkSuffix(fileName)) {
+            return new SimpleMessage(ErrorCodeEnum.INVALID_PARAMS, "上传格式不符");
+        }
+        if (!UploadUtil.checkSize(imgFile)) {
+            return new SimpleMessage(ErrorCodeEnum.INVALID_PARAMS, "上传大小不符");
+        }
+
+        return memberService.insertMember(member,imgFile);
     }
 
     /**

@@ -58,3 +58,5 @@ logging:
     root: info
 shiro-customer:
   session-time-out: -1000 #session永不过期
+common-config:
+  upload-path: static/images/

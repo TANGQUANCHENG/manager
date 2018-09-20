@@ -2,7 +2,10 @@ package cn.decentchina.manager.demo.service.impl;
 
 import cn.decentchina.manager.common.dto.SimpleMessage;
 import cn.decentchina.manager.common.enums.ErrorCodeEnum;
+import cn.decentchina.manager.common.util.UploadUtil;
 import cn.decentchina.manager.config.ApplicationContextProvider;
+import cn.decentchina.manager.config.CommonConfig;
+import cn.decentchina.manager.config.Constant;
 import cn.decentchina.manager.demo.dao.MemberDao;
 import cn.decentchina.manager.demo.dto.MemberQueryDTO;
 import cn.decentchina.manager.demo.entity.Member;
@@ -15,9 +18,11 @@ import cn.decentchina.manager.quartz.util.CronUtil;
 import cn.decentchina.manager.quartz.util.SchedulerUtil;
 import cn.decentchina.manager.system.vo.Page;
 import com.github.pagehelper.PageHelper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,20 +37,27 @@ public class MemberServiceImpl implements MemberService {
 
     @Autowired
     private MemberDao memberDao;
+
     @Autowired
-    private QuartzConfigDao quartzConfigDao;
+    private CommonConfig commonConfig;
+    /**
+     * 新增会员
+     * 付：动态生成定时任务
+     *
+     * @param member
+     * @return
+     */
     @Override
-    public SimpleMessage insertMember(Member member) {
+    public SimpleMessage insertMember(Member member, MultipartFile imgFile) {
+        String path = this.getClass().getResource("/").getPath();
+        String result = UploadUtil.uploadFile(imgFile, path+commonConfig.getUploadPath());
+        if(StringUtils.equals(Constant.FAIL,result)){
+            return new SimpleMessage(ErrorCodeEnum.ERROR,"上传失败");
+        }
+        member.setAvatar(StringUtils.replace(result, path + "static", ""));
         if (memberDao.insertMember(member) < 1) {
             return new SimpleMessage(ErrorCodeEnum.ERROR);
         }
-        QuartzConfig config = new QuartzConfig("lock member",
-                LockMemberJob.class.getName(),
-                "MEMBER",
-                CronUtil.getCron(new Date(System.currentTimeMillis() + 1000 * 60 * 10)),
-                0);
-        quartzConfigDao.insertConfig(config);
-        SchedulerUtil.createScheduler(config, ApplicationContextProvider.getApplicationContext());
         return new SimpleMessage(ErrorCodeEnum.OK);
     }
 

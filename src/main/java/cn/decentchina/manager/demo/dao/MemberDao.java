@@ -27,11 +27,13 @@ public interface MemberDao {
             "member_name ," +
             "age ," +
             "gender," +
+            "avatar,"+
             "gmt_create) " +
             "values( " +
             "#{member.name}," +
             "#{member.age}," +
             "#{member.gender}," +
+            "#{member.avatar}," +
             "now())")
     int insertMember(@Param("member") Member member);
 
