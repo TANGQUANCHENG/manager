@@ -1,6 +1,7 @@
 package cn.decentchina.manager.system.controller;
 
 import cn.decentchina.manager.common.dto.SimpleMessage;
+import cn.decentchina.manager.handler.AppExceptionHandler;
 import cn.decentchina.manager.system.entity.Admin;
 import cn.decentchina.manager.common.enums.ErrorCodeEnum;
 import cn.decentchina.manager.system.service.AdminService;
@@ -20,7 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @RestController
 @RequestMapping("admin")
-public class AdminController {
+public class AdminController extends AppExceptionHandler{
 
 
     @Autowired
@@ -58,7 +59,7 @@ public class AdminController {
      * @return
      */
     @RequestMapping("/add")
-    public SimpleMessage addAdmin(Admin admin){
+    public SimpleMessage addAdmin(Admin admin) throws Exception {
         return adminService.addAdmin(admin);
     }
 
@@ -69,7 +70,7 @@ public class AdminController {
      * @return
      */
     @RequestMapping("/update")
-    public SimpleMessage updateAdmin(Admin admin){
+    public SimpleMessage updateAdmin(Admin admin) throws Exception {
         return adminService.updateAdmin(admin);
     }
 
@@ -90,7 +91,7 @@ public class AdminController {
      * @return
      */
     @RequestMapping("/updateStatus")
-    public SimpleMessage updateAdminStatus(Admin admin){
+    public SimpleMessage updateAdminStatus(Admin admin) throws Exception {
         return adminService.updateStatus(admin);
     }
 

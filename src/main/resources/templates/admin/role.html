@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.w3.org/1999/xhtml">
 <head th:include="css :: css">
 
 </head>
@@ -19,20 +19,21 @@
                     <div class="block-flat">
                         <form class="form-horizontal group-border-dashed">
                             <div class="form-group">
+                                <input hidden type="text"/>
                                 <div class="col-sm-4">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="searchText">
+                                        <input type="text" class="form-control" id="searchText" placeholder="请输入角色名称">
                                         <span class="input-group-btn">
                                             <button class="btn btn-primary" type="button" id="searchRole"><i class="fa fa-search"></i>搜索</button>
                                         </span>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
-                                    <button type="button" class="btn btn-success btn-flat" id="toAdd">
+                                    <button type="button" class="btn btn-success btn-flat" id="toAdd" shiro:hasRole="superAdmin">
                                         <i class="fa fa-plus"></i>
                                         新增角色
                                     </button>
-                                    <button type="button" class="btn btn-info btn-flat" id="toBind">
+                                    <button type="button" class="btn btn-info btn-flat" id="toBind" shiro:hasRole="superAdmin">
                                         <i class="fa fa-magnet"></i>
                                         权限绑定
                                     </button>

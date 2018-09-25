@@ -4,8 +4,10 @@ import cn.decentchina.manager.system.dao.RoleNavRelationDao;
 import cn.decentchina.manager.common.dto.SimpleMessage;
 import cn.decentchina.manager.system.entity.RoleNavRelation;
 import cn.decentchina.manager.common.enums.ErrorCodeEnum;
+import cn.decentchina.manager.system.service.AdminService;
 import cn.decentchina.manager.system.service.BindService;
 import cn.decentchina.manager.system.service.FilterChainDefinitionsService;
+import cn.decentchina.manager.system.vo.AdminVO;
 import cn.decentchina.manager.system.vo.NavigationVO;
 import cn.decentchina.manager.system.vo.TreeVO;
 import lombok.extern.slf4j.Slf4j;
@@ -37,8 +39,17 @@ public class BindServiceImpl implements BindService {
     @Autowired
     private FilterChainDefinitionsService filterChainDefinitionsService;
 
+    @Autowired
+    private AdminService  adminService;
+
     @Override
-    public SimpleMessage batchBind(Integer[] navs, Integer[] roles) {
+    public SimpleMessage batchBind(Integer[] navs, Integer[] roles) throws Exception {
+
+        AdminVO currentAdmin = adminService.getCurrentAdmin();
+        if (!currentAdmin.getSuperAdmin()) {
+            return new SimpleMessage(ErrorCodeEnum.ERROR, "该操作允许超级管理员执行");
+        }
+
         SqlSession session = sessionFactory.openSession(ExecutorType.BATCH, false);
         try {
             RoleNavRelationDao dao = session.getMapper(RoleNavRelationDao.class);
@@ -72,7 +83,13 @@ public class BindServiceImpl implements BindService {
     }
 
     @Override
-    public SimpleMessage relieveBind(Integer[] relationIds) {
+    public SimpleMessage relieveBind(Integer[] relationIds) throws Exception {
+
+        AdminVO currentAdmin = adminService.getCurrentAdmin();
+        if (!currentAdmin.getSuperAdmin()) {
+            return new SimpleMessage(ErrorCodeEnum.ERROR, "该操作允许超级管理员执行");
+        }
+
         if(relationIds==null){
             return new SimpleMessage(ErrorCodeEnum.NO,"数据异常");
         }

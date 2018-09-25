@@ -140,8 +140,8 @@ $(document).ready(function () {
         checkOnSelect:true,
         columns:[[
             {field:'name',title:'名称',width:100},
-            {field:'code',title:'代码',width:100},
-            {field:'status',title:'状态',width:100},
+            // {field:'code',title:'代码',width:100},
+            // {field:'status',title:'状态',width:100},
             {field:'createTime',title:'创建时间',width:100}
         ]],
         toolbar:toolbar

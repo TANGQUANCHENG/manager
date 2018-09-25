@@ -5,8 +5,10 @@ import cn.decentchina.manager.system.dao.RoleNavRelationDao;
 import cn.decentchina.manager.common.dto.SimpleMessage;
 import cn.decentchina.manager.system.entity.Navigation;
 import cn.decentchina.manager.common.enums.ErrorCodeEnum;
+import cn.decentchina.manager.system.service.AdminService;
 import cn.decentchina.manager.system.service.FilterChainDefinitionsService;
 import cn.decentchina.manager.system.service.NavigationService;
+import cn.decentchina.manager.system.vo.AdminVO;
 import cn.decentchina.manager.system.vo.NavigationVO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,8 @@ public class NavigationServiceImpl implements NavigationService {
     private NavigationDao navigationDao;
     @Autowired
     private RoleNavRelationDao roleNavRelationDao;
-
+    @Autowired
+    private AdminService adminService;
     @Autowired
     private FilterChainDefinitionsService filterChainDefinitionsService;
 
@@ -38,7 +41,12 @@ public class NavigationServiceImpl implements NavigationService {
     }
 
     @Override
-    public SimpleMessage addNavigation(Navigation navigation) {
+    public SimpleMessage addNavigation(Navigation navigation) throws Exception {
+
+        AdminVO currentAdmin = adminService.getCurrentAdmin();
+        if (!currentAdmin.getSuperAdmin()) {
+            return new SimpleMessage(ErrorCodeEnum.ERROR, "该操作允许超级管理员执行");
+        }
 
         if (StringUtils.isBlank(navigation.getFunctionName())) {
             return new SimpleMessage(ErrorCodeEnum.INVALID_PARAMS, "功能名称不能为空");
@@ -52,7 +60,12 @@ public class NavigationServiceImpl implements NavigationService {
     }
 
     @Override
-    public SimpleMessage updateNavigation(Navigation navigation) {
+    public SimpleMessage updateNavigation(Navigation navigation) throws Exception {
+        AdminVO currentAdmin = adminService.getCurrentAdmin();
+        if (!currentAdmin.getSuperAdmin()) {
+            return new SimpleMessage(ErrorCodeEnum.ERROR, "该操作允许超级管理员执行");
+        }
+
         if (StringUtils.isBlank(navigation.getFunctionName())) {
             return new SimpleMessage(ErrorCodeEnum.INVALID_PARAMS, "功能名称不能为空");
         }
@@ -63,7 +76,13 @@ public class NavigationServiceImpl implements NavigationService {
     }
 
     @Override
-    public SimpleMessage deleteNavigation(Integer id) {
+    public SimpleMessage deleteNavigation(Integer id) throws Exception {
+
+        AdminVO currentAdmin = adminService.getCurrentAdmin();
+        if (!currentAdmin.getSuperAdmin()) {
+            return new SimpleMessage(ErrorCodeEnum.ERROR, "该操作允许超级管理员执行");
+        }
+
         if (navigationDao.deleteNavigation(id) < 1) {
             return new SimpleMessage(ErrorCodeEnum.ERROR);
         }
@@ -78,7 +97,13 @@ public class NavigationServiceImpl implements NavigationService {
     }
 
     @Override
-    public SimpleMessage updateStatus(Integer id, Boolean status) {
+    public SimpleMessage updateStatus(Integer id, Boolean status) throws Exception {
+
+        AdminVO currentAdmin = adminService.getCurrentAdmin();
+        if (!currentAdmin.getSuperAdmin()) {
+            return new SimpleMessage(ErrorCodeEnum.ERROR, "该操作允许超级管理员执行");
+        }
+
         NavigationVO navigationVO = navigationDao.queryId(id);
 
         if (navigationVO == null) {

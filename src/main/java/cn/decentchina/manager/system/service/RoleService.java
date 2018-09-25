@@ -33,21 +33,21 @@ public interface RoleService {
      * @param role
      * @return
      */
-    SimpleMessage addRole(Role role);
+    SimpleMessage addRole(Role role) throws Exception;
 
     /**
      * 修改角色
      * @param role
      * @return
      */
-    SimpleMessage updateRole(Role role);
+    SimpleMessage updateRole(Role role) throws Exception;
 
     /**
      * 删除角色
      * @param id
      * @return
      */
-    SimpleMessage deleteRole(Integer id);
+    SimpleMessage deleteRole(Integer id) throws Exception;
 
 
     /**

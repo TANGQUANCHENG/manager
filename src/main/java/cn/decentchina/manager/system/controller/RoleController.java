@@ -1,6 +1,7 @@
 package cn.decentchina.manager.system.controller;
 
 import cn.decentchina.manager.common.dto.SimpleMessage;
+import cn.decentchina.manager.handler.AppExceptionHandler;
 import cn.decentchina.manager.system.entity.Role;
 import cn.decentchina.manager.system.service.RoleService;
 import cn.decentchina.manager.system.vo.RoleVO;
@@ -18,7 +19,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("role")
-public class RoleController {
+public class RoleController extends AppExceptionHandler{
 
 
     @Resource
@@ -31,8 +32,7 @@ public class RoleController {
      */
     @RequestMapping("")
     public ModelAndView toPage(){
-        ModelAndView md=new ModelAndView("admin/role");
-        return md;
+        return new ModelAndView("admin/role");
     }
 
     /**
@@ -51,7 +51,7 @@ public class RoleController {
      * @return
      */
     @RequestMapping("/add")
-    public SimpleMessage addRole(Role role){
+    public SimpleMessage addRole(Role role) throws Exception {
         return roleService.addRole(role);
     }
 
@@ -62,7 +62,7 @@ public class RoleController {
      * @return
      */
     @RequestMapping("/update")
-    public SimpleMessage updateRole(Role role){
+    public SimpleMessage updateRole(Role role) throws Exception {
         return roleService.updateRole(role);
     }
 
@@ -72,7 +72,7 @@ public class RoleController {
      * @return
      */
     @RequestMapping("/delete/{id}")
-    public SimpleMessage deleteRole(@PathVariable Integer id){
+    public SimpleMessage deleteRole(@PathVariable Integer id) throws Exception {
         return roleService.deleteRole(id);
     }
 

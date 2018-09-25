@@ -157,8 +157,6 @@ $("#addLink").click(function () {
 
 });
 
-
-
 function reloadParents() {
     $.ajax({
         type: "GET",
@@ -166,6 +164,9 @@ function reloadParents() {
         data: {},
         dataType: "json",
         success: function (data) {
+            if(data.errorCode===200){
+                data=data.data;
+            }
             var str = " <option value=\"\">无</option>";
             var menus = data;
             for (var i = 0; i < menus.length; i++) {

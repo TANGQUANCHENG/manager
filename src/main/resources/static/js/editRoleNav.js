@@ -1,6 +1,12 @@
 window.onload=function (ev) {
     $("body").animate({opacity: 1});
 };
+/**
+ * 扩展树表格级联勾选方法：
+ * @param {Object} container
+ * @param {Object} options
+ * @return {TypeName}
+ */
 $.extend($.fn.treegrid.methods, {
     /**
      * 级联选择
@@ -22,8 +28,44 @@ $.extend($.fn.treegrid.methods, {
             if (selectNodes[i][idField] == param.id)
                 status = true;
         }
-
+        //级联选择父节点
+        selectParent(target[0], param.id, idField, status);
         selectChildren(target[0], param.id, idField, param.deepCascade, status);
+        /**
+         * 级联选择父节点
+         * @param {Object} target
+         * @param {Object} id 节点ID
+         * @param {Object} status 节点状态，true:勾选，false:未勾选
+         * @return {TypeName}
+         */
+        function selectParent(target, id, idField, status) {
+            var parent = $(target).treegrid('getParent', id);
+            var allStatus = false;
+            if (parent) {
+                var rows = $('#tt2').datagrid('getSelections');//获取所有选中行
+                var parentId = parent[idField];
+                if (status)
+                    $(target).treegrid('select', parentId);
+                else {
+                    var children = $(target).treegrid('getChildren', parentId);
+                    for (var i = 0; i < children.length; i++) {
+                        //判断是否在选中的行中
+                        for (var j = 0; j < rows.length; j++) {
+                            if (children[i].id == rows[j].id) {
+                                allStatus = true;
+                            }
+                        }
+                    }
+                    /*如果取消选择的节点的父节点还存在选中的节点，该父节点不会被取消选中*/
+                    if (allStatus) {
+                    } else {
+                        $(target).treegrid('unselect', parentId);
+                    }
+                }
+
+                selectParent(target, parentId, idField, status);
+            }
+        }
 
         /**
          * 级联选择子节点
@@ -50,6 +92,7 @@ $.extend($.fn.treegrid.methods, {
         }
     }
 });
+
 $(document).ready(function () {
 
     $('#tt2').treegrid({

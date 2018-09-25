@@ -30,7 +30,7 @@ public interface AdminService {
      * @param adminUser
      * @return
      */
-    SimpleMessage updateAdmin(Admin adminUser);
+    SimpleMessage updateAdmin(Admin adminUser) throws Exception;
 
     /**
      * 新增管理员信息
@@ -38,7 +38,7 @@ public interface AdminService {
      * @param adminUser
      * @return
      */
-    SimpleMessage addAdmin(Admin adminUser);
+    SimpleMessage addAdmin(Admin adminUser) throws Exception;
 
     /**
      * 删除管理员信息
@@ -74,7 +74,7 @@ public interface AdminService {
      * @param admin
      * @return
      */
-    SimpleMessage updateStatus(Admin admin);
+    SimpleMessage updateStatus(Admin admin) throws Exception;
 
     /**
      * 管理员登录

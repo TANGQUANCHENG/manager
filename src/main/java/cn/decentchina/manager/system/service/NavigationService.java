@@ -24,21 +24,21 @@ public interface NavigationService {
      * @param navigation
      * @return
      */
-    SimpleMessage addNavigation(Navigation navigation);
+    SimpleMessage addNavigation(Navigation navigation) throws Exception;
 
     /**
      * 修改功能
      * @param navigation
      * @return
      */
-    SimpleMessage updateNavigation(Navigation navigation);
+    SimpleMessage updateNavigation(Navigation navigation) throws Exception;
 
     /**
      * 删除功能
      * @param id
      * @return
      */
-    SimpleMessage deleteNavigation(Integer id);
+    SimpleMessage deleteNavigation(Integer id) throws Exception;
 
     /**
      * 查询一级菜单
@@ -52,5 +52,5 @@ public interface NavigationService {
      * @param status
      * @return
      */
-    SimpleMessage updateStatus(Integer id, Boolean status);
+    SimpleMessage updateStatus(Integer id, Boolean status) throws Exception;
 }

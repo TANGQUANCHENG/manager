@@ -118,7 +118,7 @@ function checkSelect() {
                         layer.msg("操作成功");
                         $("#tt").treegrid("reload");
                     }else {
-                        layer.msg("操作失败");
+                        layer.msg("操作失败!"+data.errorMsg);
                     }
                 },
                 beforeSend: function () {

@@ -15,14 +15,14 @@ public interface BindService {
      * @param roles
      * @return
      */
-    SimpleMessage batchBind(Integer[] navs, Integer[] roles);
+    SimpleMessage batchBind(Integer[] navs, Integer[] roles) throws Exception;
 
     /**
      * 解除
      * @param relationId
      * @return
      */
-    SimpleMessage relieveBind(Integer[] relationId);
+    SimpleMessage relieveBind(Integer[] relationId) throws Exception;
 
     /**
      * 根据角色查询菜单

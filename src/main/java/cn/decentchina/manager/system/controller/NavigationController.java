@@ -1,6 +1,7 @@
 package cn.decentchina.manager.system.controller;
 
 import cn.decentchina.manager.common.dto.SimpleMessage;
+import cn.decentchina.manager.handler.AppExceptionHandler;
 import cn.decentchina.manager.system.entity.Navigation;
 import cn.decentchina.manager.system.service.BindService;
 import cn.decentchina.manager.system.service.NavigationService;
@@ -20,7 +21,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("navigation")
-public class NavigationController {
+public class NavigationController extends AppExceptionHandler{
 
 
     @Autowired
@@ -70,7 +71,7 @@ public class NavigationController {
      * @return
      */
     @RequestMapping("/add")
-    public SimpleMessage addNavigation(Navigation navigation) {
+    public SimpleMessage addNavigation(Navigation navigation) throws Exception {
         return navigationService.addNavigation(navigation);
     }
 
@@ -81,7 +82,7 @@ public class NavigationController {
      * @return
      */
     @RequestMapping("/update")
-    public SimpleMessage updateNavigation(Navigation navigation) {
+    public SimpleMessage updateNavigation(Navigation navigation) throws Exception {
         return navigationService.updateNavigation(navigation);
     }
 
@@ -92,7 +93,7 @@ public class NavigationController {
      * @return
      */
     @RequestMapping("/delete/{id}")
-    public SimpleMessage deleteNavigation(@PathVariable Integer id) {
+    public SimpleMessage deleteNavigation(@PathVariable Integer id) throws Exception {
         return navigationService.deleteNavigation(id);
     }
 
@@ -113,7 +114,7 @@ public class NavigationController {
      * @return
      */
     @RequestMapping("/updateStatus/{id}")
-    public SimpleMessage updateStatus(@PathVariable Integer id, Boolean available) {
+    public SimpleMessage updateStatus(@PathVariable Integer id, Boolean available) throws Exception {
         return navigationService.updateStatus(id,available);
     }
 }

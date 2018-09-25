@@ -45,8 +45,12 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public SimpleMessage updateAdmin(Admin adminUser) {
+    public SimpleMessage updateAdmin(Admin adminUser) throws Exception {
+        AdminVO currentAdmin = getCurrentAdmin();
 
+        if (!currentAdmin.getSuperAdmin()) {
+            return new SimpleMessage(ErrorCodeEnum.ERROR, "只有超级管理员允许修改账户信息");
+        }
         if (StringUtils.isBlank(adminUser.getName())) {
             return new SimpleMessage(ErrorCodeEnum.INVALID_PARAMS, "管理员名称不能为空");
         }
@@ -57,8 +61,13 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public SimpleMessage addAdmin(Admin adminUser) {
+    public SimpleMessage addAdmin(Admin adminUser) throws Exception {
 
+        AdminVO currentAdmin = getCurrentAdmin();
+
+        if (!currentAdmin.getSuperAdmin()) {
+            return new SimpleMessage(ErrorCodeEnum.ERROR, "只有超级管理员允许新增账户");
+        }
         if (StringUtils.isBlank(adminUser.getPhoneNo()) || adminUser.getPhoneNo().length() < 2) {
             return new SimpleMessage(ErrorCodeEnum.INVALID_PARAMS, "用户账号格式不正确");
         }
@@ -128,7 +137,13 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public SimpleMessage updateStatus(Admin admin) {
+    public SimpleMessage updateStatus(Admin admin) throws Exception {
+
+        AdminVO currentAdmin = getCurrentAdmin();
+        if (!currentAdmin.getSuperAdmin()) {
+            return new SimpleMessage(ErrorCodeEnum.ERROR, "该操作允许超级管理员执行");
+        }
+
         if (adminDao.updateAdminStatus(admin) < 1) {
             return new SimpleMessage(ErrorCodeEnum.ERROR);
         }
@@ -180,6 +195,9 @@ public class AdminServiceImpl implements AdminService {
         AdminVO admin = adminDao.queryByPhoneNo(phoneNo);
         if (admin == null) {
             throw new Exception("获取当前登录用户失败");
+        }
+        if (admin.getSuperAdmin() == null) {
+            admin.setSuperAdmin(false);
         }
         return admin;
     }

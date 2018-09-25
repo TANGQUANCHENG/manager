@@ -1,5 +1,6 @@
 package cn.decentchina.manager.system.controller;
 
+import cn.decentchina.manager.handler.AppExceptionHandler;
 import cn.decentchina.manager.system.dto.RoleNavBindingDTO;
 import cn.decentchina.manager.common.dto.SimpleMessage;
 import cn.decentchina.manager.system.service.BindService;
@@ -22,7 +23,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("bind")
-public class BindController {
+public class BindController extends AppExceptionHandler{
 
     @Autowired
     private NavigationService navigationService;
@@ -75,7 +76,7 @@ public class BindController {
      * @param dto
      */
     @RequestMapping("/addDutyNavBinding")
-    public SimpleMessage addDutyNavBinding(RoleNavBindingDTO dto) {
+    public SimpleMessage addDutyNavBinding(RoleNavBindingDTO dto) throws Exception {
         return bindService.batchBind(dto.getNavs(), dto.getRoles());
     }
 
@@ -86,7 +87,7 @@ public class BindController {
      * @return
      */
     @RequestMapping("/relieveBind")
-    public SimpleMessage relieveBind(Integer[] relationIds) {
+    public SimpleMessage relieveBind(Integer[] relationIds) throws Exception {
         return bindService.relieveBind(relationIds);
     }
 

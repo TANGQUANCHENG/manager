@@ -6,9 +6,11 @@ import cn.decentchina.manager.common.dto.SimpleMessage;
 import cn.decentchina.manager.system.entity.Admin;
 import cn.decentchina.manager.system.entity.Role;
 import cn.decentchina.manager.common.enums.ErrorCodeEnum;
+import cn.decentchina.manager.system.service.AdminService;
 import cn.decentchina.manager.system.service.FilterChainDefinitionsService;
 import cn.decentchina.manager.system.service.RoleService;
 import cn.decentchina.manager.system.util.ChangeToPinYin;
+import cn.decentchina.manager.system.vo.AdminVO;
 import cn.decentchina.manager.system.vo.RoleVO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +28,10 @@ public class RoleServiceImpl implements RoleService {
 
     @Autowired
     private RoleDao roleDao;
-
     @Autowired
     private RoleNavRelationDao roleNavRelationDao;
+    @Autowired
+    private AdminService adminService;
 
     @Autowired
     private FilterChainDefinitionsService filterChainDefinitionsService;
@@ -43,7 +46,13 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public SimpleMessage addRole(Role role) {
+    public SimpleMessage addRole(Role role) throws Exception {
+
+        AdminVO currentAdmin = adminService.getCurrentAdmin();
+        if (!currentAdmin.getSuperAdmin()) {
+            return new SimpleMessage(ErrorCodeEnum.ERROR, "该操作允许超级管理员执行");
+        }
+
         if(StringUtils.isBlank(role.getName())){
             return new SimpleMessage(ErrorCodeEnum.INVALID_PARAMS,"角色名称不能为空");
         }
@@ -61,8 +70,11 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public SimpleMessage updateRole(Role role) {
-
+    public SimpleMessage updateRole(Role role) throws Exception {
+        AdminVO currentAdmin = adminService.getCurrentAdmin();
+        if (!currentAdmin.getSuperAdmin()) {
+            return new SimpleMessage(ErrorCodeEnum.ERROR, "该操作允许超级管理员执行");
+        }
         String spell = ChangeToPinYin.changeToTonePinYin(role.getName());
         role.setCode(spell);
         if(roleDao.updateRole(role)<1){
@@ -73,7 +85,12 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public SimpleMessage deleteRole(Integer id) {
+    public SimpleMessage deleteRole(Integer id) throws Exception {
+
+        AdminVO currentAdmin = adminService.getCurrentAdmin();
+        if (!currentAdmin.getSuperAdmin()) {
+            return new SimpleMessage(ErrorCodeEnum.ERROR, "该操作允许超级管理员执行");
+        }
 
         List<Admin> admins = roleDao.hasAdmin(id);
         if(admins!=null&&!admins.isEmpty()){
