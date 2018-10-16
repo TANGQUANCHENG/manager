@@ -1,6 +1,7 @@
 package cn.decentchina.manager.system.service.impl;
 
 import cn.decentchina.manager.system.config.Constants;
+import cn.decentchina.manager.system.config.CustomerConfig;
 import cn.decentchina.manager.system.dao.AdminDao;
 import cn.decentchina.manager.common.dto.SimpleMessage;
 import cn.decentchina.manager.system.entity.Admin;
@@ -9,6 +10,7 @@ import cn.decentchina.manager.system.service.AdminService;
 import cn.decentchina.manager.system.util.DesUtil;
 import cn.decentchina.manager.system.util.RSAUtil;
 import cn.decentchina.manager.system.util.SecurityUtil;
+import cn.decentchina.manager.system.util.ValidateUtils;
 import cn.decentchina.manager.system.vo.AdminVO;
 import cn.decentchina.manager.system.vo.Page;
 import com.github.pagehelper.PageHelper;
@@ -34,8 +36,13 @@ import java.util.List;
 @Service
 public class AdminServiceImpl implements AdminService {
 
+    private static final String DEFAULT_PASSWORD = "123456a";
+
     @Autowired
     private AdminDao adminDao;
+
+    @Autowired
+    private CustomerConfig customerConfig;
 
     @Override
     public Page<AdminVO> queryAdminListPage(Page page, String searchText) {
@@ -78,10 +85,16 @@ public class AdminServiceImpl implements AdminService {
         if (a != null) {
             return new SimpleMessage(ErrorCodeEnum.INVALID_PARAMS, "该账号已存在");
         }
+        if (StringUtils.isBlank(adminUser.getLoginPwd()) || !ValidateUtils.isLegalPassword(adminUser.getLoginPwd())) {
+            return new SimpleMessage(ErrorCodeEnum.INVALID_PARAMS, "新密码必须为6-12位数字密码组合");
+        }
+
         String salt = SecurityUtil.getRandomStr(8);
         //密码为空则填充默认密码
         if (StringUtils.isBlank(adminUser.getLoginPwd())) {
-            String pwd = Constants.DEFAULT_PWD;
+            String pwd = StringUtils.isBlank(customerConfig.getDefaultPassword())
+                    ? DEFAULT_PASSWORD
+                    : customerConfig.getDefaultPassword();
             String encryptedPwd = DesUtil.encrypt(pwd, Charset.defaultCharset(), salt);
             adminUser.setLoginPwd(encryptedPwd);
             adminUser.setSalt(salt);
@@ -132,8 +145,28 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public SimpleMessage resetPassword(AdminVO adminUser) throws Exception {
-        return null;
+    public SimpleMessage resetPassword(Integer id) throws Exception {
+
+        AdminVO currentAdmin = getCurrentAdmin();
+        if (!currentAdmin.getSuperAdmin()) {
+            return new SimpleMessage(ErrorCodeEnum.ERROR, "该操作允许超级管理员执行");
+        }
+        Admin admin = adminDao.queryById(id);
+        if (admin == null) {
+            return new SimpleMessage(ErrorCodeEnum.ERROR);
+        }
+        if (admin.getSuperAdmin() != null && admin.getSuperAdmin()) {
+            return new SimpleMessage(ErrorCodeEnum.ERROR, "无法重置超级管理员的密码");
+        }
+        String newPassword = StringUtils.isBlank(customerConfig.getDefaultPassword())
+                ? DEFAULT_PASSWORD
+                : customerConfig.getDefaultPassword();
+        String salt = SecurityUtil.getRandomStr(8);
+        String encryptedPwd = DesUtil.encrypt(newPassword, DesUtil.CHARSET, salt);
+        admin.setLoginPwd(encryptedPwd);
+        admin.setSalt(salt);
+        adminDao.updatePassword(admin);
+        return new SimpleMessage(ErrorCodeEnum.OK);
     }
 
     @Override

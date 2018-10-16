@@ -11,28 +11,28 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
- *
  * 规则验证
  *
  * @author 唐全成
  */
 public class ValidateUtils {
 
-    private static Pattern IS_INTEGER=Pattern.compile("^[-\\+]?[\\d]*$");
-    private static Pattern IS_POSITIVE_INTEGER=Pattern.compile("^[\\d]*$");
-    private static Pattern IS_DOUBLE=Pattern.compile("^[-\\+]?[.\\d]*$");
-    private static Pattern IS_DOUBLE2=Pattern.compile("^[\\d]*[.]*[\\d]{0,2}$");
-    private static Pattern IS_INTEGER2=Pattern.compile("^[\\d]*[.]*[0]*$");
-    private static Pattern IS_EMAIL=Pattern.compile("^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$");
-    private static Pattern IS_CHINESE=Pattern.compile("^[\u4e00-\u9fa5]*$");
-    private static Pattern IS_MOBILE=Pattern.compile("^1[3|4|5|6|7|8|9][0-9]{9}$");
-    private static Pattern IS_PHONE=Pattern.compile("^0[0-9]{2,3}[0-9]{7,8}$");
-    private static Pattern IS_POST=Pattern.compile("^[0-9]{6}$");
-    private static Pattern IS_URL=Pattern.compile("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
-    private static Pattern IS_IP=Pattern.compile("^(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])$");
-    private static Pattern IS_MAC=Pattern.compile("^([0-9a-fA-F]{2})(([\\s:-][0-9a-fA-F]{2}){5})$");
-    private static Pattern IS_PASSPORT=Pattern.compile("^1[45][0-9]{7}|G[0-9]{8}|E[0-9]{8}|P[0-9]{7}|S[0-9]{7,8}|D[0-9]+$");
-    private static Pattern IS_LETTER_DIGIT_OR_CHINESE=Pattern.compile("^[·a-z0-9A-Z\u4e00-\u9fa5]+$");
+    private static Pattern IS_INTEGER = Pattern.compile("^[-\\+]?[\\d]*$");
+    private static Pattern IS_POSITIVE_INTEGER = Pattern.compile("^[\\d]*$");
+    private static Pattern IS_DOUBLE = Pattern.compile("^[-\\+]?[.\\d]*$");
+    private static Pattern IS_DOUBLE2 = Pattern.compile("^[\\d]*[.]*[\\d]{0,2}$");
+    private static Pattern IS_INTEGER2 = Pattern.compile("^[\\d]*[.]*[0]*$");
+    private static Pattern IS_EMAIL = Pattern.compile("^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$");
+    private static Pattern IS_CHINESE = Pattern.compile("^[\u4e00-\u9fa5]*$");
+    private static Pattern IS_MOBILE = Pattern.compile("^1[3|4|5|6|7|8|9][0-9]{9}$");
+    private static Pattern IS_PHONE = Pattern.compile("^0[0-9]{2,3}[0-9]{7,8}$");
+    private static Pattern IS_POST = Pattern.compile("^[0-9]{6}$");
+    private static Pattern IS_URL = Pattern.compile("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
+    private static Pattern IS_IP = Pattern.compile("^(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])$");
+    private static Pattern IS_MAC = Pattern.compile("^([0-9a-fA-F]{2})(([\\s:-][0-9a-fA-F]{2}){5})$");
+    private static Pattern IS_PASSPORT = Pattern.compile("^1[45][0-9]{7}|G[0-9]{8}|E[0-9]{8}|P[0-9]{7}|S[0-9]{7,8}|D[0-9]+$");
+    private static Pattern IS_LETTER_DIGIT_OR_CHINESE = Pattern.compile("^[·a-z0-9A-Z\u4e00-\u9fa5]+$");
+    private static Pattern IS_LEGAL_PASSWORD = Pattern.compile("^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,12}$");
 
     public ValidateUtils() {
     }
@@ -40,23 +40,33 @@ public class ValidateUtils {
     public static boolean isInteger(String str) {
         return IS_INTEGER.matcher(str).matches();
     }
+
     public static boolean isPositiveInteger(String str) {
         return IS_POSITIVE_INTEGER.matcher(str).matches();
     }
+
     public static boolean isDouble(String str) {
         return IS_DOUBLE.matcher(str).matches();
     }
+
     public static boolean isDouble2(String str) {
         return IS_DOUBLE2.matcher(str).matches();
     }
+
     public static boolean isInteger2(String str) {
         return IS_INTEGER2.matcher(str).matches();
     }
+
     public static boolean isEmail(String str) {
         return IS_EMAIL.matcher(str).matches();
     }
+
     public static boolean isChinese(String str) {
         return IS_CHINESE.matcher(str).matches();
+    }
+
+    public static boolean isLegalPassword(String str) {
+        return IS_LEGAL_PASSWORD.matcher(str).matches();
     }
 
     public static boolean isPrime(int x) {
@@ -69,7 +79,7 @@ public class ValidateUtils {
             } else if (x % 5 == 0) {
                 return false;
             } else {
-                for(int end = (int)Math.sqrt((double)x); c <= end; c += 6) {
+                for (int end = (int) Math.sqrt((double) x); c <= end; c += 6) {
                     if (x % c == 0) {
                         return false;
                     }
@@ -118,7 +128,7 @@ public class ValidateUtils {
     }
 
     public static boolean isMobile(String mobile) {
-        if(StringUtils.isBlank(mobile)){
+        if (StringUtils.isBlank(mobile)) {
             return false;
         }
         return IS_MOBILE.matcher(mobile).matches();
@@ -190,7 +200,7 @@ public class ValidateUtils {
                 int luhmSum = 0;
                 int i = chs.length - 1;
 
-                for(int j = 0; i >= 0; ++j) {
+                for (int j = 0; i >= 0; ++j) {
                     int k = chs[i] - 48;
                     if (j % 2 == 0) {
                         k *= 2;
@@ -201,13 +211,14 @@ public class ValidateUtils {
                     --i;
                 }
 
-                char b = luhmSum % 10 == 0 ? 48 : (char)(10 - luhmSum % 10 + 48);
+                char b = luhmSum % 10 == 0 ? 48 : (char) (10 - luhmSum % 10 + 48);
                 return bankCard.charAt(bankCard.length() - 1) == b;
             }
         }
 
         return false;
     }
+
     public static boolean isLetterDigitOrChinese(String str) {
         return IS_LETTER_DIGIT_OR_CHINESE.matcher(str).matches();
     }
@@ -241,9 +252,9 @@ public class ValidateUtils {
             throw new IllegalArgumentException(message);
         } else if (obj.getClass().isArray() && Array.getLength(obj) == 0) {
             throw new IllegalArgumentException(message);
-        } else if (obj instanceof Collection && ((Collection)obj).isEmpty()) {
+        } else if (obj instanceof Collection && ((Collection) obj).isEmpty()) {
             throw new IllegalArgumentException(message);
-        } else if (obj instanceof Map && ((Map)obj).isEmpty()) {
+        } else if (obj instanceof Map && ((Map) obj).isEmpty()) {
             throw new IllegalArgumentException(message);
         }
     }
@@ -259,10 +270,10 @@ public class ValidateUtils {
             return true;
         } else if (obj.getClass().isArray() && Array.getLength(obj) == 0) {
             return true;
-        } else if (obj instanceof Collection && ((Collection)obj).isEmpty()) {
+        } else if (obj instanceof Collection && ((Collection) obj).isEmpty()) {
             return true;
         } else {
-            return obj instanceof Map && ((Map)obj).isEmpty();
+            return obj instanceof Map && ((Map) obj).isEmpty();
         }
     }
 

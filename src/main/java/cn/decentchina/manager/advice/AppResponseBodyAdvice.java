@@ -30,7 +30,6 @@ public class AppResponseBodyAdvice implements ResponseBodyAdvice<Object> {
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
         return MappingJackson2HttpMessageConverter.class.isAssignableFrom(converterType);
     }
-
     @SuppressWarnings("Duplicates")
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
@@ -46,14 +45,12 @@ public class AppResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 
         }
         if (body instanceof SimpleMessage) {
-//            log.info("[{}]接口响应[{}]", request.getURI(), body);
             return body;
         }
         MessageBean result = new MessageBean();
         result.setErrorCode(ErrorCodeEnum.OK.getCode());
         result.setErrorMsg("OK");
         result.setData(body);
-//        log.info("[{}]接口响应[{}]", request.getURI(), StringUtils.left(body.toString(), 200));
         body = result;
         return body;
     }

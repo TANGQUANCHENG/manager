@@ -76,10 +76,10 @@
         }
     });
 
-    // jQuery.validator.addMethod("isNormalPwd", function (value, element) {
-    //     var tel = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,12}$/;
-    //     return this.optional(element) || (tel.test(value));
-    // }, "请输入6-12位字母数字组合");
+    jQuery.validator.addMethod("isNormalPwd", function (value, element) {
+        var tel = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,12}$/;
+        return this.optional(element) || (tel.test(value));
+    }, "请输入6-12位字母数字组合");
 
     $(function () {
         $(".iCheck").iCheck({          checkboxClass: 'icheckbox_square-blue checkbox',
@@ -92,7 +92,7 @@
                 },
                 loginPwd: {
                     required: true,
-                    // isNormalPwd: true
+                    isNormalPwd: true
                 }
             },
             errorClass: "help-inline",

@@ -141,7 +141,7 @@ public class ShiroConfigs {
      * @return
      */
     private String convertKey(Object o) {
-        //将点（.）转化为斜杠(/)
+        //将点（-）转化为斜杠(/)
         String replace = StringUtils.replace(o.toString(), "-", "/");
         //-1转化为*
         return "/" + StringUtils.replace(replace, "-1", "*");

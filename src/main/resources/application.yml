@@ -52,12 +52,14 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
 server:
-  port: 8081
+  port: 8068
 logging:
   config: classpath:logback.xml
   level:
     root: info
 shiro-customer:
   session-time-out: -1000 #session永不过期
+  chains:
+    member-testDrawImg: anon
 common-config:
   upload-path: static/images/

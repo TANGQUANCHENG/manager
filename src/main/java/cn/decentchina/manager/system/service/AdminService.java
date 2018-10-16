@@ -62,10 +62,10 @@ public interface AdminService {
     /**
      * 重置密码
      *
-     * @param adminUser 管理员实体
+     * @param id 管理员id
      * @return
      */
-    SimpleMessage resetPassword(AdminVO adminUser) throws Exception;
+    SimpleMessage resetPassword(Integer id) throws Exception;
 
 
     /**

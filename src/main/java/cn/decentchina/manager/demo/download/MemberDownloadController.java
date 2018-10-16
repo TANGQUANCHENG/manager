@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -35,7 +36,7 @@ public class MemberDownloadController {
         try {
             ServletOutputStream out = response.getOutputStream();
             String fileName = new String(("会员列表 "
-                    + new SimpleDateFormat("yyyy-MM-dd").format(new Date())).getBytes(), "UTF-8");
+                    + new SimpleDateFormat("yyyy-MM-dd").format(new Date())).getBytes(), StandardCharsets.UTF_8);
             response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xls");
             String[] titles = {"姓名", "年龄", "性别", "创建时间"};
             memberDownloadService.download(titles, out, dto);

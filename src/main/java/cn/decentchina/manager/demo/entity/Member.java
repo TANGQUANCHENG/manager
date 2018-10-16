@@ -1,10 +1,9 @@
 package cn.decentchina.manager.demo.entity;
 
+import cn.decentchina.manager.demo.enums.GenderEnum;
 import lombok.Data;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 注：该类为demo演示类，可删除
@@ -14,40 +13,6 @@ import java.util.Map;
  */
 @Data
 public class Member {
-    /**
-     * 性别
-     */
-    public enum GenderEnum {
-        /**
-         * 男
-         */
-        MALE("男"),
-        /**
-         * 女
-         */
-        FEMALE("女"),
-        /**
-         * 其他
-         */
-        OTHER("其他");
-        private final String str;
-
-        GenderEnum(String str) {
-            this.str = str;
-        }
-
-        public String getStr() {
-            return str;
-        }
-
-        public static Map<String, String> getMap() {
-            Map<String, String> map = new HashMap<>(4);
-            for (GenderEnum en : GenderEnum.values()) {
-                map.put(en.name(), en.getStr());
-            }
-            return map;
-        }
-    }
 
     /**
      * pk

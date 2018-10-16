@@ -1,6 +1,6 @@
 package cn.decentchina.manager.demo.dto;
 
-import cn.decentchina.manager.demo.entity.Member;
+import cn.decentchina.manager.demo.enums.GenderEnum;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -15,7 +15,7 @@ public class MemberQueryDTO {
 
     private String name;
 
-    private Member.GenderEnum gender;
+    private GenderEnum gender;
 
     private Integer minAge;
 

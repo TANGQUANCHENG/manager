@@ -22,7 +22,8 @@
                             <div class="form-group">
                                 <div class="col-sm-4">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="searchText">
+                                        <input type="text" class="form-control" id="searchText"
+                                               placeholder="请输入名称或者账号"/>
                                         <span class="input-group-btn">
                                             <button class="btn btn-primary" type="button" id="searchAdmin"><i
                                                     class="fa fa-search"></i>搜索</button>
@@ -67,7 +68,8 @@
                         <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 control-label">姓名<span class="text-danger">*</span></label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="inputEmail3" placeholder="姓名" onkeydown="convertPinyin(this)"
+                                <input type="text" class="form-control" id="inputEmail3" placeholder="姓名"
+                                       onkeydown="convertPinyin(this)"
                                        name="name">
                             </div>
                         </div>
@@ -80,9 +82,9 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputPassword4" class="col-sm-2 control-label">密码</label>
+                            <label class="col-sm-2 control-label">密码</label>
                             <div class="col-sm-10">
-                                <input type="password" class="form-control" id="inputPassword4" placeholder="密码"
+                                <input type="password" class="form-control" placeholder="密码"
                                        name="loginPwd">
                             </div>
                         </div>
@@ -153,6 +155,7 @@
 <script th:src="@{/js/pinyin_dict_withtone.js}"></script>
 <script th:src="@{/js/pinyinUtil.js}"></script>
 <script>
+
     jQuery.validator.addMethod("isNormalPwd", function (value, element) {
         var tel = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,12}$/;
         return this.optional(element) || (tel.test(value));
@@ -230,7 +233,8 @@
                 title: '操作',
                 formatter: function (v, row, index) {
                     return row.superAdmin ? '' : '<a class="label label-default" href="javascript:void(0)" onclick="toUpdate(' + row.id + ')"><i class="fa fa-pencil"></i></a>&nbsp;' +
-                        '<a class="label label-danger" href="javascript:void(0)" onclick="deleteAdmin(' + row.id + ')"><i class="fa fa-times"></i></a>';
+                        '<a class="label label-danger" href="javascript:void(0)" onclick="deleteAdmin(' + row.id + ')"><i class="fa fa-times"></i></a>&nbsp;' +
+                        '<a class="label label-warning" shiro:hasRole="superAdmin" href="javascript:void(0)" onclick="resetPwd(' + row.id + ')"><i class="fa fa-retweet"></i></a>';
                 }
 
             }
@@ -304,10 +308,10 @@
     }
 
     function deleteAdmin(id) {
-        var row=$("#dataTable").bootstrapTable("getRowByUniqueId",id);
+        var row = $("#dataTable").bootstrapTable("getRowByUniqueId", id);
         $.confirm({
             title: '确认!',
-            content: '确定要删除<span style="color: red">['+row.name+']</span>吗？',
+            content: '确定要删除<span style="color: red">[' + row.name + ']</span>吗？',
             confirm: function () {
 
                 $.ajax({
@@ -335,7 +339,6 @@
     function toUpdate(id) {
 
         var row = $("#dataTable").bootstrapTable("getRowByUniqueId", id);
-        console.log(row);
         $("#editForm").form("load", row);
         $("#myModal2").modal("show");
     }
@@ -401,11 +404,42 @@
             }
         });
     }
-    
+
+    function resetPwd(id) {
+        var row = $("#dataTable").bootstrapTable("getRowByUniqueId", id);
+
+        $.confirm({
+            title: '确认!',
+            content: '确定要重置<span style="color: red">[' + row.name + ']</span>的密码吗？',
+            confirm: function () {
+
+                $.ajax({
+                    type: "GET",
+                    url: basePath + "/admin/reset/" + id,
+                    data: {},
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.errorCode === 200) {
+                            layer.msg("操作成功，密码重置为系统默认密码");
+                            $("#dataTable").bootstrapTable("refresh");
+                        } else {
+                            layer.msg('操作失败!' + data.errorMsg);
+                        }
+                    },
+                    beforeSend: function () {
+                    }
+                });
+            },
+            cancel: function () {
+            }
+        });
+
+    }
+
     function convertPinyin(obj) {
-        var value=$(obj).val();
-        var pin=pinyinUtil.getPinyin(value, '', false, false);
-        $("#userAccount").val(pin.replace(" ",""));
+        var value = $(obj).val();
+        var pin = pinyinUtil.getPinyin(value, '', false, false);
+        $("#userAccount").val(pin.replace(" ", ""));
     }
 </script>
 </body>

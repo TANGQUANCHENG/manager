@@ -88,4 +88,5 @@ public class CommonController {
             return new SimpleMessage(ErrorCodeEnum.OK);
         }
     }
+
 }

@@ -9,6 +9,7 @@ import cn.decentchina.manager.config.Constant;
 import cn.decentchina.manager.demo.dao.MemberDao;
 import cn.decentchina.manager.demo.dto.MemberQueryDTO;
 import cn.decentchina.manager.demo.entity.Member;
+import cn.decentchina.manager.demo.enums.GenderEnum;
 import cn.decentchina.manager.demo.service.MemberService;
 import cn.decentchina.manager.demo.vo.MemberVO;
 import cn.decentchina.manager.quartz.dao.QuartzConfigDao;
@@ -16,6 +17,7 @@ import cn.decentchina.manager.quartz.entity.QuartzConfig;
 import cn.decentchina.manager.quartz.job.LockMemberJob;
 import cn.decentchina.manager.quartz.util.CronUtil;
 import cn.decentchina.manager.quartz.util.SchedulerUtil;
+import cn.decentchina.manager.system.util.POIUtil;
 import cn.decentchina.manager.system.vo.Page;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +26,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -92,6 +95,18 @@ public class MemberServiceImpl implements MemberService {
         logs.add("2018-08-08 12:02:00 admin update ");
         logs.add("2018-08-08 12:03:00 admin delete ");
         return logs;
+    }
+
+    @Override
+    public SimpleMessage fileImport(MultipartFile file) throws IOException {
+        List<String[]> arr = POIUtil.readExcel(file);
+        for (String[] strings : arr) {
+            Member m=new Member();
+            m.setName(strings[0]);
+            m.setAge(strings[1]);
+            memberDao.insertMember(m);
+        }
+        return new SimpleMessage(ErrorCodeEnum.OK);
     }
 
 

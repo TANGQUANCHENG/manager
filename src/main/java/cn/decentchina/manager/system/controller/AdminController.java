@@ -6,6 +6,7 @@ import cn.decentchina.manager.system.entity.Admin;
 import cn.decentchina.manager.common.enums.ErrorCodeEnum;
 import cn.decentchina.manager.system.service.AdminService;
 import cn.decentchina.manager.system.service.RoleService;
+import cn.decentchina.manager.system.util.ValidateUtils;
 import cn.decentchina.manager.system.vo.AdminVO;
 import cn.decentchina.manager.system.vo.Page;
 import org.apache.commons.lang3.StringUtils;
@@ -21,7 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @RestController
 @RequestMapping("admin")
-public class AdminController extends AppExceptionHandler{
+public class AdminController extends AppExceptionHandler {
 
 
     @Autowired
@@ -32,12 +33,13 @@ public class AdminController extends AppExceptionHandler{
 
     /**
      * 跳转到页面
+     *
      * @return
      */
     @RequestMapping("")
     public ModelAndView toPage() throws Exception {
-        ModelAndView md=new ModelAndView("admin/list");
-        md.addObject("roles",roleService.queryAll());
+        ModelAndView md = new ModelAndView("admin/list");
+        md.addObject("roles", roleService.queryAll());
         return md;
     }
 
@@ -49,12 +51,13 @@ public class AdminController extends AppExceptionHandler{
      * @return
      */
     @RequestMapping("/list")
-    public Page<AdminVO> queryList(Page page, String searchText){
-        return adminService.queryAdminListPage(page,searchText);
+    public Page<AdminVO> queryList(Page page, String searchText) {
+        return adminService.queryAdminListPage(page, searchText);
     }
 
     /**
      * 新增管理员
+     *
      * @param admin
      * @return
      */
@@ -76,6 +79,7 @@ public class AdminController extends AppExceptionHandler{
 
     /**
      * 删除管理员
+     *
      * @param id
      * @return
      */
@@ -97,6 +101,7 @@ public class AdminController extends AppExceptionHandler{
 
     /**
      * 修改密码
+     *
      * @param oldPwd
      * @param newPwd
      * @return
@@ -104,9 +109,17 @@ public class AdminController extends AppExceptionHandler{
      */
     @RequestMapping("/updatePassword")
     public SimpleMessage updatePassword(String oldPwd, String newPwd) throws Exception {
-        if(StringUtils.isAnyBlank(oldPwd,newPwd)){
-            return new SimpleMessage(ErrorCodeEnum.INVALID_PARAMS,"原密码或新密码不能为空");
+        if (StringUtils.isAnyBlank(oldPwd, newPwd)) {
+            return new SimpleMessage(ErrorCodeEnum.INVALID_PARAMS, "原密码或新密码不能为空");
+        }
+        if (!ValidateUtils.isLegalPassword(newPwd)) {
+            return new SimpleMessage(ErrorCodeEnum.INVALID_PARAMS, "新密码必须为6-12位数字密码组合");
         }
         return adminService.updatePassword(oldPwd, newPwd);
+    }
+
+    @RequestMapping("/reset/{id}")
+    public SimpleMessage resetPassword(@PathVariable Integer id) throws Exception {
+        return adminService.resetPassword(id);
     }
 }

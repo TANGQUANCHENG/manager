@@ -38,6 +38,10 @@ public class CustomerConfig {
      * 登录失效时间
      */
     private Long sessionTimeOut;
+    /**
+     * 默认登录密码
+     */
+    private String defaultPassword;
 
     @Override
     public String toString() {

@@ -7,6 +7,7 @@ import cn.decentchina.manager.demo.vo.MemberVO;
 import cn.decentchina.manager.system.vo.Page;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -51,4 +52,11 @@ public interface MemberService {
      * @return
      */
     List<String> queryDetail(Integer id);
+
+    /**
+     * 导入Excel
+     * @param file
+     * @return
+     */
+    SimpleMessage fileImport(MultipartFile file) throws IOException;
 }

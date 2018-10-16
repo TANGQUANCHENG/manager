@@ -16,8 +16,8 @@
 </style>
 <body style="overflow: hidden;opacity: 0">
 
-<div style="padding-top: 0">
-    <div class="container-fluid">
+<div style="padding-top: 0" id="cl-wrapper">
+    <div class="container-fluid" id="pcont">
         <div class="cl-mcont">
             <div class="row">
                 <div class="col-md-12">
@@ -55,6 +55,9 @@
                                     </button>&nbsp;
                                     <button class="btn btn-info" type="button" id="toExport" onclick="download(this)"><i
                                             class="fa fa-download"></i>导出
+                                    </button>&nbsp;
+                                    <button class="btn btn-info" type="button" id="toImport">
+                                        <i class="fa fa-download"></i>导入
                                     </button>&nbsp;
                                 </div>
                             </div>
@@ -174,6 +177,34 @@
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" >导入数据</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form enctype="multipart/form-data" method="post" action="/member/import" id="importForm">
+                        <div class="col-sm-4"><a th:href="@{/template/template.xlsx}" target="_blank">下载模板</a></div>
+                        <div class="col-sm-8">
+                            <input type="file" value="选择文件" name="file"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="confirmImport">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div th:include="pageJs :: pageJs"></div>
 <script>
 
@@ -216,9 +247,9 @@
     $('#dataTable').bootstrapTable({
         url: '/member/list',
         height: $(window).height() - 150,
-        pageSize: 30,
+        pageSize: 10,
         pagination: true,
-        pageList: [30, 50, 100],
+        pageList: [10, 30, 50],
         clickToSelect: true,
         singleSelect: false,
         sortStable: true,
@@ -282,6 +313,10 @@
                 formatter: function (v, row, index) {
                     return genderEnum[v];
                 }
+            },{
+                align: 'center',
+                field: 'age',
+                title: '年龄'
             }, {
                 align: 'center',
                 field: 'createTime',
@@ -331,6 +366,29 @@
             }
         })
     });
+
+    $("#confirmImport").click(function () {
+
+        $("#importForm").form("submit", {
+            success: function (data) {
+                try {
+                    data = eval('(' + data + ')');
+                } catch (e) {
+                }
+                if (data.errorCode === 200) {
+                    layer.msg("导入成功");
+                    $("#dataTable").bootstrapTable("refresh");
+                    $("#myModal3").modal("hide");
+                } else {
+                    layer.msg('导入失败!' + data.errorMsg);
+                }
+            },
+            error: function () {
+                layer.msg("新增失败！请求异常");
+            }
+        })
+    })
+
     $("#updateMember").click(function () {
         var v = $("#editForm").valid();
         if (!v) {
@@ -402,6 +460,13 @@
         $("#myModal2").modal("show");
     }
 
+    $("#toImport").click(function () {
+
+        $("#myModal3").modal("show");
+
+    })
+
+    
     function download(obj) {
         var url;
         var rows = $('#dataTable').bootstrapTable("getSelections");

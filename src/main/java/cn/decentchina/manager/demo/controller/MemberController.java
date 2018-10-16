@@ -5,8 +5,12 @@ import cn.decentchina.manager.common.enums.ErrorCodeEnum;
 import cn.decentchina.manager.common.util.UploadUtil;
 import cn.decentchina.manager.demo.dto.MemberQueryDTO;
 import cn.decentchina.manager.demo.entity.Member;
+import cn.decentchina.manager.demo.enums.GenderEnum;
+import cn.decentchina.manager.demo.service.CellService;
 import cn.decentchina.manager.demo.service.MemberService;
+import cn.decentchina.manager.demo.vo.DataCell;
 import cn.decentchina.manager.demo.vo.MemberVO;
+import cn.decentchina.manager.handler.AppExceptionHandler;
 import cn.decentchina.manager.system.vo.Page;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -29,10 +36,12 @@ import java.util.Map;
 //@Controller
 @RestController
 @RequestMapping("member")
-public class MemberController {
+public class MemberController extends AppExceptionHandler{
     @Autowired
     private MemberService memberService;
 
+    @Autowired
+    private CellService cellService;
     /**
      * 跳转页面(类注解为@Controller时应使用此方式)
      *
@@ -41,7 +50,7 @@ public class MemberController {
     @RequestMapping("")
     public ModelAndView member() {
         ModelAndView md = new ModelAndView("member/page");
-        md.addObject("genderEnum", Member.GenderEnum.getMap());
+        md.addObject("genderEnum", GenderEnum.getMap());
         return md;
     }
 
@@ -53,7 +62,7 @@ public class MemberController {
      */
     @RequestMapping(path = {"/", "/page.html"})
     public String member(Map<String, Object> map) {
-        map.put("genderEnum", Member.GenderEnum.getMap());
+        map.put("genderEnum", GenderEnum.getMap());
         return "member/page";
     }
 
@@ -135,5 +144,49 @@ public class MemberController {
     @RequestMapping("/queryDetail/{id}")
     public List<String> queryDetail(@PathVariable Integer id){
         return memberService.queryDetail(id);
+    }
+
+
+    @RequestMapping("/import")
+    public SimpleMessage importMembers(@RequestParam("file") MultipartFile file) throws IOException {
+        if(file==null){
+            return new SimpleMessage(ErrorCodeEnum.INVALID_PARAMS,"请选择文件");
+        }
+        return memberService.fileImport(file);
+    }
+
+    @RequestMapping("/testDrawImg")
+    public void testDrawImg(HttpServletResponse response) throws IOException {
+        String[] heads={"店铺","销售额","预算","达成率"};
+        List<DataCell> list=new ArrayList<>(30);
+        DataCell cell=new DataCell("高新万达一店","7849.40"," 20000.00 ","39%");
+        DataCell cell1=new DataCell("普利街店","7849.40"," 20000.00 ","39%");
+        DataCell cell2=new DataCell("汇隆广场店","7849.40"," 20000.00 ","39%");
+        DataCell cell3=new DataCell("滨河码头店","7849.40"," 20000.00 ","39%");
+        DataCell cell4=new DataCell("滨河物流店","7849.40"," 20000.00 ","39%");
+        DataCell cell5=new DataCell("华信店","7849.40"," 20000.00 ","39%");
+        DataCell cell6=new DataCell("大明湖店","7849.40"," 20000.00 ","39%");
+        list.add(cell);
+        list.add(cell1);
+        list.add(cell2);
+        list.add(cell3);
+        list.add(cell4);
+        list.add(cell5);
+        list.add(cell6);
+        list.add(cell);
+        list.add(cell1);
+        list.add(cell2);
+        list.add(cell3);
+        list.add(cell4);
+        list.add(cell5);
+        list.add(cell6);
+        list.add(cell);
+        list.add(cell1);
+        list.add(cell2);
+        list.add(cell3);
+        list.add(cell4);
+        list.add(cell5);
+        list.add(cell6);
+        cellService.drawTable(list,heads,response);
     }
 }
