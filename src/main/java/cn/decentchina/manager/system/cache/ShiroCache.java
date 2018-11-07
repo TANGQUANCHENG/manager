@@ -30,11 +30,6 @@ public class ShiroCache <K, V> implements Cache<K, V> {
 
     @Override
     public V get(K key) throws CacheException {
-//        System.out.println("|"+getCacheKey(key)+"|");
-//        if(redisTemplate.boundValueOps(getCacheKey(key))==null||"".equals(redisTemplate.boundValueOps(getCacheKey(key)))){
-//            return null;
-//        }
-        // System.out.println("|"+redisTemplate.boundValueOps(getCacheKey(key))+"|");
         redisTemplate.boundValueOps(getCacheKey(key)).expire(globExpire, TimeUnit.MINUTES);
         return redisTemplate.boundValueOps(getCacheKey(key)).get();
     }

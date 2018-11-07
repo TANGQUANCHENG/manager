@@ -28,6 +28,7 @@ public interface AdminService {
      * 修改管理员信息
      *
      * @param adminUser
+     * @throws Exception
      * @return
      */
     SimpleMessage updateAdmin(Admin adminUser) throws Exception;
@@ -36,6 +37,7 @@ public interface AdminService {
      * 新增管理员信息
      *
      * @param adminUser
+     * @throws Exception
      * @return
      */
     SimpleMessage addAdmin(Admin adminUser) throws Exception;
@@ -44,6 +46,7 @@ public interface AdminService {
      * 删除管理员信息
      *
      * @param id
+     * @throws Exception
      * @return
      */
     SimpleMessage deleteAdmin(int id) throws Exception;
@@ -63,6 +66,7 @@ public interface AdminService {
      * 重置密码
      *
      * @param id 管理员id
+     * @throws Exception
      * @return
      */
     SimpleMessage resetPassword(Integer id) throws Exception;
@@ -72,6 +76,7 @@ public interface AdminService {
      * 修改状态
      *
      * @param admin
+     * @throws Exception
      * @return
      */
     SimpleMessage updateStatus(Admin admin) throws Exception;
@@ -94,7 +99,7 @@ public interface AdminService {
 
     /**
      * 获取当前登录用户
-     * @exception
+     * @throws Exception
      * @return
      */
     AdminVO getCurrentAdmin() throws Exception;

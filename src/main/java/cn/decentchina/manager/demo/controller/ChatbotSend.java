@@ -19,7 +19,7 @@ import java.io.IOException;
 @Slf4j
 public class ChatbotSend {
 
-    public static void main(String args[]) throws Exception{
+    public static void main(String[] args) throws Exception{
 
         String url="https://oapi.dingtalk.com/robot/send?access_token=fdd4cf898b5827638b13ab9c6437262f3fadb1ca402a6ce94b026fae29caefa6";
 

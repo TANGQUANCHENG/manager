@@ -14,19 +14,19 @@ import java.util.List;
  */
 public class JsonUtil {
 
-    public static <T> String Java2Json(T t) {
+    public static <T> String java2Json(T t) {
         return JSON.toJSONString(t, SerializerFeature.WriteMapNullValue);
     }
 
-    public static <T> String JavaList2Json(List<T> tList) {
+    public static <T> String javaList2Json(List<T> tList) {
         return JSON.toJSONString(tList, SerializerFeature.WriteMapNullValue);
     }
 
-    public static <T> T Json2Java(String json, Class<T> clazz) {
+    public static <T> T json2Java(String json, Class<T> clazz) {
         return JSON.parseObject(json, clazz);
     }
 
-    public static <T> List<T> Json2JavaList(String json, Class<T> clazz) {
+    public static <T> List<T> json2JavaList(String json, Class<T> clazz) {
         return JSON.parseArray(json, clazz);
     }
 

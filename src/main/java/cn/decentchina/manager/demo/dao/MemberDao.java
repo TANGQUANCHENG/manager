@@ -85,6 +85,10 @@ public interface MemberDao {
             " where id in (${ids}) ")
     List<MemberVO> queryByIds(@Param("ids") String ids);
 
+    /**
+     * 查询全部
+     * @return
+     */
     @Select("  select id," +
             " member_name as name," +
             " age," +

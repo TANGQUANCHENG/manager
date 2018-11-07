@@ -1,6 +1,5 @@
 package cn.decentchina.manager.system.controller;
 
-//import cn.decentchina.manager.common.dto.SimpleMessage;
 import cn.decentchina.manager.system.config.Constants;
 import cn.decentchina.manager.system.config.CustomerConfig;
 import cn.decentchina.manager.common.dto.SimpleMessage;

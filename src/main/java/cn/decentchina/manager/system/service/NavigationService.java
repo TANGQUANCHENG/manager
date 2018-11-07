@@ -22,6 +22,7 @@ public interface NavigationService {
     /**
      * 新增功能
      * @param navigation
+     * @throws Exception
      * @return
      */
     SimpleMessage addNavigation(Navigation navigation) throws Exception;
@@ -29,6 +30,7 @@ public interface NavigationService {
     /**
      * 修改功能
      * @param navigation
+     * @throws Exception
      * @return
      */
     SimpleMessage updateNavigation(Navigation navigation) throws Exception;
@@ -36,6 +38,7 @@ public interface NavigationService {
     /**
      * 删除功能
      * @param id
+     * @throws Exception
      * @return
      */
     SimpleMessage deleteNavigation(Integer id) throws Exception;
@@ -50,6 +53,7 @@ public interface NavigationService {
      * 修改菜单状态
      * @param id
      * @param status
+     * @throws Exception
      * @return
      */
     SimpleMessage updateStatus(Integer id, Boolean status) throws Exception;

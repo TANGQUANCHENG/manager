@@ -3,6 +3,9 @@ package cn.decentchina.manager.exception;
 import cn.decentchina.manager.common.enums.ErrorCodeEnum;
 import lombok.ToString;
 
+/**
+ * @author 唐全成
+ */
 @ToString
 public class ErrorCodeException extends RuntimeException {
 

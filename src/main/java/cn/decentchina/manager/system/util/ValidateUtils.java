@@ -69,64 +69,6 @@ public class ValidateUtils {
         return IS_LEGAL_PASSWORD.matcher(str).matches();
     }
 
-    public static boolean isPrime(int x) {
-        if (x > 7 || x != 2 && x != 3 && x != 5 && x != 7) {
-            int c = 7;
-            if (x % 2 == 0) {
-                return false;
-            } else if (x % 3 == 0) {
-                return false;
-            } else if (x % 5 == 0) {
-                return false;
-            } else {
-                for (int end = (int) Math.sqrt((double) x); c <= end; c += 6) {
-                    if (x % c == 0) {
-                        return false;
-                    }
-
-                    c += 4;
-                    if (x % c == 0) {
-                        return false;
-                    }
-
-                    c += 2;
-                    if (x % c == 0) {
-                        return false;
-                    }
-
-                    c += 4;
-                    if (x % c == 0) {
-                        return false;
-                    }
-
-                    c += 2;
-                    if (x % c == 0) {
-                        return false;
-                    }
-
-                    c += 4;
-                    if (x % c == 0) {
-                        return false;
-                    }
-
-                    c += 6;
-                    if (x % c == 0) {
-                        return false;
-                    }
-
-                    c += 2;
-                    if (x % c == 0) {
-                        return false;
-                    }
-                }
-
-                return true;
-            }
-        } else {
-            return true;
-        }
-    }
-
     public static boolean isMobile(String mobile) {
         if (StringUtils.isBlank(mobile)) {
             return false;

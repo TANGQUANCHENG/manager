@@ -9,7 +9,7 @@ import java.util.Set;
 /**
  * @author 唐全成
  */
-public class MD5 {
+public class Md5 {
     /**
      * 传入字符串返回字符串
      *

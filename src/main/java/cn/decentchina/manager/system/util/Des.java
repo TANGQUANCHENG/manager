@@ -6,12 +6,15 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 import javax.crypto.spec.IvParameterSpec;
 
-
+/**
+ * @author 唐全成
+ */
 public class Des {
 
 
     /**
      * 加密
+     *
      * @param data
      * @param sKey
      * @return
@@ -40,6 +43,7 @@ public class Des {
 
     /**
      * 解密
+     *
      * @param src
      * @param sKey
      * @return
@@ -69,7 +73,7 @@ public class Des {
      * @param buf
      * @return
      */
-    public static String parseByte2HexStr(byte buf[]) {
+    public static String parseByte2HexStr(byte[] buf) {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < buf.length; i++) {
             String hex = Integer.toHexString(buf[i] & 0xFF);
@@ -88,7 +92,9 @@ public class Des {
      * @return
      */
     public static byte[] parseHexStr2Byte(String hexStr) {
-        if (hexStr.length() < 1) return null;
+        if (hexStr.length() < 1) {
+            return null;
+        }
         byte[] result = new byte[hexStr.length() / 2];
         for (int i = 0; i < hexStr.length() / 2; i++) {
             int high = Integer.parseInt(hexStr.substring(i * 2, i * 2 + 1), 16);

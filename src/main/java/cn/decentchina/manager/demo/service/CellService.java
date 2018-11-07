@@ -12,6 +12,13 @@ import java.util.List;
  */
 public interface CellService {
 
+    /**
+     * 将数据生成图片
+     * @param dataCellList
+     * @param heads
+     * @param response
+     * @throws IOException
+     */
     void drawTable(List<DataCell> dataCellList,String[] heads, HttpServletResponse response) throws IOException;
 
 }

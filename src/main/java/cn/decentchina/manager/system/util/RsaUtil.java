@@ -13,7 +13,7 @@ import java.security.spec.PKCS8EncodedKeySpec;
  * @author 唐全成
  *
  */
-public class RSAUtil {
+public class RsaUtil {
 
     /**
      * BASE64解密

@@ -1,7 +1,7 @@
 package cn.decentchina.manager.system.config;
 
 import cn.decentchina.manager.system.service.ShiroChainService;
-import cn.decentchina.manager.system.util.MapTOJson;
+import cn.decentchina.manager.system.util.MapToJson;
 import cn.decentchina.manager.system.vo.ShiroChainVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -105,7 +105,7 @@ public class CustomerRedisShiroFilterFactoryBean extends BaseShiroFactoryBean {
     @Override
     public Map<String, String> getFilterChainDefinitionMap() {
         String json = (String) redisTemplate.opsForValue().get(Constants.SHIRO_REDIS_KEY);
-        Map<String, String> stringStringMap = MapTOJson.toMap(json);
+        Map<String, String> stringStringMap = MapToJson.toMap(json);
         return stringStringMap == null ? new HashMap<>(16) : stringStringMap;
     }
 
@@ -116,7 +116,7 @@ public class CustomerRedisShiroFilterFactoryBean extends BaseShiroFactoryBean {
      */
     @Override
     public void setFilterChainDefinitionMap(Map<String, String> filterChainDefinitionMap) {
-        String s = MapTOJson.toJson(filterChainDefinitionMap);
+        String s = MapToJson.toJson(filterChainDefinitionMap);
         if (StringUtils.isBlank(s)) {
             return;
         }

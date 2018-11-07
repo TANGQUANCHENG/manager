@@ -1,5 +1,6 @@
 package cn.decentchina.manager.system.util;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -18,9 +19,9 @@ import java.util.List;
  * excel读写工具类
  * @author 唐全成
  */
-public class POIUtil {
-    private final static String xls = "xls";
-    private final static String xlsx = "xlsx";
+public class PoiUtil {
+    private final static String XLS = "xls";
+    private final static String XLSX = "xlsx";
 
     /**
      * 读入excel文件，解析后返回
@@ -77,8 +78,11 @@ public class POIUtil {
         }
         //获得文件名
         String fileName = file.getOriginalFilename();
+        if(StringUtils.isBlank(fileName)){
+            throw new FileNotFoundException("文件不存在！");
+        }
         //判断文件是否是excel文件
-        if (!fileName.endsWith(xls) && !fileName.endsWith(xlsx)) {
+        if (!fileName.endsWith(XLS) && !fileName.endsWith(XLSX)) {
             throw new IOException(fileName + "不是excel文件");
         }
     }
@@ -86,16 +90,19 @@ public class POIUtil {
     public static Workbook getWorkBook(MultipartFile file) {
         //获得文件名
         String fileName = file.getOriginalFilename();
+        if(StringUtils.isBlank(fileName)){
+            return null;
+        }
         //创建Workbook工作薄对象，表示整个excel
         Workbook workbook = null;
         try {
             //获取excel文件的io流
             InputStream is = file.getInputStream();
             //根据文件后缀名不同(xls和xlsx)获得不同的Workbook实现类对象
-            if (fileName.endsWith(xls)) {
+            if (fileName.endsWith(XLS)) {
                 //2003
                 workbook = new HSSFWorkbook(is);
-            } else if (fileName.endsWith(xlsx)) {
+            } else if (fileName.endsWith(XLSX)) {
                 //2007
                 workbook = new XSSFWorkbook(is);
             }

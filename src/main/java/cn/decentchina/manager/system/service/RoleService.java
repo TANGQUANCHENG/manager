@@ -31,6 +31,7 @@ public interface RoleService {
     /**
      * 新增角色
      * @param role
+     * @throws Exception
      * @return
      */
     SimpleMessage addRole(Role role) throws Exception;
@@ -38,6 +39,7 @@ public interface RoleService {
     /**
      * 修改角色
      * @param role
+     * @throws Exception
      * @return
      */
     SimpleMessage updateRole(Role role) throws Exception;
@@ -45,6 +47,7 @@ public interface RoleService {
     /**
      * 删除角色
      * @param id
+     * @throws Exception
      * @return
      */
     SimpleMessage deleteRole(Integer id) throws Exception;

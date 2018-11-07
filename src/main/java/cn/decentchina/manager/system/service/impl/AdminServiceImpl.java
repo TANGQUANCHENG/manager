@@ -8,7 +8,7 @@ import cn.decentchina.manager.system.entity.Admin;
 import cn.decentchina.manager.common.enums.ErrorCodeEnum;
 import cn.decentchina.manager.system.service.AdminService;
 import cn.decentchina.manager.system.util.DesUtil;
-import cn.decentchina.manager.system.util.RSAUtil;
+import cn.decentchina.manager.system.util.RsaUtil;
 import cn.decentchina.manager.system.util.SecurityUtil;
 import cn.decentchina.manager.system.util.ValidateUtils;
 import cn.decentchina.manager.system.vo.AdminVO;
@@ -203,7 +203,7 @@ public class AdminServiceImpl implements AdminService {
         //密码解密
         password = URLDecoder.decode(password, Constants.CHARSET);
         //RSA解密(真实的密码和随机数)
-        String pwdAndRandom = RSAUtil.decrypt(privateKey, password);
+        String pwdAndRandom = RsaUtil.decrypt(privateKey, password);
         //获取真实密码(des解密)
         String realAndRandom = DesUtil.decrypt(admin.getLoginPwd(), DesUtil.CHARSET, admin.getSalt()) + randomStr;
         if (!StringUtils.equals(pwdAndRandom, realAndRandom)) {

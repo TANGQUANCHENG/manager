@@ -13,6 +13,7 @@ public interface BindService {
      * 绑定
      * @param navs
      * @param roles
+     * @throws Exception
      * @return
      */
     SimpleMessage batchBind(Integer[] navs, Integer[] roles) throws Exception;
@@ -20,6 +21,7 @@ public interface BindService {
     /**
      * 解除
      * @param relationId
+     * @throws Exception
      * @return
      */
     SimpleMessage relieveBind(Integer[] relationId) throws Exception;

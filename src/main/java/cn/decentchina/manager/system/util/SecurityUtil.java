@@ -43,7 +43,7 @@ public class SecurityUtil {
         Long timestamp=System.currentTimeMillis();
         StringBuilder sb=new StringBuilder(20);
         sb.append(timestamp).append(Math.random());
-        String origin= MD5.crypt(sb.toString());
+        String origin= Md5.crypt(sb.toString());
 
         return origin.substring(0,length);
     }

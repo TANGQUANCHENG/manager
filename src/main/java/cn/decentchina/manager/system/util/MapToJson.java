@@ -8,9 +8,9 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * Created by dxkj on 2016/9/30.
+ * @author 唐全成
  */
-public class MapTOJson {
+public class MapToJson {
     public static String toJson(Map<String, String> map) {
         if (map == null || map.isEmpty()) {
             return null;

@@ -19,20 +19,21 @@ public interface MemberService {
      * 新增
      *
      * @param member
+     * @param imgFile
      * @return
      */
     SimpleMessage insertMember(Member member, MultipartFile imgFile);
 
     /**
      * 修改
-     *
+     * @param member
      * @return
      */
     SimpleMessage updateMember(Member member);
 
     /**
      * 删除
-     *
+     * @param id
      * @return
      */
     SimpleMessage deleteMember(Integer id);
@@ -56,6 +57,7 @@ public interface MemberService {
     /**
      * 导入Excel
      * @param file
+     * @throws IOException
      * @return
      */
     SimpleMessage fileImport(MultipartFile file) throws IOException;
