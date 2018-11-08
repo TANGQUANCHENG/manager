@@ -66,3 +66,11 @@ function f(l) {
     });
     return k
 }
+
+function closeActive() {
+    $(".J_menuTabs .J_menuTab",parent.document).each(function () {
+        if ($(this).hasClass("active")) {
+            $(this).find(".fa-times-circle").click();
+        }
+    });
+}

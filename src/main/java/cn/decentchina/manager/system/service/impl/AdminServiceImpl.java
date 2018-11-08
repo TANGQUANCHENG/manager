@@ -38,6 +38,8 @@ public class AdminServiceImpl implements AdminService {
 
     private static final String DEFAULT_PASSWORD = "123456a";
 
+    private static final int MINIMUM_ACCOUNT_LENGTH=2;
+
     @Autowired
     private AdminDao adminDao;
 
@@ -75,7 +77,7 @@ public class AdminServiceImpl implements AdminService {
         if (!currentAdmin.getSuperAdmin()) {
             return new SimpleMessage(ErrorCodeEnum.ERROR, "只有超级管理员允许新增账户");
         }
-        if (StringUtils.isBlank(adminUser.getPhoneNo()) || adminUser.getPhoneNo().length() < 2) {
+        if (StringUtils.isBlank(adminUser.getPhoneNo()) || adminUser.getPhoneNo().length() < MINIMUM_ACCOUNT_LENGTH) {
             return new SimpleMessage(ErrorCodeEnum.INVALID_PARAMS, "用户账号格式不正确");
         }
         if (StringUtils.isBlank(adminUser.getName())) {

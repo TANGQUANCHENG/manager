@@ -26,12 +26,12 @@ public class MemberDownloadService {
 
     public void download(String[] titles, ServletOutputStream out, MemberQueryDTO dto) {
         List<MemberVO> memberVOS = memberDao.queryList(dto);
-        writeResponseProcessor(memberVOS,titles,out);
+        writeResponseProcessor(memberVOS, titles, out);
     }
 
     public void chooseDownload(String[] titles, ServletOutputStream out, Integer[] ids) {
         List<MemberVO> memberVOS = memberDao.queryByIds(StringUtils.join(ids, ","));
-        writeResponseProcessor(memberVOS,titles,out);
+        writeResponseProcessor(memberVOS, titles, out);
     }
 
     private void writeResponseProcessor(List<MemberVO> memberVOS, String[] titles, ServletOutputStream out) {
@@ -63,7 +63,9 @@ public class MemberDownloadService {
                     MemberVO memberVO = memberVOS.get(i);
                     hssfRow.createCell(0).setCellValue(memberVO.getName());
                     hssfRow.createCell(1).setCellValue(memberVO.getAge());
-                    hssfRow.createCell(2).setCellValue(memberVO.getGender().getStr());
+                    hssfRow.createCell(2).setCellValue(memberVO.getGender() == null
+                            ? ""
+                            : memberVO.getGender().getStr());
                     String createTime = memberVO.getCreateTime() == null ? "" : sdf.format(memberVO.getCreateTime());
                     hssfRow.createCell(3).setCellValue(createTime);
                 }

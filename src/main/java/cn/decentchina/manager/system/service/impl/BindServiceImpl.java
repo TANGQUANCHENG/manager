@@ -42,6 +42,8 @@ public class BindServiceImpl implements BindService {
     @Autowired
     private AdminService  adminService;
 
+    private static final String DUPLICATE_ENTRY="Duplicate entry";
+
     @Override
     public SimpleMessage batchBind(Integer[] navs, Integer[] roles) throws Exception {
 
@@ -67,7 +69,7 @@ public class BindServiceImpl implements BindService {
              * 数据库设定唯一索引（navigationId，roleId）
              * 若该异常为违反唯一索引的异常则忽略
              */
-            if (StringUtils.indexOf(e.getLocalizedMessage(), "Duplicate entry") == -1) {
+            if (StringUtils.indexOf(e.getLocalizedMessage(), DUPLICATE_ENTRY) == -1) {
                 log.error("batchBind error:",e);
                 session.rollback();
                 return new SimpleMessage(ErrorCodeEnum.ERROR);

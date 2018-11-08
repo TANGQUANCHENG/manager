@@ -135,9 +135,10 @@ public class ValidateUtils {
     }
 
     public static boolean isBankCard(String bankCard) {
+        String regex="\\d+";
         if (!StringUtils.isBlank(bankCard)) {
             String nonCheckCodeCardId = bankCard.substring(0, bankCard.length() - 1);
-            if (nonCheckCodeCardId.matches("\\d+")) {
+            if (nonCheckCodeCardId.matches(regex)) {
                 char[] chs = nonCheckCodeCardId.toCharArray();
                 int luhmSum = 0;
                 int i = chs.length - 1;

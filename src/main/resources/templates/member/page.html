@@ -59,6 +59,9 @@
                                     <button class="btn btn-info" type="button" id="toImport">
                                         <i class="fa fa-download"></i>导入
                                     </button>&nbsp;
+                                    <button class="btn btn-danger" type="button" id="closeActive">
+                                        <i class="fa fa-close"></i>关闭当前
+                                    </button>&nbsp;
                                 </div>
                             </div>
                         </form>
@@ -526,6 +529,9 @@
         reader.readAsDataURL(file.files[0]);
     }
 
+    $("#closeActive").click(function () {
+        closeActive();
+    })
 </script>
 </body>
 </html>
