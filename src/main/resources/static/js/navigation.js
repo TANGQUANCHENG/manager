@@ -61,7 +61,7 @@ $('#dataTable').treegrid({
 
                 var str='<a href="javascript:void(0)" class="label plain label-primary" onclick="toUpdate(' + row.id + ')">修改</a>&nbsp;' +
                     '<a href="javascript:void(0)"  class="label plain label-danger" onclick="deleteMenu(' + row.id + ')">删除</a>&nbsp;';
-                if(row._parentId!=null && row.type=='MENU'){
+                if(row._parentId!=null && row.type==='MENU'){
                     str+='<a href="javascript:void(0)"  class="label plain label-success" onclick="toAddLink(' + row.id + ')">增加功能</a>'
                 }
                 return str;
@@ -283,11 +283,8 @@ function enableNav(id) {
                 beforeSend: function () {
                 }
             });
-
-
         },
         cancel: function () {
-
         }
     });
 }
