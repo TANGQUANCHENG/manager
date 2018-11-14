@@ -19,36 +19,38 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("role")
-public class RoleController extends AppExceptionHandler{
-
+public class RoleController {
 
     @Resource
     private RoleService roleService;
 
-
     /**
      * 跳转到页面
-     * @return
+     *
+     * @return : org.springframework.web.servlet.ModelAndView
      */
     @RequestMapping("")
-    public ModelAndView toPage(){
+    public ModelAndView toPage() {
         return new ModelAndView("admin/role");
     }
 
     /**
      * 查询管理员分页数据
      *
-     * @return
+     * @param searchText 查询条件
+     * @return : java.util.List<cn.decentchina.manager.system.vo.RoleVO>
      */
     @RequestMapping("/list")
-    public List<RoleVO> queryList(String searchText){
+    public List<RoleVO> queryList(String searchText) {
         return roleService.queryAllRole(searchText);
     }
 
     /**
      * 新增管理员
-     * @param role
-     * @return
+     *
+     * @param role 管理员
+     * @return : cn.decentchina.manager.common.dto.SimpleMessage
+     * @throws Exception 异常
      */
     @RequestMapping("/add")
     public SimpleMessage addRole(Role role) throws Exception {
@@ -58,8 +60,9 @@ public class RoleController extends AppExceptionHandler{
     /**
      * 修改管理员
      *
-     * @param role
-     * @return
+     * @param role 管理员
+     * @return : cn.decentchina.manager.common.dto.SimpleMessage
+     * @throws Exception 异常
      */
     @RequestMapping("/update")
     public SimpleMessage updateRole(Role role) throws Exception {
@@ -68,8 +71,10 @@ public class RoleController extends AppExceptionHandler{
 
     /**
      * 删除管理员
-     * @param id
-     * @return
+     *
+     * @param id 管理员id
+     * @return : cn.decentchina.manager.common.dto.SimpleMessage
+     * @throws Exception 异常
      */
     @RequestMapping("/delete/{id}")
     public SimpleMessage deleteRole(@PathVariable Integer id) throws Exception {
@@ -78,13 +83,13 @@ public class RoleController extends AppExceptionHandler{
 
     /**
      * 修改角色状态
-     * @param id
-     * @param available
-     * @return
+     *
+     * @param id        角色id
+     * @param available 是否有效
+     * @return : cn.decentchina.manager.common.dto.SimpleMessage
      */
     @RequestMapping("/updateStatus/{id}")
-    public SimpleMessage updateStatus(@PathVariable Integer id , Boolean available){
+    public SimpleMessage updateStatus(@PathVariable Integer id, Boolean available) {
         return roleService.updateStatus(id, available);
     }
-
 }

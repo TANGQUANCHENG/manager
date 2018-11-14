@@ -61,6 +61,7 @@ public class CustomerRedisShiroFilterFactoryBean extends BaseShiroFactoryBean {
         return filterChainDefinitionMap;
     }
 
+    @SuppressWarnings("Duplicates")
     @Override
     protected AbstractShiroFilter createInstance() throws Exception {
 
@@ -100,7 +101,7 @@ public class CustomerRedisShiroFilterFactoryBean extends BaseShiroFactoryBean {
     /**
      * 重写方法：从缓存中获取权限资源
      *
-     * @return
+     * @return : java.util.Map<java.lang.String,java.lang.String>
      */
     @Override
     public Map<String, String> getFilterChainDefinitionMap() {
@@ -112,7 +113,7 @@ public class CustomerRedisShiroFilterFactoryBean extends BaseShiroFactoryBean {
     /**
      * 重写方法：将权限资源放入缓存
      *
-     * @param filterChainDefinitionMap
+     * @param filterChainDefinitionMap 权限资源
      */
     @Override
     public void setFilterChainDefinitionMap(Map<String, String> filterChainDefinitionMap) {

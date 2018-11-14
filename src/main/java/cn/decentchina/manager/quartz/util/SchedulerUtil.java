@@ -9,13 +9,13 @@ import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
-import java.text.ParseException;
 
 /**
  * Schedule工具类
  *
  * @author wangyx
  */
+@SuppressWarnings("unused")
 public class SchedulerUtil {
     /**
      * 定时任务Scheduler的工厂类，Quartz提供
@@ -51,61 +51,49 @@ public class SchedulerUtil {
      * @return true:创建成功;false:创建失败
      */
     public static boolean createScheduler(QuartzConfig config, ApplicationContext context) {
-        try {
-            //创建新的定时任务
-            return create(config, context);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
+        //创建新的定时任务
+        return create(config, context);
     }
 
     /**
      * 删除旧的定时任务，创建新的定时任务
      *
-     * @param oldConfig 旧任务配置
-     * @param config    新任务配置
-     * @param context   spring容器
+     * @param config  任务配置
+     * @param context spring容器
      * @return true:更新成功;false:更新失败
      */
-    public static Boolean modifyScheduler(QuartzConfig oldConfig, QuartzConfig config, ApplicationContext context) {
-        if (oldConfig == null || config == null || context == null) {
+    public static Boolean modifyScheduler(QuartzConfig config, ApplicationContext context) {
+        if (config == null || context == null) {
             return false;
         }
-        try {
-            String oldJobClassStr = oldConfig.getFullEntity();
-            String oldName = oldJobClassStr + oldConfig.getId();
-            String oldGroupName = oldConfig.getGroupName();
-            //1、清除旧的定时任务
-            if (!delete(oldName, oldGroupName)) {
-                return false;
-            }
+        //1、清除旧的定时任务
+        if (deleteJob(config, context)) {
             //2、创建新的定时任务
             return create(config, context);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         return false;
     }
 
     /**
-     * 删除任务
+     * 提取的删除任务的方法
      *
-     * @param oldName      任务名
-     * @param oldGroupName 任务组名
-     * @return true:删除成功
-     * @throws SchedulerException 定时任务异常
+     * @param oldConfig          旧配置
+     * @param applicationContext 上下文
+     * @return true
      */
-    private static Boolean delete(String oldName, String oldGroupName)
-            throws SchedulerException {
-        TriggerKey key = new TriggerKey(oldName, oldGroupName);
-        Scheduler oldScheduler = schedulerFactory.getScheduler();
-        //根据TriggerKey获取trigger是否存在，如果存在则根据key进行删除操作
-        Trigger keyTrigger = oldScheduler.getTrigger(key);
-        if (keyTrigger != null) {
-            oldScheduler.unscheduleJob(key);
+    public static Boolean deleteJob(QuartzConfig oldConfig, ApplicationContext applicationContext) {
+        try {
+            jobFactory.setApplicationContext(applicationContext);
+            schedulerFactoryBean.setJobFactory(jobFactory);
+            Scheduler oldScheduler = schedulerFactoryBean.getScheduler();
+            oldScheduler.pauseTrigger(TriggerKey.triggerKey(oldConfig.getFullEntity() + oldConfig.getId(), oldConfig.getGroupName()));
+            oldScheduler.unscheduleJob(TriggerKey.triggerKey(oldConfig.getFullEntity() + oldConfig.getId(), oldConfig.getGroupName()));
+            oldScheduler.pauseJob(JobKey.jobKey(oldConfig.getFullEntity() + oldConfig.getId(), oldConfig.getGroupName()));
+            oldScheduler.deleteJob(JobKey.jobKey(oldConfig.getFullEntity() + oldConfig.getId(), oldConfig.getGroupName()));
+            return true;
+        } catch (Exception e) {
+            return false;
         }
-        return true;
     }
 
     /**
@@ -115,6 +103,7 @@ public class SchedulerUtil {
      * @param context spring容器
      * @return true:创建成功;false:创建失败
      */
+    @SuppressWarnings("unchecked")
     private static Boolean create(QuartzConfig config, ApplicationContext context) {
         try {
             //创建新的定时任务
@@ -140,9 +129,8 @@ public class SchedulerUtil {
             }
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            return false;
         }
-        return false;
     }
 
     /**
@@ -154,14 +142,11 @@ public class SchedulerUtil {
      * @param description 任务描述
      * @return JobDetail
      */
+    @SuppressWarnings("unchecked")
     private static JobDetail createJobDetail(Class clazz, String name, String groupName, String description) {
-        jobDetailFactory.setJobClass(clazz);
-        jobDetailFactory.setName(name);
-        jobDetailFactory.setGroup(groupName);
-        jobDetailFactory.setDescription(description);
-        jobDetailFactory.setDurability(true);
-        jobDetailFactory.afterPropertiesSet();
-        return jobDetailFactory.getObject();
+        return JobBuilder.newJob(clazz)
+                .withIdentity(JobKey.jobKey(name, groupName)).withDescription(description).storeDurably(true)
+                .build();
     }
 
     /**
@@ -176,16 +161,13 @@ public class SchedulerUtil {
      */
     private static CronTrigger createCronTrigger(JobDetail job, String time, String name, String groupName,
                                                  String description) {
-        factoryBean.setName(name);
-        factoryBean.setJobDetail(job);
-        factoryBean.setCronExpression(time);
-        factoryBean.setDescription(description);
-        factoryBean.setGroup(groupName);
-        try {
-            factoryBean.afterPropertiesSet();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return factoryBean.getObject();
+        CronScheduleBuilder scheduleBuilder = CronScheduleBuilder
+                .cronSchedule(time)
+                .withMisfireHandlingInstructionDoNothing();
+
+        return TriggerBuilder.newTrigger()
+                .withIdentity(TriggerKey.triggerKey(name, groupName)).forJob(job).withDescription(description)
+                .withSchedule(scheduleBuilder)
+                .build();
     }
 }

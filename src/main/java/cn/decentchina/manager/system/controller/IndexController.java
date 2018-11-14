@@ -14,11 +14,11 @@ import cn.decentchina.manager.system.vo.TreeVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.security.interfaces.RSAPrivateKey;
@@ -29,32 +29,34 @@ import java.util.List;
  * @author 唐全成
  * @date 2018-05-18
  */
+@SuppressWarnings("unused")
 @Slf4j
 @RequestMapping
 @RestController
 public class IndexController {
-    @Autowired
+    @Resource
     private AdminService adminService;
-    @Autowired
+    @Resource
     private NavigationService navigationService;
-    @Autowired
+    @Resource
     private BindService bindService;
-    @Autowired
+    @Resource
     private PublicKeyService publicKeyService;
-
-    @Autowired
+    @Resource
     private CustomerConfig customerConfig;
+
     /**
      * 项目首页
-     * @return
+     *
+     * @return : org.springframework.web.servlet.ModelAndView
      */
     @RequestMapping("")
-    public ModelAndView index(HttpServletRequest request) {
+    public ModelAndView index() {
         ModelAndView md = new ModelAndView("index");
         try {
             Admin currentAdmin = adminService.getCurrentAdmin();
             List<NavigationVO> menu;
-            if (currentAdmin.getSuperAdmin()!=null&&currentAdmin.getSuperAdmin()) {
+            if (currentAdmin.getSuperAdmin() != null && currentAdmin.getSuperAdmin()) {
                 menu = navigationService.queryAll();
             } else {
                 TreeVO treeVO = bindService.queryByRole(currentAdmin.getRoleId());
@@ -70,7 +72,8 @@ public class IndexController {
 
     /**
      * 工作台（介绍）
-     * @return
+     *
+     * @return : org.springframework.web.servlet.ModelAndView
      */
     @RequestMapping("/introduce")
     public ModelAndView introduce() {
@@ -79,23 +82,26 @@ public class IndexController {
 
     /**
      * 登录页面
-     * @return
+     *
+     * @param request 请求
+     * @return : org.springframework.web.servlet.ModelAndView
      */
     @RequestMapping("/login")
     public ModelAndView login(HttpServletRequest request) {
-        String basePath=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";
-        request.getSession().setAttribute("basePath",basePath);
+        String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/";
+        request.getSession().setAttribute("basePath", basePath);
         return new ModelAndView("login");
     }
 
     /**
      * 请求登录
-     * @param admin
-     * @return
+     *
+     * @param admin              登录信息
+     * @param httpServletRequest 请求
+     * @return : cn.decentchina.manager.common.dto.SimpleMessage
      */
     @RequestMapping("/signIn")
     public SimpleMessage signIn(Admin admin, HttpServletRequest httpServletRequest) {
-
         try {
             if (StringUtils.isBlank(admin.getPhoneNo())) {
                 return new SimpleMessage(ErrorCodeEnum.NO, "请输入登录账号");
@@ -116,7 +122,8 @@ public class IndexController {
 
     /**
      * 退出
-     * @return
+     *
+     * @return : org.springframework.web.servlet.ModelAndView
      */
     @RequestMapping("/logout")
     public SimpleMessage logout() {
@@ -126,7 +133,8 @@ public class IndexController {
 
     /**
      * 未授权
-     * @return
+     *
+     * @return : org.springframework.web.servlet.ModelAndView
      */
     @RequestMapping("/403")
     public ModelAndView unauthorized() {
@@ -136,8 +144,8 @@ public class IndexController {
     /**
      * 获取公钥
      *
-     * @param httpServletRequest
-     * @return
+     * @param httpServletRequest 请求
+     * @return : java.util.HashMap<java.lang.String,java.lang.String>
      */
     @RequestMapping("/getPublicKey")
     public HashMap<String, String> getPublicKey(HttpServletRequest httpServletRequest) {
@@ -146,10 +154,11 @@ public class IndexController {
 
     /**
      * 文档介绍
-     * @return
+     *
+     * @return : org.springframework.web.servlet.ModelAndView
      */
     @RequestMapping("/doc")
-    public ModelAndView doc(){
+    public ModelAndView doc() {
         return new ModelAndView("doc");
     }
 }

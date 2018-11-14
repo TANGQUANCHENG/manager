@@ -15,39 +15,39 @@ import java.security.interfaces.RSAPrivateKey;
 public interface AdminService {
 
     /**
-     * 管理员管理列表
+     * 查询管理员分页数据
      *
-     * @param page       分页实体
+     * @param page       分页信息
      * @param searchText 查询条件
-     * @return
+     * @return : cn.decentchina.manager.system.vo.Page<cn.decentchina.manager.system.vo.AdminVO>
      */
     Page<AdminVO> queryAdminListPage(Page page, String searchText);
 
 
     /**
-     * 修改管理员信息
+     * 修改管理员
      *
-     * @param adminUser
-     * @throws Exception
-     * @return
+     * @param adminUser 管理员
+     * @return : cn.decentchina.manager.common.dto.SimpleMessage
+     * @throws Exception 异常
      */
     SimpleMessage updateAdmin(Admin adminUser) throws Exception;
 
     /**
-     * 新增管理员信息
+     * 新增管理员
      *
-     * @param adminUser
-     * @throws Exception
-     * @return
+     * @param adminUser 管理员
+     * @return : cn.decentchina.manager.common.dto.SimpleMessage
+     * @throws Exception 异常
      */
     SimpleMessage addAdmin(Admin adminUser) throws Exception;
 
     /**
-     * 删除管理员信息
+     * 删除管理员
      *
-     * @param id
-     * @throws Exception
-     * @return
+     * @param id 管理员id
+     * @return : cn.decentchina.manager.common.dto.SimpleMessage
+     * @throws Exception 异常
      */
     SimpleMessage deleteAdmin(int id) throws Exception;
 
@@ -55,42 +55,41 @@ public interface AdminService {
     /**
      * 修改密码
      *
-     * @param oldPwd     旧密码
-     * @param newPwd     新密码
-     * @return
-     * @throws Exception
+     * @param oldPwd 旧密码
+     * @param newPwd 新密码
+     * @return : cn.decentchina.manager.common.dto.SimpleMessage
+     * @throws Exception 异常
      */
     SimpleMessage updatePassword(String oldPwd, String newPwd) throws Exception;
 
     /**
      * 重置密码
      *
-     * @param id 管理员id
-     * @throws Exception
-     * @return
+     * @param id 会员id
+     * @return : cn.decentchina.manager.common.dto.SimpleMessage
+     * @throws Exception 异常
      */
     SimpleMessage resetPassword(Integer id) throws Exception;
 
-
     /**
-     * 修改状态
+     * 修改管理员状态
      *
-     * @param admin
-     * @throws Exception
-     * @return
+     * @param admin 管理员
+     * @return : cn.decentchina.manager.common.dto.SimpleMessage
+     * @throws Exception 异常
      */
     SimpleMessage updateStatus(Admin admin) throws Exception;
 
     /**
      * 管理员登录
      *
-     * @param phoneNo
-     * @param password
-     * @param privateKey
-     * @param randomStr
-     * @param httpServletRequest
-     * @return
-     * @throws Exception
+     * @param phoneNo            手机号
+     * @param password           密码
+     * @param privateKey         私钥
+     * @param randomStr          随机数
+     * @param httpServletRequest 请求
+     * @return : cn.decentchina.manager.common.dto.SimpleMessage
+     * @throws Exception 异常
      */
     SimpleMessage login(String phoneNo, String password,
                         RSAPrivateKey privateKey,
@@ -99,8 +98,9 @@ public interface AdminService {
 
     /**
      * 获取当前登录用户
-     * @throws Exception
-     * @return
+     *
+     * @return : cn.decentchina.manager.system.vo.AdminVO
+     * @throws Exception 异常
      */
     AdminVO getCurrentAdmin() throws Exception;
 }

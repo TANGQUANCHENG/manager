@@ -15,12 +15,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,17 +32,23 @@ public class BindServiceImpl implements BindService {
     @Resource
     private SqlSessionFactory sessionFactory;
 
-    @Autowired
+    @Resource
     private RoleNavRelationDao roleNavRelationDao;
-
-    @Autowired
+    @Resource
     private FilterChainDefinitionsService filterChainDefinitionsService;
+    @Resource
+    private AdminService adminService;
 
-    @Autowired
-    private AdminService  adminService;
+    private static final String DUPLICATE_ENTRY = "Duplicate entry";
 
-    private static final String DUPLICATE_ENTRY="Duplicate entry";
-
+    /**
+     * 绑定
+     *
+     * @param navs  资源id
+     * @param roles 角色id
+     * @return : cn.decentchina.manager.common.dto.SimpleMessage
+     * @throws Exception 异常
+     */
     @Override
     public SimpleMessage batchBind(Integer[] navs, Integer[] roles) throws Exception {
 
@@ -55,7 +60,7 @@ public class BindServiceImpl implements BindService {
         SqlSession session = sessionFactory.openSession(ExecutorType.BATCH, false);
         try {
             RoleNavRelationDao dao = session.getMapper(RoleNavRelationDao.class);
-            for (Integer i:roles) {
+            for (Integer i : roles) {
                 roleNavRelationDao.deleteByRole(i);
             }
             List<RoleNavRelation> roleNavRelations = buildRelations(navs, roles);
@@ -70,10 +75,10 @@ public class BindServiceImpl implements BindService {
              * 若该异常为违反唯一索引的异常则忽略
              */
             if (StringUtils.indexOf(e.getLocalizedMessage(), DUPLICATE_ENTRY) == -1) {
-                log.error("batchBind error:",e);
+                log.error("batchBind error:", e);
                 session.rollback();
                 return new SimpleMessage(ErrorCodeEnum.ERROR);
-            }else {
+            } else {
                 filterChainDefinitionsService.reloadFilterChains();
                 return new SimpleMessage(ErrorCodeEnum.OK);
             }
@@ -84,6 +89,13 @@ public class BindServiceImpl implements BindService {
         return new SimpleMessage(ErrorCodeEnum.OK);
     }
 
+    /**
+     * 解除
+     *
+     * @param relationIds 关联id
+     * @return : cn.decentchina.manager.common.dto.SimpleMessage
+     * @throws Exception 异常
+     */
     @Override
     public SimpleMessage relieveBind(Integer[] relationIds) throws Exception {
 
@@ -92,8 +104,8 @@ public class BindServiceImpl implements BindService {
             return new SimpleMessage(ErrorCodeEnum.ERROR, "该操作允许超级管理员执行");
         }
 
-        if(relationIds==null){
-            return new SimpleMessage(ErrorCodeEnum.NO,"数据异常");
+        if (relationIds == null) {
+            return new SimpleMessage(ErrorCodeEnum.NO, "数据异常");
         }
         SqlSession session = sessionFactory.openSession(ExecutorType.BATCH, false);
         try {
@@ -113,23 +125,30 @@ public class BindServiceImpl implements BindService {
         return new SimpleMessage(ErrorCodeEnum.OK);
     }
 
+    /**
+     * 根据角色查询菜单
+     *
+     * @param roleId 角色id
+     * @return : cn.decentchina.manager.system.vo.TreeVO
+     */
     @Override
     public TreeVO queryByRole(Integer roleId) {
         List<NavigationVO> navigationVOS = roleNavRelationDao.queryByRole(roleId);
-        return new TreeVO(navigationVOS.size(),navigationVOS);
+        return new TreeVO(navigationVOS.size(), navigationVOS);
     }
 
     /**
      * 构建关联关系
-     * @param navs
-     * @param roles
-     * @return
+     *
+     * @param navs  资源id
+     * @param roles 角色id
+     * @return : java.util.List<cn.decentchina.manager.system.entity.RoleNavRelation>
      */
-    private List<RoleNavRelation> buildRelations(Integer[] navs, Integer[] roles){
-        List<RoleNavRelation> list=new ArrayList<>(32);
-        for (Integer i:navs) {
-            for (Integer j:roles) {
-                RoleNavRelation roleNavRelation=new RoleNavRelation(j,i,new Date());
+    private List<RoleNavRelation> buildRelations(Integer[] navs, Integer[] roles) {
+        List<RoleNavRelation> list = new ArrayList<>(32);
+        for (Integer i : navs) {
+            for (Integer j : roles) {
+                RoleNavRelation roleNavRelation = new RoleNavRelation(j, i, LocalDateTime.now());
                 list.add(roleNavRelation);
             }
         }

@@ -18,47 +18,51 @@ public interface MemberService {
     /**
      * 新增
      *
-     * @param member
-     * @param imgFile
-     * @return
+     * @param member  成员
+     * @param imgFile 图片文件
+     * @return : cn.decentchina.manager.common.dto.SimpleMessage
      */
     SimpleMessage insertMember(Member member, MultipartFile imgFile);
 
     /**
      * 修改
-     * @param member
-     * @return
+     *
+     * @param member 成员
+     * @return : cn.decentchina.manager.common.dto.SimpleMessage
      */
     SimpleMessage updateMember(Member member);
 
     /**
      * 删除
-     * @param id
-     * @return
+     *
+     * @param id 成员id
+     * @return : cn.decentchina.manager.common.dto.SimpleMessage
      */
     SimpleMessage deleteMember(Integer id);
 
     /**
-     * 查询列表数据
+     * 查询列表
      *
-     * @param page
-     * @param dto
-     * @return
+     * @param page 分页信息
+     * @param dto  查询条件
+     * @return : cn.decentchina.manager.system.vo.Page<cn.decentchina.manager.demo.vo.MemberVO>
      */
     Page<MemberVO> queryList(Page page, MemberQueryDTO dto);
 
     /**
-     * 查看详情
-     * @param id
-     * @return
+     * 查询详情
+     *
+     * @param id 会员id
+     * @return : java.util.List<java.lang.String>
      */
     List<String> queryDetail(Integer id);
 
     /**
-     * 导入Excel
-     * @param file
-     * @throws IOException
-     * @return
+     * 导入成员
+     *
+     * @param file excel文件
+     * @return : cn.decentchina.manager.common.dto.SimpleMessage
+     * @throws IOException 异常
      */
     SimpleMessage fileImport(MultipartFile file) throws IOException;
 }

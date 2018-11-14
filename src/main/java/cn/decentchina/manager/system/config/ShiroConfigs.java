@@ -17,12 +17,12 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 
+import javax.annotation.Resource;
 import javax.servlet.Filter;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -37,16 +37,19 @@ import java.util.Map;
 @Configuration
 public class ShiroConfigs {
 
-
-    @Autowired
+    @Resource
     private RedisTemplate redisTemplate;
-    @Autowired
+    @Resource
     private ShiroChainService shiroChainService;
-    @Autowired
+    @Resource
     private CustomerConfig customerConfig;
+    @Resource
+    private MyShiroRealm myShiroRealm;
 
+    @SuppressWarnings("unchecked")
     @Bean(name = "shiroFilter")
-    public BaseShiroFactoryBean shiroFilter(@Qualifier(value = "securityManager") SecurityManager securityManager) {
+    public BaseShiroFactoryBean baseShiroFactoryBean(@Qualifier(value = "securityManager") SecurityManager
+                                                             securityManager) {
         //根据配置加载是否启用redis
         Boolean redis = customerConfig.getRedis();
         BaseShiroFactoryBean shiroFilterFactoryBean;
@@ -92,7 +95,7 @@ public class ShiroConfigs {
     /**
      * 默认配置链
      *
-     * @return
+     * @param filterChainDefinitionMap 权限配置
      */
     public static void defaultFilterChain(Map<String, String> filterChainDefinitionMap) {
 
@@ -117,7 +120,7 @@ public class ShiroConfigs {
      * 读取application.yml shiro-customer
      * 记载自定义角色配置连
      *
-     * @param filterChainDefinitionMap
+     * @param filterChainDefinitionMap 权限配置
      */
     void loadCustomerChain(Map<String, String> filterChainDefinitionMap) {
         //加载自定义角色配置链
@@ -137,8 +140,8 @@ public class ShiroConfigs {
     /**
      * 转化key
      *
-     * @param o
-     * @return
+     * @param o 实体
+     * @return : java.lang.String
      */
     private String convertKey(Object o) {
         //将点（-）转化为斜杠(/)
@@ -147,17 +150,10 @@ public class ShiroConfigs {
         return "/" + StringUtils.replace(replace, "-1", "*");
     }
 
-    @Bean
-    public MyShiroRealm myShiroRealm() {
-        MyShiroRealm myShiroRealm = new MyShiroRealm();
-        return myShiroRealm;
-    }
-
-
     @Bean(name = "securityManager")
     public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        securityManager.setRealm(myShiroRealm());
+        securityManager.setRealm(myShiroRealm);
         securityManager.setSessionManager(getSessionManage());
         //加载自定义配置（是否启用redis）
         Boolean redis = customerConfig.getRedis();
@@ -178,12 +174,14 @@ public class ShiroConfigs {
     }
 
 
+    @SuppressWarnings("unchecked")
     public RedisSessionDAO redisSessionDAO() {
         RedisSessionDAO sessionDAO = new RedisSessionDAO();
         sessionDAO.redisTemplate = redisTemplate;
         return sessionDAO;
     }
 
+    @SuppressWarnings("unchecked")
     @Bean
     public RedisCacheManager redisCacheManager() {
         RedisCacheManager manager = new RedisCacheManager();

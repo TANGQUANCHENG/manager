@@ -17,34 +17,33 @@ import java.util.Map;
  */
 public class SecurityUtil {
 
-    public static Map<String ,Object > getKeyMap() throws Exception {
-
-        Map<String ,Object> map=new HashMap<>(4);
+    /**
+     * 获取公钥、私钥、随机字符串
+     *
+     * @return : java.util.Map<java.lang.String,java.lang.Object>
+     */
+    public static Map<String, Object> getKeyMap() throws Exception {
+        Map<String, Object> map = new HashMap<>(4);
         KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance("RSA");
         keyPairGen.initialize(1024);
         KeyPair keyPair = keyPairGen.generateKeyPair();
         RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
         RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
-
         map.put(Constants.PUBLIC_KEY, publicKey);
-
         map.put(Constants.PRIVATE_KEY, privateKey);
-
-        map.put(Constants.RANDOM_STR,getRandomStr(8));
+        map.put(Constants.RANDOM_STR, getRandomStr(8));
         return map;
     }
+
     /**
      * 获取长度为n的随机字符串
-     * @param length
-     * @return
+     *
+     * @param length 长度
+     * @return : java.lang.String
      */
-    public static String getRandomStr(int length){
-
-        Long timestamp=System.currentTimeMillis();
-        StringBuilder sb=new StringBuilder(20);
-        sb.append(timestamp).append(Math.random());
-        String origin= Md5.crypt(sb.toString());
-
-        return origin.substring(0,length);
+    public static String getRandomStr(int length) {
+        Long timestamp = System.currentTimeMillis();
+        String origin = Md5.crypt(timestamp + Math.random() + "");
+        return origin.substring(0, length);
     }
 }

@@ -1,12 +1,12 @@
 package cn.decentchina.manager.system.entity;
 
 import cn.decentchina.manager.system.enums.FunctionTypeEnum;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
- *
  * 系统导航菜单
  *
  * @author 唐全成
@@ -49,11 +49,13 @@ public class Navigation {
     /**
      * 创建时间
      */
-    private Date createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime createTime;
     /**
      * 修改时间
      */
-    private Date updateTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime updateTime;
     /**
      * 状态
      */

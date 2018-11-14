@@ -4,6 +4,7 @@ import cn.decentchina.manager.common.dto.SimpleMessage;
 import cn.decentchina.manager.exception.ErrorCodeException;
 import cn.decentchina.manager.common.enums.ErrorCodeEnum;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author 唐全成
  */
 @Slf4j
+@ControllerAdvice
 public class AppExceptionHandler {
     @ExceptionHandler
     @ResponseBody

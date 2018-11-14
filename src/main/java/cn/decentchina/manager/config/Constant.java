@@ -8,10 +8,10 @@ public class Constant {
     /**
      * 成功
      */
-    public static final String SUCCESS="SUCCESS";
+    public static final String SUCCESS = "SUCCESS";
     /**
      * 失败
      */
-    public static final String FAIL="FAIL";
+    public static final String FAIL = "FAIL";
 
 }

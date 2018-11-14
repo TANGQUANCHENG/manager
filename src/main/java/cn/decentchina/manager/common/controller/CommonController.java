@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -19,22 +20,22 @@ import java.io.ByteArrayOutputStream;
  * @author 唐全成
  * @date 2018-08-31
  */
-@RequestMapping
+@RequestMapping("/common")
 @RestController
 public class CommonController {
-    @Autowired
+    @Resource
     private DefaultKaptcha defaultKaptcha;
 
     /**
      * 图形验证码
      *
-     * @param httpServletRequest
-     * @param httpServletResponse
-     * @throws Exception
+     * @param httpServletRequest  请求
+     * @param httpServletResponse 响应
+     * @throws Exception 异常
      */
     @RequestMapping("/defaultKaptcha")
     public void defaultKaptcha(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
-        byte[] captchaChallengeAsJpeg = null;
+        byte[] captchaChallengeAsJpeg;
         ByteArrayOutputStream jpegOutputStream = new ByteArrayOutputStream();
         try {
             //生产验证码字符串并保存到session中
@@ -63,7 +64,7 @@ public class CommonController {
     /**
      * 图形验证码测试页面
      *
-     * @return
+     * @return : org.springframework.web.servlet.ModelAndView
      */
     @RequestMapping("/testKaptcha")
     public ModelAndView testKaptcha() {
@@ -73,15 +74,14 @@ public class CommonController {
     /**
      * 校验验证码
      *
-     * @param httpServletRequest
-     * @param httpServletResponse
-     * @return
+     * @param httpServletRequest 请求
+     * @return : cn.decentchina.manager.common.dto.SimpleMessage
      */
     @RequestMapping("/imgVerifyControllerDefaultKaptcha")
-    public SimpleMessage imgVerifyControllerDefaultKaptcha(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+    public SimpleMessage imgVerifyControllerDefaultKaptcha(HttpServletRequest httpServletRequest) {
         String captchaId = (String) httpServletRequest.getSession().getAttribute("verifyCode");
         String parameter = httpServletRequest.getParameter("verifyCode");
-        System.out.println("Session  verifyCode " + captchaId +  " form verifyCode " + parameter);
+        System.out.println("Session  verifyCode " + captchaId + " form verifyCode " + parameter);
         if (!captchaId.equals(parameter)) {
             return new SimpleMessage(ErrorCodeEnum.ERROR, "错误的验证码");
         } else {

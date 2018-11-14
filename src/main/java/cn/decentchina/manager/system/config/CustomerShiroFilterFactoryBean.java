@@ -11,8 +11,8 @@ import org.apache.shiro.web.mgt.WebSecurityManager;
 import org.apache.shiro.web.servlet.AbstractShiroFilter;
 import org.apache.shiro.web.servlet.ShiroHttpServletRequest;
 import org.springframework.beans.factory.BeanInitializationException;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 import java.util.LinkedHashMap;
@@ -30,7 +30,7 @@ public class CustomerShiroFilterFactoryBean extends BaseShiroFactoryBean {
 
     private ShiroChainService shiroChainService;
 
-    @Autowired
+    @Resource
     private CustomerConfig customerConfig;
 
     public CustomerShiroFilterFactoryBean(ShiroChainService shiroChainService) {
@@ -47,19 +47,22 @@ public class CustomerShiroFilterFactoryBean extends BaseShiroFactoryBean {
         Map<String, String> filterChainDefinitionMap = loadChainFromDatabase();
         this.setFilterChainDefinitionMap(filterChainDefinitionMap);
     }
+
     @Override
-    public Map<String, String> loadChainFromDatabase(){
+    public Map<String, String> loadChainFromDatabase() {
         Map<String, String> filterChainDefinitionMap = this.getFilterChainDefinitionMap();
-        Map<String, String> sortedMap=new LinkedHashMap<>(16);
+        Map<String, String> sortedMap = new LinkedHashMap<>(16);
         sortedMap.putAll(filterChainDefinitionMap);
         ShiroConfigs.defaultFilterChain(sortedMap);
         List<ShiroChainVO> shiroChainVOS = shiroChainService.queryShiroChain();
-        shiroChainVOS.forEach(chain->
+        shiroChainVOS.forEach(chain ->
                 sortedMap.put(chain.getUrl(),
-                        Constants.CUSTOMER_SHIRO_FILTER+"["+chain.getRoles()+","+ Constants.SUPER_ADMIN+"]"));
+                        Constants.CUSTOMER_SHIRO_FILTER + "[" + chain.getRoles() + "," + Constants.SUPER_ADMIN + "]"));
         sortedMap.put("/**", "authc");
         return sortedMap;
     }
+
+    @SuppressWarnings("Duplicates")
     @Override
     protected AbstractShiroFilter createInstance() throws Exception {
 
@@ -94,6 +97,7 @@ public class CustomerShiroFilterFactoryBean extends BaseShiroFactoryBean {
                 setFilterChainResolver(resolver);
             }
         }
+
         @Override
         protected ServletResponse wrapServletResponse(HttpServletResponse orig, ShiroHttpServletRequest request) {
             return new MyShiroHttpServletResponse(orig, getServletContext(), request);

@@ -7,8 +7,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 
+import javax.annotation.Nonnull;
+
 /**
  * 定时任务自动注入
+ *
  * @author wangyx
  */
 public final class AutoWiringSpringBeanJobFactory extends SpringBeanJobFactory
@@ -17,14 +20,13 @@ public final class AutoWiringSpringBeanJobFactory extends SpringBeanJobFactory
     private transient AutowireCapableBeanFactory beanFactory;
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext)
+    public void setApplicationContext(@Nonnull ApplicationContext applicationContext)
             throws BeansException {
         beanFactory = applicationContext.getAutowireCapableBeanFactory();
     }
 
     @Override
-    protected Object createJobInstance(final TriggerFiredBundle bundle) throws Exception {
-
+    protected Object createJobInstance(@Nonnull final TriggerFiredBundle bundle) throws Exception {
         final Object job = super.createJobInstance(bundle);
         beanFactory.autowireBean(job);
         return job;

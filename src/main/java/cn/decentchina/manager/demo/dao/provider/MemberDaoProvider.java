@@ -13,8 +13,8 @@ public class MemberDaoProvider {
     /**
      * 信息分页查询
      *
-     * @param map
-     * @return
+     * @param map 查询条件
+     * @return : java.lang.String
      */
     public String queryMemberList(HashMap<String, Object> map) {
         StringBuffer sql = new StringBuffer(200);
@@ -22,7 +22,7 @@ public class MemberDaoProvider {
                 " member_name as name," +
                 " age," +
                 " gender," +
-                " avatar,"+
+                " avatar," +
                 " gmt_create as createTime," +
                 " gmt_modified as modifyTime" +
                 " from tbl_member " +
@@ -35,8 +35,8 @@ public class MemberDaoProvider {
     /**
      * 查询条件封装
      *
-     * @param map
-     * @param sql
+     * @param map 查询条件
+     * @param sql sql语句
      */
     private void queryCondition(HashMap<String, Object> map, StringBuffer sql) {
         MemberQueryDTO dto = (MemberQueryDTO) map.get("dto");

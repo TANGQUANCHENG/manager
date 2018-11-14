@@ -8,10 +8,11 @@ import java.util.Map;
  * @author 唐全成
  * @date 2018-06-07
  */
-public abstract class BaseShiroFactoryBean  extends ShiroFilterFactoryBean {
+public abstract class BaseShiroFactoryBean extends ShiroFilterFactoryBean {
     /**
      * 重新加载权限
-     * @return
+     *
+     * @return : java.util.Map<java.lang.String,java.lang.String>
      */
     public abstract Map<String, String> loadChainFromDatabase();
 }

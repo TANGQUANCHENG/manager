@@ -17,13 +17,12 @@ import java.util.List;
 @Repository
 public interface RoleDao {
 
-
     /**
-     * 插入职务
-     * 插入后获取此职务的id，以用于为此职务绑定“用户管理功能”
+     * 插入角色
+     * 插入后获取此角色的id，以用于为此角色绑定“用户管理功能”
      *
-     * @param role
-     * @return
+     * @param role 角色
+     * @return int 影响行数
      */
     @Insert("insert into TBL_shiro_role(" +
             "name," +
@@ -44,26 +43,27 @@ public interface RoleDao {
     int addRole(@Param("role") Role role);
 
     /**
-     * 查询所有职务
-     * @param searchText
-     * @return
+     * 查询所有角色
+     *
+     * @param searchText 查询条件
+     * @return : java.util.List<cn.decentchina.manager.system.vo.RoleVO>
      */
-
-    @SelectProvider(type =  RoleDaoProvider.class, method = "queryAllRole")
+    @SelectProvider(type = RoleDaoProvider.class, method = "queryAllRole")
     List<RoleVO> queryAllRole(@Param("searchText") String searchText);
 
     /**
-     * 查询全部
+     * 查询全部角色
      *
-     * @return
+     * @return : java.util.List<cn.decentchina.manager.system.entity.Role>
      */
     @Select("select id ,name from tbl_shiro_role ")
     List<Role> queryAll();
+
     /**
-     * 修改职务
+     * 修改角色
      *
-     * @param role
-     * @return
+     * @param role 角色
+     * @return int 影响行数
      */
     @Update("UPDATE TBL_shiro_role  SET" +
             " name=#{role.name}," +
@@ -71,15 +71,15 @@ public interface RoleDao {
             " comment=#{role.comment}," +
             " gmt_modified=now()" +
             " WHERE id=#{role.id} "
-           )
+    )
     int updateRole(@Param("role") Role role);
 
 
     /**
-     * 修改职务状态
+     * 修改角色状态
      *
-     * @param role
-     * @return
+     * @param role 角色
+     * @return int 影响行数
      */
     @Update("UPDATE TBL_shiro_role  SET" +
             " is_available=#{role.available}," +
@@ -88,28 +88,29 @@ public interface RoleDao {
     )
     int updateAvailable(@Param("role") Role role);
 
-
     /**
-     * 删除职务
+     * 删除角色
      *
-     * @param id
-     * @return
+     * @param id 角色id
+     * @return int 影响行数
      */
     @Delete("delete from TBL_shiro_role where id=#{id}")
     int deleteRole(@Param("id") int id);
 
     /**
-     * 查询该职务下是否有管理员
-     * @param id 职务id
-     * @return
+     * 查询该角色下是否有管理员
+     *
+     * @param id 角色id
+     * @return : java.util.List<cn.decentchina.manager.system.entity.Admin>
      */
     @Select("SELECT id ,`name` from tbl_shiro_admin where role_id=#{id}")
     List<Admin> hasAdmin(@Param("id") Integer id);
 
     /**
      * 根据角色编码查询
-     * @param code
-     * @return
+     *
+     * @param code 角色编码
+     * @return : cn.decentchina.manager.system.entity.Role
      */
     @Select("select id from tbl_shiro_role where code=#{code}")
     Role queryByCode(@Param("code") String code);

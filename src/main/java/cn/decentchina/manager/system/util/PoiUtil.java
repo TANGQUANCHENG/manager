@@ -17,6 +17,7 @@ import java.util.List;
 
 /**
  * excel读写工具类
+ *
  * @author 唐全成
  */
 public class PoiUtil {
@@ -26,8 +27,9 @@ public class PoiUtil {
     /**
      * 读入excel文件，解析后返回
      *
-     * @param file
-     * @throws IOException
+     * @param file excel文件
+     * @return : java.util.List<>
+     * @throws IOException 异常
      */
     public static List<String[]> readExcel(MultipartFile file) throws IOException {
         //检查文件
@@ -35,7 +37,7 @@ public class PoiUtil {
         //获得Workbook工作薄对象
         Workbook workbook = getWorkBook(file);
         //创建返回对象，把每行中的值作为一个数组，所有行作为一个集合返回
-        List<String[]> list = new ArrayList<String[]>();
+        List<String[]> list = new ArrayList<>();
         if (workbook != null) {
             for (int sheetNum = 0; sheetNum < workbook.getNumberOfSheets(); sheetNum++) {
                 //获得当前sheet工作表
@@ -71,14 +73,19 @@ public class PoiUtil {
         return list;
     }
 
-    public static void checkFile(MultipartFile file) throws IOException {
+    /**
+     * 文件检查
+     *
+     * @param file 文件
+     */
+    private static void checkFile(MultipartFile file) throws IOException {
         //判断文件是否存在
         if (null == file) {
             throw new FileNotFoundException("文件不存在！");
         }
         //获得文件名
         String fileName = file.getOriginalFilename();
-        if(StringUtils.isBlank(fileName)){
+        if (StringUtils.isBlank(fileName)) {
             throw new FileNotFoundException("文件不存在！");
         }
         //判断文件是否是excel文件
@@ -87,10 +94,16 @@ public class PoiUtil {
         }
     }
 
-    public static Workbook getWorkBook(MultipartFile file) {
+    /**
+     * 获得Workbook工作薄对象
+     *
+     * @param file 文件
+     * @return : org.apache.poi.ss.usermodel.Workbook
+     */
+    private static Workbook getWorkBook(MultipartFile file) {
         //获得文件名
         String fileName = file.getOriginalFilename();
-        if(StringUtils.isBlank(fileName)){
+        if (StringUtils.isBlank(fileName)) {
             return null;
         }
         //创建Workbook工作薄对象，表示整个excel
@@ -111,7 +124,13 @@ public class PoiUtil {
         return workbook;
     }
 
-    public static String getCellValue(Cell cell) {
+    /**
+     * 获得单元格的值
+     *
+     * @param cell 单元格
+     * @return : java.lang.String
+     */
+    private static String getCellValue(Cell cell) {
         String cellValue = "";
         if (cell == null) {
             return cellValue;

@@ -7,7 +7,7 @@ import java.util.Map;
  * @author 唐全成
  * @date 2018-09-26
  */
-public enum  GenderEnum {
+public enum GenderEnum {
     /**
      * 男
      */

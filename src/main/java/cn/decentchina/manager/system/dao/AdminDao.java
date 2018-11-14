@@ -16,12 +16,11 @@ import java.util.List;
 @Repository
 public interface AdminDao {
 
-
     /**
      * 新增管理员
      *
-     * @param admin
-     * @return
+     * @param admin 管理员
+     * @return int 影响行数
      */
     @Insert("INSERT INTO tbl_shiro_admin (" +
             " name, " +
@@ -43,12 +42,11 @@ public interface AdminDao {
             ")")
     int addAdmin(@Param("admin") Admin admin);
 
-
     /**
      * 信息分页查询
      *
      * @param searchText 搜索条件
-     * @return
+     * @return : java.util.List<cn.decentchina.manager.system.vo.AdminVO>
      */
     @SelectProvider(type = AdminDaoProvider.class, method = "queryAdminListPage")
     List<AdminVO> queryAdminListPage(@Param("searchText") String searchText);
@@ -56,8 +54,8 @@ public interface AdminDao {
     /**
      * 修改管理员
      *
-     * @param admin
-     * @return
+     * @param admin 管理员
+     * @return int 影响行数
      */
     @Update(" UPDATE tbl_shiro_admin SET" +
             " name=#{admin.name}," +
@@ -68,18 +66,17 @@ public interface AdminDao {
     /**
      * 修改管理员状态
      *
-     * @param admin
-     * @return
+     * @param admin 管理员
+     * @return int 影响行数
      */
     @Update(" UPDATE tbl_shiro_admin SET status=#{admin.status} WHERE id=#{admin.id}")
     int updateAdminStatus(@Param("admin") Admin admin);
 
-
     /**
      * 根据管理员id查询管理员信息
      *
-     * @param id
-     * @return
+     * @param id 管理员id
+     * @return : cn.decentchina.manager.system.entity.Admin
      */
     @Select("select " +
             "id," +
@@ -97,8 +94,8 @@ public interface AdminDao {
     /**
      * 根据管理员手机号码查询管理员信息
      *
-     * @param phoneNo
-     * @return
+     * @param phoneNo 手机号码
+     * @return : cn.decentchina.manager.system.entity.Admin
      */
     @Select("select " +
             "a.id," +
@@ -109,8 +106,8 @@ public interface AdminDao {
             "a.salt as salt, " +
             "a.is_super_admin as superAdmin, " +
             "a.status, " +
-            "r.name as role, "+
-            "r.code as roleCode "+
+            "r.name as role, " +
+            "r.code as roleCode " +
             "from tbl_shiro_admin a left join tbl_shiro_role r on a.role_id=r.id  " +
             "where a.phone_no=#{phoneNo} ")
     AdminVO queryByPhoneNo(@Param("phoneNo") String phoneNo);
@@ -118,18 +115,19 @@ public interface AdminDao {
     /**
      * 删除管理员
      *
-     * @param id
-     * @return
+     * @param id 管理员id
+     * @return int 影响行数
      */
     @Delete("delete from tbl_shiro_admin where id=#{id}")
     int deleteAdmin(@Param("id") int id);
 
     /**
      * 修改密码
-     * @param admin 管理员实体
-     * @return
+     *
+     * @param admin 管理员
+     * @return int 影响行数
      */
     @Update("update tbl_shiro_admin set login_pwd=#{admin.loginPwd},salt=#{admin.salt} where phone_no=#{admin.phoneNo} ")
     int updatePassword(@Param("admin") Admin admin);
-    
+
 }

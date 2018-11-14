@@ -14,11 +14,12 @@ public interface CellService {
 
     /**
      * 将数据生成图片
-     * @param dataCellList
-     * @param heads
-     * @param response
-     * @throws IOException
+     *
+     * @param dataCellList 数据列表
+     * @param heads        头部名称
+     * @param response     响应
+     * @throws IOException 异常
      */
-    void drawTable(List<DataCell> dataCellList,String[] heads, HttpServletResponse response) throws IOException;
+    void drawTable(List<DataCell> dataCellList, String[] heads, HttpServletResponse response) throws IOException;
 
 }

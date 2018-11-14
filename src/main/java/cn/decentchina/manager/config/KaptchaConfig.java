@@ -16,12 +16,12 @@ import com.google.code.kaptcha.util.Config;
 @Component
 public class KaptchaConfig {
     /**
-     * 修改图形验证码样式
+     * 图形验证码样式注入
      *
-     * @return
+     * @return : com.google.code.kaptcha.impl.DefaultKaptcha
      */
     @Bean
-    public DefaultKaptcha getDefaultKaptcha(){
+    public DefaultKaptcha getDefaultKaptcha() {
         com.google.code.kaptcha.impl.DefaultKaptcha defaultKaptcha = new com.google.code.kaptcha.impl.DefaultKaptcha();
         Properties properties = new Properties();
         properties.setProperty("kaptcha.border", "yes");

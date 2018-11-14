@@ -19,9 +19,9 @@ import java.io.IOException;
 @Slf4j
 public class ChatbotSend {
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
 
-        String url="https://oapi.dingtalk.com/robot/send?access_token=fdd4cf898b5827638b13ab9c6437262f3fadb1ca402a6ce94b026fae29caefa6";
+        String url = "https://oapi.dingtalk.com/robot/send?access_token=fdd4cf898b5827638b13ab9c6437262f3fadb1ca402a6ce94b026fae29caefa6";
 
         HttpClient httpclient = HttpClients.createDefault();
         HttpPost httppost = new HttpPost(url);
@@ -30,7 +30,7 @@ public class ChatbotSend {
         String textMsg = "{\n" +
                 "     \"msgtype\": \"markdown\",\n" +
                 "     \"markdown\": {\"title\":\"杭州天气\",\n" +
-                "\"text\":\"#### 杭州天气  \\n > 9度，@1825718XXXX 西北风1级，空气良89，相对温度73%\\n\\n > ![screenshot](http://wx.ejiaofei.com/member/testDrawImg?_="+System.currentTimeMillis()+")\\n  > ###### 10点20分发布 [天气](http://www.thinkpage.cn/) \"\n" +
+                "\"text\":\"#### 杭州天气  \\n > 9度，@1825718XXXX 西北风1级，空气良89，相对温度73%\\n\\n > ![screenshot](http://wx.ejiaofei.com/member/testDrawImg?_=" + System.currentTimeMillis() + ")\\n  > ###### 10点20分发布 [天气](http://www.thinkpage.cn/) \"\n" +
                 "     },\n" +
                 "    \"at\": {\n" +
                 "        \"atMobiles\": [\n" +
@@ -41,7 +41,7 @@ public class ChatbotSend {
                 " }";
         StringEntity se = new StringEntity(textMsg, "utf-8");
         httppost.setEntity(se);
-        HttpResponse response = null;
+        HttpResponse response;
         try {
             response = httpclient.execute(httppost);
             if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
