@@ -42,7 +42,7 @@ $.extend($.fn.treegrid.methods, {
             var parent = $(target).treegrid('getParent', id);
             var allStatus = false;
             if (parent) {
-                var rows = $('#tt2').datagrid('getSelections');//获取所有选中行
+                var rows = $('#easyTable').datagrid('getSelections');//获取所有选中行
                 var parentId = parent[idField];
                 if (status)
                     $(target).treegrid('select', parentId);
@@ -95,7 +95,7 @@ $.extend($.fn.treegrid.methods, {
 
 $(document).ready(function () {
 
-    $('#tt2').treegrid({
+    $('#easyTable').treegrid({
         height: $(window).height() - 100,
         url: '/bind/getData/' + $('#roleId').val(),
         idField: 'id',
@@ -118,7 +118,7 @@ $(document).ready(function () {
             var list = data.rows;
             for (var i=0;i< list.length;i++) {
                 if (list[i].selected) {
-                    $('#tt2').treegrid('select', list[i].id);
+                    $('#easyTable').treegrid('select', list[i].id);
                 }
             }
         }
@@ -132,7 +132,7 @@ var toolbar = ['-', {
 }, '-'];
 
 function handleBind() {
-    var sourceRow = $('#tt2').datagrid('getSelections');
+    var sourceRow = $('#easyTable').datagrid('getSelections');
     if (sourceRow == null || sourceRow === "") {
         layer.msg("请至少选择一种功能!");
         return;

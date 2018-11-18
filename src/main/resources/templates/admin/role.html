@@ -51,7 +51,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
     <!-- Modal -->
@@ -63,7 +62,6 @@
                     <h4 class="modal-title" id="myModalLabel">新增角色</h4>
                 </div>
                 <div class="modal-body">
-
                     <form class="form-horizontal" role="form" id="addForm">
                         <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 control-label">角色名称</label>
@@ -89,7 +87,6 @@
                     <h4 class="modal-title" id="myModalLabel2">修改角色</h4>
                 </div>
                 <div class="modal-body">
-
                     <form class="form-horizontal" role="form" id="editForm">
                         <input name="id" type="hidden"/>
                         <div class="form-group">
@@ -98,7 +95,6 @@
                                 <input type="text" class="form-control"  placeholder="角色名称" name="name">
                             </div>
                         </div>
-
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -108,7 +104,6 @@
             </div>
         </div>
     </div>
-
     <!-- Modal -->
     <div class="modal fade" id="menuModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="false">
         <div class="modal-dialog" role="document">
@@ -118,9 +113,7 @@
                     <h4 class="modal-title">管理权限:<span id="roleName"></span></h4>
                 </div>
                 <div class="modal-body" style="height: 500px">
-
                     <iframe  style="width: 100%;height: 100%;border: none" id="navigationFrame">
-
                     </iframe>
                 </div>
                 <div class="modal-footer">
@@ -193,7 +186,6 @@
                 align: 'center',
                 field: 'createTime',
                 title: '创建时间'
-
             }, {
                 align: 'center',
                 width: '80px',
@@ -204,7 +196,6 @@
                         '<a class="label label-danger" href="javascript:void(0)" onclick="deleteRole('+row.id+')">删除</a>&nbsp;'+
                         '<a class="label label-danger" href="javascript:void(0)" onclick="editRole('+row.id+')">权限</a>';
                 }
-
             }
         ],
     });
@@ -219,18 +210,14 @@
     });
 
     $("#toBind").click(function () {
-
         addTab("/bind","bind","权限绑定");
-
     })
 
     $("#addRole").click(function () {
-
         var v=$("#addForm").valid();
         if(!v){
             return;
         }
-
         $.ajax({
             type: "GET",
             url: "/role/add",
@@ -248,15 +235,12 @@
             beforeSend: function () {
             }
         });
-
-
     });
     $("#updateRole").click(function () {
         var v=$("#editForm").valid();
         if(!v){
             return;
         }
-
         $.ajax({
             type: "GET",
             url: "/role/update",
@@ -277,12 +261,10 @@
     })
 
     function deleteRole(id) {
-
         $.confirm({
             title: '确认!',
             content: '确定要删除这个角色吗？',
             confirm: function(){
-
                 $.ajax({
                     type: "GET",
                     url: "/role/delete/"+id,
@@ -299,8 +281,6 @@
                     beforeSend: function () {
                     }
                 });
-
-
             },
             cancel: function(){
             }
@@ -320,12 +300,10 @@
         setTimeout(function () {
             $("#navigationFrame").show().attr("src","/manageMenu/"+id);
         },250);
-
     }
 
     function disableRole(id) {
         var row = $("#dataTable").bootstrapTable("getRowByUniqueId", id);
-
         $.confirm({
             title: '确认!',
             content: '确定要停用['+row.name+']这个角色吗？',
@@ -355,7 +333,6 @@
     }
     function enableRole(id) {
         var row = $("#dataTable").bootstrapTable("getRowByUniqueId", id);
-
         $.confirm({
             title: '确认!',
             content: '确定要启用['+row.name+']这个角色吗？',
@@ -387,9 +364,7 @@
         return {
             pageSize: params.pageSize,
             pageNumber: params.pageNumber,
-
             searchText: $("#searchText").val()
-
         };
     }
 </script>

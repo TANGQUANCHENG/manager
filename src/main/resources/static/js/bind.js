@@ -42,13 +42,9 @@ $.extend($.fn.treegrid.methods, {
          */
         function selectParent(target, id, idField, status) {
             var parent = $(target).treegrid('getParent', id);
-
             if (parent != null) {
-
             }
-
             //var p2=$(target).treegrid('getParent', parent.id);
-
             var allStatus = false;
             if (parent) {
                 var rows = $('#tt').datagrid('getSelections');//获取所有选中行
@@ -71,7 +67,6 @@ $.extend($.fn.treegrid.methods, {
                         $(target).treegrid('unselect', parentId);
                     }
                 }
-
                 selectParent(target, parentId, idField, status);
             }
         }
@@ -131,7 +126,6 @@ $(document).ready(function () {
         }
     });
 
-
     $('#dg').datagrid({
         url:'bind/allRole',
         fitColumns:true,
@@ -140,8 +134,6 @@ $(document).ready(function () {
         checkOnSelect:true,
         columns:[[
             {field:'name',title:'名称',width:100},
-            // {field:'code',title:'代码',width:100},
-            // {field:'status',title:'状态',width:100},
             {field:'createTime',title:'创建时间',width:100}
         ]],
         toolbar:toolbar
@@ -186,13 +178,14 @@ function checkSelect() {
         layer.msg("请至少选择一种角色!");
         return;
     }
+    var row;
     for (var i = 0; i < sourceRow.length; i++) {
-        var row = sourceRow[i];
+        row = sourceRow[i];
         sourceStr.push(row.id)
         sourceNames += row.functionName + ",<br/>";
     }
-    for (var i = 0; i < dutyRow.length; i++) {
-        var row = dutyRow[i];
+    for (var j = 0; j < dutyRow.length; j++) {
+        row = dutyRow[j];
         dutyStr.push(row.id)
         dutyNames +=row.name+",<br/>";
     }
@@ -203,7 +196,6 @@ function checkSelect() {
     $("#roleContent").html(dutyNames);
     $("#navArr").val(sourceStr);
     $("#roleArr").val(dutyStr);
-
     $("#menuModal").modal("show");
 }
 

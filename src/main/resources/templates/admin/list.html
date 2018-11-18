@@ -2,7 +2,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.w3.org/1999/xhtml">
 
 <head th:include="css :: css">
-
 </head>
 <style>
     .block-flat .form-group {
@@ -11,7 +10,6 @@
     }
 </style>
 <body style="overflow: hidden;opacity: 0">
-
 <div id="cl-wrapper" style="padding-top: 0">
     <div class="container-fluid" id="pcont">
         <div class="cl-mcont">
@@ -50,7 +48,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
     <!-- Modal -->
@@ -63,7 +60,6 @@
                     <h4 class="modal-title" id="myModalLabel">新增账户</h4>
                 </div>
                 <div class="modal-body">
-
                     <form class="form-horizontal" role="form" id="addForm">
                         <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 control-label">姓名<span class="text-danger">*</span></label>
@@ -116,7 +112,6 @@
                     <h4 class="modal-title" id="myModalLabel2">修改账户</h4>
                 </div>
                 <div class="modal-body">
-
                     <form class="form-horizontal" role="form" id="editForm">
                         <input name="id" type="hidden"/>
                         <div class="form-group">
@@ -313,7 +308,6 @@
             title: '确认!',
             content: '确定要删除<span style="color: red">[' + row.name + ']</span>吗？',
             confirm: function () {
-
                 $.ajax({
                     type: "GET",
                     url: "/admin/delete/" + id,
@@ -337,7 +331,6 @@
     }
 
     function toUpdate(id) {
-
         var row = $("#dataTable").bootstrapTable("getRowByUniqueId", id);
         $("#editForm").form("load", row);
         $("#myModal2").modal("show");
@@ -407,12 +400,10 @@
 
     function resetPwd(id) {
         var row = $("#dataTable").bootstrapTable("getRowByUniqueId", id);
-
         $.confirm({
             title: '确认!',
             content: '确定要重置<span style="color: red">[' + row.name + ']</span>的密码吗？',
             confirm: function () {
-
                 $.ajax({
                     type: "GET",
                     url: basePath + "/admin/reset/" + id,
@@ -433,7 +424,6 @@
             cancel: function () {
             }
         });
-
     }
 
     function convertPinyin(obj) {

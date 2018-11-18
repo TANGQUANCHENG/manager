@@ -2,13 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 
 <head th:include="css :: css">
-
 </head>
 
 <body>
-
 <div th:include="common :: header"></div>
-
 <div id="cl-wrapper" class="fixed-menu">
     <div class="cl-sidebar" data-position="right" data-step="1">
         <div class="cl-toggle"><i class="fa fa-bars"></i></div>
@@ -50,7 +47,6 @@
             </button>
             <div class="btn-group roll-nav roll-right" style="margin-left: 0;margin-right: 0">
                 <button class="dropdown J_tabClose" data-toggle="dropdown">关闭操作<span class="caret"></span>
-
                 </button>
                 <ul role="menu" class="dropdown-menu dropdown-menu-right " style="margin-top: 0">
                     <li class="J_tabShowActive"><a>定位当前选项卡</a>
@@ -80,7 +76,6 @@
                     <h4 class="modal-title" id="myModalLabel2">修改密码</h4>
                 </div>
                 <div class="modal-body">
-
                     <form class="form-horizontal"
                           id="updateForm">
                         <div class="form-group">
@@ -111,8 +106,6 @@
         </div>
     </div>
 
-
-
     <div class="modal fade" id="docModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -130,13 +123,9 @@
             </div>
         </div>
     </div>
-
-
 </div>
 
-
 <div th:include="js :: js">
-
 </div>
 <script src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
 <script src="https://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
@@ -217,7 +206,6 @@
         });
     })
     $("#toUpdatePwd").click(function () {
-
         $("#myModal2").modal("show");
     });
 

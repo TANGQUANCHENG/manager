@@ -26,7 +26,7 @@ function addTab(str,index,title){
     if (k) {
         var p = '<a href="javascript:;" class="active J_menuTab" data-id="' + o + '">' + l + ' <i class="fa fa-times-circle"></i></a>';
         $(".J_menuTab",parent.document).removeClass("active");
-        var n = '<iframe class="J_iframe" name="iframe' + m + '" width="100%" height="100%" src="' + o + '" frameborder="0" data-id="' + o + '" seamless></iframe>';
+        var n = '<iframe class="J_iframe" name="iframe' + m + '" width="100%" height="'+getClientHeight()+'" src="' + o + '" frameborder="0" data-id="' + o + '" seamless></iframe>';
         $(".J_mainContent",parent.document).find("iframe.J_iframe").hide().parents(".J_mainContent").append(n);
         $(".J_menuTabs .page-tabs-content",parent.document).append(p);
         g($(".J_menuTab.active",parent.document))
@@ -73,4 +73,14 @@ function closeActive() {
             $(this).find(".fa-times-circle").click();
         }
     });
+}
+function getClientHeight() {
+    var clientHeight = 0;
+    if (document.body.clientHeight && document.documentElement.clientHeight) {
+        var clientHeight = (document.body.clientHeight < document.documentElement.clientHeight) ? document.body.clientHeight : document.documentElement.clientHeight;
+    }
+    else {
+        var clientHeight = (document.body.clientHeight > document.documentElement.clientHeight) ? document.body.clientHeight : document.documentElement.clientHeight;
+    }
+    return clientHeight-90;
 }

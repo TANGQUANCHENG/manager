@@ -1,4 +1,4 @@
-window.onload=function (ev) {
+window.onload = function (ev) {
     topbar.hide();
     $("body").animate({opacity: 1});
 };
@@ -41,28 +41,28 @@ $('#dataTable').treegrid({
     columns: [[
         {title: '菜单名称', field: 'functionName', width: 60},
         {
-            title: '类型', field: 'type',align:'center', width: 30, formatter: function (value, row) {
+            title: '类型', field: 'type', align: 'center', width: 30, formatter: function (value, row) {
                 return navigationLayer[value];
             }
         },
-        {title: '地址', field: 'url', width: 80,align:'center'},
-        {title: '排序', field: 'sort', width: 20,align:'center'},
+        {title: '地址', field: 'url', width: 80, align: 'center'},
+        {title: '排序', field: 'sort', width: 20, align: 'center'},
         {
-            title: '状态',align:'center', field: 'available', width: 30, formatter: function (value, row) {
-                return value ? '<span class="label label-success" onclick="disableNav('+row.id+')">正常</span>' :
-                    '<span class="label label-danger" onclick="enableNav('+row.id+')">停用</span>'
+            title: '状态', align: 'center', field: 'available', width: 30, formatter: function (value, row) {
+                return value ? '<span class="label label-success" onclick="disableNav(' + row.id + ')">正常</span>' :
+                    '<span class="label label-danger" onclick="enableNav(' + row.id + ')">停用</span>'
             }
         },
-        {title: '创建时间', field: 'createTime', width: 50,align:'center'},
-        {title: 'icon', field: 'icon', width: 40,align:'center'},
-        {title: '说明', field: 'comment', width: 40,align:'center'},
+        {title: '创建时间', field: 'createTime', width: 50, align: 'center'},
+        {title: 'icon', field: 'icon', width: 40, align: 'center'},
+        {title: '说明', field: 'comment', width: 40, align: 'center'},
         {
             title: '操作', field: 'comment2', width: 80, formatter: function (value, row) {
 
-                var str='<a href="javascript:void(0)" class="label plain label-primary" onclick="toUpdate(' + row.id + ')">修改</a>&nbsp;' +
+                var str = '<a href="javascript:void(0)" class="label plain label-primary" onclick="toUpdate(' + row.id + ')">修改</a>&nbsp;' +
                     '<a href="javascript:void(0)"  class="label plain label-danger" onclick="deleteMenu(' + row.id + ')">删除</a>&nbsp;';
-                if(row._parentId!=null && row.type==='MENU'){
-                    str+='<a href="javascript:void(0)"  class="label plain label-success" onclick="toAddLink(' + row.id + ')">增加功能</a>'
+                if (row.parentId != null && row.type === 'MENU') {
+                    str += '<a href="javascript:void(0)"  class="label plain label-success" onclick="toAddLink(' + row.id + ')">增加功能</a>'
                 }
                 return str;
             }
@@ -110,7 +110,6 @@ $("#updateMenu").click(function () {
     if (!v) {
         return;
     }
-
     $.ajax({
         type: "GET",
         url: "/navigation/update",
@@ -153,8 +152,6 @@ $("#addLink").click(function () {
         beforeSend: function () {
         }
     });
-
-
 });
 
 function reloadParents() {
@@ -164,8 +161,8 @@ function reloadParents() {
         data: {},
         dataType: "json",
         success: function (data) {
-            if(data.errorCode===200){
-                data=data.data;
+            if (data.errorCode === 200) {
+                data = data.data;
             }
             var str = " <option value=\"\">无</option>";
             var menus = data;
@@ -179,14 +176,11 @@ function reloadParents() {
     });
 }
 
-
 function deleteMenu(id) {
-
     $.confirm({
         title: '确认!',
         content: '确定要删除这条数据吗？',
         confirm: function () {
-
             $.ajax({
                 type: "GET",
                 url: "/navigation/delete/" + id,
@@ -203,33 +197,28 @@ function deleteMenu(id) {
                 beforeSend: function () {
                 }
             });
-
-
         },
         cancel: function () {
-
         }
     });
-
 }
 
 function toUpdate(id) {
-
     var row = $("#dataTable").treegrid("find", id);
     console.log(row);
     $("#editForm").form("load", row);
     $("#myModal2").modal("show");
 }
+
 function toAddLink(id) {
     var row = $("#dataTable").treegrid("find", id);
-
     $("#linkForm").form("clear");
-
     $("#linkType").val("LINK");
     $("#linkParentId").val(row.id);
     $("#menuFunctionName").val(row.functionName);
     $("#addLinkModal").modal("show");
 }
+
 function disableNav(id) {
     $.confirm({
         title: '确认!',
@@ -239,7 +228,7 @@ function disableNav(id) {
                 type: "GET",
                 url: "/navigation/updateStatus/" + id,
                 data: {
-                    available:false
+                    available: false
                 },
                 dataType: "json",
                 success: function (data) {
@@ -247,7 +236,7 @@ function disableNav(id) {
                         layer.msg("操作成功");
                         $("#dataTable").treegrid("reload");
                     } else {
-                        layer.msg( '操作失败!'+data.errorMsg);
+                        layer.msg('操作失败!' + data.errorMsg);
                     }
                 },
                 beforeSend: function () {
@@ -255,21 +244,20 @@ function disableNav(id) {
             });
         },
         cancel: function () {
-
         }
     });
 }
+
 function enableNav(id) {
     $.confirm({
         title: '确认!',
         content: '确定要启用这个功能吗？',
         confirm: function () {
-
             $.ajax({
                 type: "GET",
                 url: "/navigation/updateStatus/" + id,
                 data: {
-                    available:true
+                    available: true
                 },
                 dataType: "json",
                 success: function (data) {
@@ -277,7 +265,7 @@ function enableNav(id) {
                         layer.msg("操作成功");
                         $("#dataTable").treegrid("reload");
                     } else {
-                        layer.msg('操作失败!'+data.errorMsg);
+                        layer.msg('操作失败!' + data.errorMsg);
                     }
                 },
                 beforeSend: function () {

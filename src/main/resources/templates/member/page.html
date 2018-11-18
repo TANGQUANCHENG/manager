@@ -40,6 +40,7 @@
                                 </div>
                                 <div class="input-group" style="width: 120px;min-width: 80px;">
                                     <select class="form-control" id="searchGender">
+                                        <option value="" ></option>
                                         <option value="">性别</option>
                                         <option value="MALE">男</option>
                                         <option value="FEMALE">女</option>
@@ -76,7 +77,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
     <!-- Modal -->
@@ -89,7 +89,6 @@
                     <h4 class="modal-title" id="myModalLabel">新增会员</h4>
                 </div>
                 <div class="modal-body">
-
                     <form class="form-horizontal" role="form" id="addForm"  enctype="multipart/form-data" method="post" action="/member/add">
                         <div class="form-group">
                             <label class="col-sm-2 control-label">姓名<span class="text-danger">*</span></label>
@@ -143,7 +142,6 @@
                     <h4 class="modal-title" id="myModalLabel2">修改会员</h4>
                 </div>
                 <div class="modal-body">
-
                     <form class="form-horizontal" role="form" id="editForm">
                         <input name="id" type="hidden"/>
                         <div class="form-group">
@@ -206,7 +204,6 @@
         </div>
     </div>
 </div>
-
 
 <div th:include="pageJs :: pageJs"></div>
 <script>
@@ -371,7 +368,6 @@
     });
 
     $("#confirmImport").click(function () {
-
         $("#importForm").form("submit", {
             success: function (data) {
                 try {
@@ -429,12 +425,10 @@
     }
 
     function deleteMember(id) {
-
         $.confirm({
             title: '确认!',
             content: '确定要删除这个管理员吗？',
             confirm: function () {
-
                 $.ajax({
                     type: "GET",
                     url: "/member/delete/" + id,
@@ -470,7 +464,6 @@
     function download(obj) {
         var url;
         var rows = $('#dataTable').bootstrapTable("getSelections");
-
         if (rows == null || rows.length === 0) {
             var data = {
                 queryStartTime: $("#searchStartTime").val(),

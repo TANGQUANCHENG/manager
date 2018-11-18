@@ -17,7 +17,7 @@ $.extend($.fn.treegrid.methods, {
         var status = false;//用来标记当前节点的状态，true:勾选，false:未勾选
         var selectNodes = $(target).treegrid('getSelections');//获取当前选中项
         for (var i = 0; i < selectNodes.length; i++) {
-            if (selectNodes[i][idField] == param.id)
+            if (selectNodes[i][idField] === param.id)
                 status = true;
         }
 
@@ -66,13 +66,13 @@ $(document).ready(function () {
         onClickRow: function (row) {
             //级联选择
             $(this).treegrid('cascadeCheck', {
-                id: row.id, //节点ID
-                deepCascade: true //深度级联
+                //节点ID
+                id: row.id,
+                //深度级联
+                deepCascade: true
             });
         }
     });
-
-
 });
 
 
@@ -128,8 +128,6 @@ function checkSelect() {
         cancel: function(){
         }
     });
-
-    console.log(sourceRow);
 }
 window.onload=function (ev) {
     $(".mask").fadeOut(300);
