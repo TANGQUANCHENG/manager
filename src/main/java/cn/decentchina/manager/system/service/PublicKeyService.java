@@ -11,8 +11,8 @@ public interface PublicKeyService {
     /**
      * 获取公钥
      *
-     * @param httpServletRequest
-     * @return
+     * @param httpServletRequest 请求
+     * @return : java.util.HashMap<java.lang.String,java.lang.String>
      */
     HashMap<String, String> getPublicKey(HttpServletRequest httpServletRequest);
 }

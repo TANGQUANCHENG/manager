@@ -7,9 +7,9 @@ import com.github.stuxuhai.jpinyin.PinyinHelper;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- *
  * @author 唐全成
  */
+@SuppressWarnings("unused")
 public class ChangeToPinYin {
 
     /**
@@ -61,7 +61,7 @@ public class ChangeToPinYin {
      */
     public static String changeToTonePinYin(String pinYinStr) {
 
-        if(StringUtils.isBlank(pinYinStr)){
+        if (StringUtils.isBlank(pinYinStr)) {
             return null;
         }
 
@@ -115,11 +115,10 @@ public class ChangeToPinYin {
     /**
      * 简体转换为繁体
      *
-     * @param pinYinStr
-     * @return
+     * @param pinYinStr 简体
+     * @return : java.lang.String
      */
     public static String changeToTraditional(String pinYinStr) {
-
         String tempStr = null;
         try {
             tempStr = ChineseHelper.convertToTraditionalChinese(pinYinStr);
@@ -133,8 +132,8 @@ public class ChangeToPinYin {
     /**
      * 繁体转换为简体
      *
-     * @param pinYinSt
-     * @return
+     * @param pinYinSt 繁体
+     * @return : java.lang.String
      */
     public static String changeToSimplified(String pinYinSt) {
 
@@ -149,6 +148,4 @@ public class ChangeToPinYin {
         return tempStr;
 
     }
-
-
 }

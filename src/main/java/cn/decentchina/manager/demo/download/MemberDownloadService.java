@@ -6,9 +6,9 @@ import cn.decentchina.manager.demo.vo.MemberVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -21,7 +21,7 @@ import java.util.List;
 @Service
 public class MemberDownloadService {
 
-    @Autowired
+    @Resource
     private MemberDao memberDao;
 
     public void download(String[] titles, ServletOutputStream out, MemberQueryDTO dto) {
@@ -46,7 +46,7 @@ public class MemberDownloadService {
             HSSFCellStyle hssfCellStyle = workbook.createCellStyle();
             //居中样式
             hssfCellStyle.setAlignment(HSSFCellStyle.ALIGN_LEFT);
-            HSSFCell hssfCell = null;
+            HSSFCell hssfCell;
             for (int i = 0; i < titles.length; i++) {
                 //列索引从0开始
                 hssfCell = hssfRow.createCell(i);

@@ -11,6 +11,7 @@ import org.quartz.JobExecutionContext;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
@@ -25,21 +26,12 @@ public class DemoJob implements Job {
     /**
      * 线程池
      */
-    private ListeningExecutorService executorService =
+    private static final ListeningExecutorService EXECUTOR_SERVICE =
             MoreExecutors.listeningDecorator(new ScheduledThreadPoolExecutor(10,
                     new BasicThreadFactory.Builder().namingPattern("DemoThread-pool-%d").daemon(true).build()));
 
     @Override
     public void execute(JobExecutionContext context) {
-        List<Object> orderList = new ArrayList<>();
-        orderList.add("Tom");
-        orderList.add("Mark");
-        orderList.add("Lily");
-        orderList.add("Lucy");
-        for (Object order : orderList) {
-            executorService.submit(new DemoThread(order));
-        }
-        // 等待所有线程运行结束后关闭
-        executorService.shutdown();
+        Arrays.asList("Tom","Mark","Lily","Lucy").forEach(object -> EXECUTOR_SERVICE.execute(new DemoThread(object)));
     }
 }

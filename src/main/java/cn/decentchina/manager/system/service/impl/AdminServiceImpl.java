@@ -19,9 +19,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
@@ -38,14 +38,20 @@ public class AdminServiceImpl implements AdminService {
 
     private static final String DEFAULT_PASSWORD = "123456a";
 
-    private static final int MINIMUM_ACCOUNT_LENGTH=2;
+    private static final int MINIMUM_ACCOUNT_LENGTH = 2;
 
-    @Autowired
+    @Resource
     private AdminDao adminDao;
-
-    @Autowired
+    @Resource
     private CustomerConfig customerConfig;
 
+    /**
+     * 查询管理员分页数据
+     *
+     * @param page       分页信息
+     * @param searchText 查询条件
+     * @return : cn.decentchina.manager.system.vo.Page<cn.decentchina.manager.system.vo.AdminVO>
+     */
     @Override
     public Page<AdminVO> queryAdminListPage(Page page, String searchText) {
         PageHelper.startPage(page.getPageNumber(), page.getPageSize());
@@ -53,6 +59,13 @@ public class AdminServiceImpl implements AdminService {
         return new Page<>(adminVOS);
     }
 
+    /**
+     * 修改管理员
+     *
+     * @param adminUser 管理员
+     * @return : cn.decentchina.manager.common.dto.SimpleMessage
+     * @throws Exception 异常
+     */
     @Override
     public SimpleMessage updateAdmin(Admin adminUser) throws Exception {
         AdminVO currentAdmin = getCurrentAdmin();
@@ -69,6 +82,13 @@ public class AdminServiceImpl implements AdminService {
         return new SimpleMessage(ErrorCodeEnum.OK);
     }
 
+    /**
+     * 新增管理员
+     *
+     * @param adminUser 管理员
+     * @return : cn.decentchina.manager.common.dto.SimpleMessage
+     * @throws Exception 异常
+     */
     @Override
     public SimpleMessage addAdmin(Admin adminUser) throws Exception {
 
@@ -113,6 +133,13 @@ public class AdminServiceImpl implements AdminService {
         return new SimpleMessage(ErrorCodeEnum.OK);
     }
 
+    /**
+     * 删除管理员
+     *
+     * @param id 管理员id
+     * @return : cn.decentchina.manager.common.dto.SimpleMessage
+     * @throws Exception 异常
+     */
     @Override
     public SimpleMessage deleteAdmin(int id) throws Exception {
 
@@ -130,6 +157,14 @@ public class AdminServiceImpl implements AdminService {
         return new SimpleMessage(ErrorCodeEnum.OK);
     }
 
+    /**
+     * 修改密码
+     *
+     * @param oldPwd 旧密码
+     * @param newPwd 新密码
+     * @return : cn.decentchina.manager.common.dto.SimpleMessage
+     * @throws Exception 异常
+     */
     @Override
     public SimpleMessage updatePassword(String oldPwd, String newPwd) throws Exception {
         AdminVO currentAdmin = getCurrentAdmin();
@@ -146,6 +181,13 @@ public class AdminServiceImpl implements AdminService {
         return new SimpleMessage(ErrorCodeEnum.OK);
     }
 
+    /**
+     * 重置密码
+     *
+     * @param id 会员id
+     * @return : cn.decentchina.manager.common.dto.SimpleMessage
+     * @throws Exception 异常
+     */
     @Override
     public SimpleMessage resetPassword(Integer id) throws Exception {
 
@@ -171,6 +213,13 @@ public class AdminServiceImpl implements AdminService {
         return new SimpleMessage(ErrorCodeEnum.OK);
     }
 
+    /**
+     * 修改管理员状态
+     *
+     * @param admin 管理员
+     * @return : cn.decentchina.manager.common.dto.SimpleMessage
+     * @throws Exception 异常
+     */
     @Override
     public SimpleMessage updateStatus(Admin admin) throws Exception {
 
@@ -185,6 +234,17 @@ public class AdminServiceImpl implements AdminService {
         return new SimpleMessage(ErrorCodeEnum.OK);
     }
 
+    /**
+     * 管理员登录
+     *
+     * @param phoneNo            手机号
+     * @param password           密码
+     * @param privateKey         私钥
+     * @param randomStr          随机数
+     * @param httpServletRequest 请求
+     * @return : cn.decentchina.manager.common.dto.SimpleMessage
+     * @throws Exception 异常
+     */
     @Override
     public SimpleMessage login(String phoneNo, String password,
                                RSAPrivateKey privateKey,
@@ -217,6 +277,12 @@ public class AdminServiceImpl implements AdminService {
         return new SimpleMessage(ErrorCodeEnum.OK);
     }
 
+    /**
+     * 获取当前登录用户
+     *
+     * @return : cn.decentchina.manager.system.vo.AdminVO
+     * @throws Exception 异常
+     */
     @Override
     public AdminVO getCurrentAdmin() throws Exception {
         Subject subject = SecurityUtils.getSubject();

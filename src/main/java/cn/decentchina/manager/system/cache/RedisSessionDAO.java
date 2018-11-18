@@ -12,6 +12,7 @@ import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -21,14 +22,13 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 @Component
-public class RedisSessionDAO  extends EnterpriseCacheSessionDAO {
-
+public class RedisSessionDAO extends EnterpriseCacheSessionDAO {
     /**
      * session 在redis过期时间是60分钟60*60
      */
-    private static int expireTime = 3600;
+    private long expireTime = 3600L;
 
-    private static String prefix = "shiro-session:";
+    private String prefix = "shiro-session:";
 
     @Resource
     public RedisTemplate<String, Object> redisTemplate;
@@ -36,17 +36,26 @@ public class RedisSessionDAO  extends EnterpriseCacheSessionDAO {
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
-    // 创建session，保存到数据库
+    /**
+     * 创建session，保存到数据库
+     *
+     * @param session session
+     * @return : java.io.Serializable
+     */
     @Override
     protected Serializable doCreate(Session session) {
         Serializable sessionId = super.doCreate(session);
-
-        log.info("create session:{}",session.getId());
+        log.info("create session:{}", session.getId());
         redisTemplate.opsForValue().set(prefix + sessionId.toString(), session);
         return sessionId;
     }
 
-    // 获取session
+    /**
+     * 获取session
+     *
+     * @param sessionId sessionId
+     * @return : org.apache.shiro.session.Session
+     */
     @Override
     protected Session doReadSession(Serializable sessionId) {
         log.debug("get session:{}", sessionId);
@@ -58,18 +67,27 @@ public class RedisSessionDAO  extends EnterpriseCacheSessionDAO {
         return session;
     }
 
-    // 更新session的最后一次访问时间
+    /**
+     * 更新session的最后一次访问时间
+     *
+     * @param session session
+     */
     @Override
     protected void doUpdate(Session session) {
         super.doUpdate(session);
         String key = prefix + session.getId().toString();
-        if (!redisTemplate.hasKey(key)) {
+        Boolean hasKey = redisTemplate.hasKey(key);
+        if (Objects.nonNull(hasKey) && !hasKey) {
             redisTemplate.opsForValue().set(key, session);
         }
         redisTemplate.expire(key, expireTime, TimeUnit.SECONDS);
     }
 
-    // 删除session
+    /**
+     * 删除session
+     *
+     * @param session session
+     */
     @Override
     protected void doDelete(Session session) {
         log.debug("delete session:{}", session.getId());
@@ -85,14 +103,14 @@ public class RedisSessionDAO  extends EnterpriseCacheSessionDAO {
     public List<String> getActiveAdmin() {
         List<String> sessions = new ArrayList<>(10);
         Set<String> keys = stringRedisTemplate.keys("*");
-        keys.forEach(key->{
-            if(key.indexOf(Constants.CUSTOME_REALM)>0){
-                String userInfo=key.split(":")[2];
-                sessions.add(userInfo);
-            }
-        });
+        if (Objects.nonNull(keys)) {
+            keys.forEach(key -> {
+                if (key.indexOf(Constants.CUSTOMER_REALM) > 0) {
+                    String userInfo = key.split(":")[2];
+                    sessions.add(userInfo);
+                }
+            });
+        }
         return sessions;
     }
-
-
 }

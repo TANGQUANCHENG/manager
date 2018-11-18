@@ -5,12 +5,12 @@ import cn.decentchina.manager.quartz.service.QuartzConfigService;
 import cn.decentchina.manager.quartz.util.SchedulerUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.impl.StdSchedulerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 
@@ -21,10 +21,9 @@ import java.util.List;
 @Configuration
 @ConditionalOnExpression("'${quartz.enabled}'=='true'")
 public class SchedulerConfig {
-    @Autowired
+    @Resource
     private ApplicationContext applicationContext;
-
-    @Autowired
+    @Resource
     private QuartzConfigService quartzConfigService;
 
     @Bean

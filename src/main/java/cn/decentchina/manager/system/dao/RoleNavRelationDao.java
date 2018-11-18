@@ -12,14 +12,16 @@ import java.util.List;
  * @author 唐全成
  * @date 2018-05-18
  */
+@SuppressWarnings({"unused", "UnusedReturnValue"})
 @Mapper
 @Repository
 public interface RoleNavRelationDao {
+
     /**
      * 新增关联关系
      *
-     * @param binding
-     * @return
+     * @param binding 关联关系
+     * @return int 影响行数
      */
     @Insert("insert into tbl_shiro_role_nav(" +
             "role_id," +
@@ -33,10 +35,10 @@ public interface RoleNavRelationDao {
     int addBinding(@Param("binding") RoleNavRelation binding);
 
     /**
-     * 根据职务id查询与之关联的列表
+     * 根据角色id查询与之关联的列表
      *
-     * @param roleId
-     * @return
+     * @param roleId 角色id
+     * @return : java.util.List<cn.decentchina.manager.system.entity.RoleNavRelation>
      */
     @Select("SELECT " +
             "T.ID," +
@@ -48,11 +50,11 @@ public interface RoleNavRelationDao {
     List<RoleNavRelation> queryByRoleId(@Param("roleId") Integer roleId);
 
     /**
-     * 获取某职务与某资源之间的关系
+     * 获取某角色与某资源之间的关系
      *
-     * @param navId
-     * @param roleId
-     * @return
+     * @param navId  导航菜单id
+     * @param roleId 角色id
+     * @return : cn.decentchina.manager.system.entity.RoleNavRelation
      */
     @Select("SELECT T.ID " +
             " FROM tbl_shiro_role_nav T WHERE T.navigation_id=#{navId} and T.role_id=#{roleId}")
@@ -61,19 +63,19 @@ public interface RoleNavRelationDao {
     /**
      * 根据id删除关联关系
      *
-     * @param id
-     * @return
+     * @param id 关系id
+     * @return int 影响行数
      */
     @Delete("DELETE FROM tbl_shiro_role_nav WHERE ID=#{id} ")
     int delete(@Param("id") int id);
 
 
     /**
-     * 根据资源和职务删除关联关系
+     * 根据资源和角色删除关联关系
      *
-     * @param navId
-     * @param roleId
-     * @return
+     * @param navId  导航菜单id
+     * @param roleId 角色id
+     * @return int 影响行数
      */
     @Delete("DELETE FROM tbl_shiro_role_nav  WHERE navigation_id=#{navId} and admin_role_id=#{roleId}")
     int deleteByNavIdAndDutyId(@Param("navId") int navId, @Param("roleId") int roleId);
@@ -81,8 +83,8 @@ public interface RoleNavRelationDao {
     /**
      * 根据角色删除绑定关系
      *
-     * @param roleId
-     * @return
+     * @param roleId 角色id
+     * @return int 影响行数
      */
     @Delete(" delete from tbl_shiro_role_nav where role_id=#{roleId}")
     int deleteByRole(@Param("roleId") Integer roleId);
@@ -90,8 +92,8 @@ public interface RoleNavRelationDao {
     /**
      * 根据资源id删除关联关系
      *
-     * @param navId
-     * @return
+     * @param navId 导航菜单id
+     * @return int 影响行数
      */
     @Delete("delete from tbl_shiro_role_nav " +
             " where navigation_id in (" +
@@ -101,12 +103,11 @@ public interface RoleNavRelationDao {
             " or parent_id = #{navId})")
     int deleteByNavId(@Param("navId") int navId);
 
-
     /**
      * 根据角色查询其菜单树
      *
-     * @param roleId
-     * @return
+     * @param roleId 角色id
+     * @return : java.util.List<cn.decentchina.manager.system.vo.NavigationVO>
      */
     @Select("SELECT " +
             " r.id as navId, " +
@@ -114,7 +115,7 @@ public interface RoleNavRelationDao {
             " n.url as url, " +
             " n.function_name AS functionName, " +
             " n.parent_id AS _parentId, " +
-            " n.icon,"+
+            " n.icon," +
             " n.parent_id AS parentId " +
             "FROM " +
             " tbl_shiro_navigation n, " +
@@ -124,10 +125,10 @@ public interface RoleNavRelationDao {
             "AND r.role_id = #{roleId} and n.is_available=1  order by n.sort")
     List<NavigationVO> queryByRole(@Param("roleId") Integer roleId);
 
-
     /**
      * 查询权限配置链
-     * @return
+     *
+     * @return : java.util.List<cn.decentchina.manager.system.vo.ShiroChainVO>
      */
     @Select(" SELECT" +
             " n.url as url," +

@@ -18,9 +18,9 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.subject.Subject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -36,24 +36,20 @@ import java.util.Set;
 @Component
 public class MyShiroRealm extends AuthorizingRealm {
 
-    @Autowired
+    @Resource
     private AdminService adminService;
-
-    @Autowired
+    @Resource
     private ShiroChainService shiroChainService;
-
-    @Autowired
+    @Resource
     private RedisSessionDAO redisSessionDAO;
-
-    @Autowired
+    @Resource
     private CustomerConfig customerConfig;
 
     /**
      * 用户第一次请求被shiro管理的请求时调用
-     * 授权认证
      *
-     * @param principals
-     * @return
+     * @param principals 用户信息
+     * @return : org.apache.shiro.authz.AuthorizationInfo
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
@@ -83,7 +79,6 @@ public class MyShiroRealm extends AuthorizingRealm {
             }
         } catch (Exception e) {
             log.error("获取当前登录用户失败！", e);
-            e.printStackTrace();
         }
         authorizationInfo.setRoles(roles);
         authorizationInfo.setStringPermissions(permissions);
@@ -91,12 +86,10 @@ public class MyShiroRealm extends AuthorizingRealm {
     }
 
     /**
-     * 登录时调用
-     * 身份认证
+     * 登录时调用 身份认证
      *
-     * @param authcToken
-     * @return
-     * @throws AuthenticationException
+     * @param authcToken token
+     * @return : org.apache.shiro.authc.AuthenticationInfo
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken)
@@ -110,6 +103,9 @@ public class MyShiroRealm extends AuthorizingRealm {
     /**
      * 将一些数据放到ShiroSession中,以便于其它地方使用
      * 比如Controller,使用时直接用HttpSession.getAttribute(key)就可以取到
+     *
+     * @param key   键
+     * @param value 值
      */
     private void setSession(Object key, Object value) {
         Subject currentUser = SecurityUtils.getSubject();
@@ -130,7 +126,7 @@ public class MyShiroRealm extends AuthorizingRealm {
             //获取在线用户
             Collection<String> activeSessions = redisSessionDAO.getActiveAdmin();
             //清空在线用户的权限配置
-            activeSessions.forEach(session -> doClearCache(new SimplePrincipalCollection(session, Constants.CUSTOME_REALM)));
+            activeSessions.forEach(session -> doClearCache(new SimplePrincipalCollection(session, Constants.CUSTOMER_REALM)));
         }
     }
 }

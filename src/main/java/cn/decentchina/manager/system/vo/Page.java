@@ -4,13 +4,14 @@ package cn.decentchina.manager.system.vo;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import lombok.Data;
 
-import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author 唐全成
  * @date 2018/3/30
  */
+@SuppressWarnings("unused")
 @Data
 public class Page<T> {
     private static final long serialVersionUID = 1L;
@@ -45,7 +46,7 @@ public class Page<T> {
     /**
      * 包装Page对象
      *
-     * @param list
+     * @param list 数据集合
      */
     public Page(List<T> list) {
         this(list, 8);
@@ -58,25 +59,23 @@ public class Page<T> {
      * @param navigatePages 页码数量
      */
     public Page(List<T> list, int navigatePages) {
+        Objects.requireNonNull(list);
         if (list instanceof com.github.pagehelper.Page) {
-            com.github.pagehelper.Page page = (com.github.pagehelper.Page) list;
+            com.github.pagehelper.Page<T> page = (com.github.pagehelper.Page<T>) list;
             this.pageNumber = page.getPageNum();
             this.pageSize = page.getPageSize();
-
             this.pages = page.getPages();
-            this.list = page;
+            this.list = page.getResult();
             this.size = page.size();
             this.total = page.getTotal();
 
-        } else if (list instanceof Collection) {
+        } else {
             this.pageNumber = 1;
             this.pageSize = list.size();
-
             this.pages = 1;
             this.list = list;
             this.size = list.size();
             this.total = list.size();
-
         }
 
     }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -12,30 +13,33 @@ import java.util.Map;
  */
 public class MapToJson {
     public static String toJson(Map<String, String> map) {
+        String jsonFromMap = "";
         if (map == null || map.isEmpty()) {
-            return null;
+            return jsonFromMap;
         }
         ObjectMapper mapper = new ObjectMapper();
         try {
-            String jsonfromMap = mapper.writeValueAsString(map);
-            return jsonfromMap;
+            jsonFromMap = mapper.writeValueAsString(map);
+            return jsonFromMap;
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        return null;
+        return jsonFromMap;
     }
 
+    @SuppressWarnings("unchecked")
     public static Map<String, String> toMap(String json) {
+        Map<String, String> map = new HashMap<>(8);
         if (StringUtils.isBlank(json)) {
-            return null;
+            return map;
         }
         ObjectMapper mapper = new ObjectMapper();
         try {
-            Map<String, String> map = mapper.readValue(json, Map.class);
+            map = mapper.readValue(json, Map.class);
             return map;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return map;
     }
 }

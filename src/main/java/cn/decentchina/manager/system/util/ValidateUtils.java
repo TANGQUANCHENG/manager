@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 /**
@@ -15,8 +16,8 @@ import java.util.regex.Pattern;
  *
  * @author 唐全成
  */
+@SuppressWarnings({"unused"})
 public class ValidateUtils {
-
     private static Pattern IS_INTEGER = Pattern.compile("^[-\\+]?[\\d]*$");
     private static Pattern IS_POSITIVE_INTEGER = Pattern.compile("^[\\d]*$");
     private static Pattern IS_DOUBLE = Pattern.compile("^[-\\+]?[.\\d]*$");
@@ -70,10 +71,7 @@ public class ValidateUtils {
     }
 
     public static boolean isMobile(String mobile) {
-        if (StringUtils.isBlank(mobile)) {
-            return false;
-        }
-        return IS_MOBILE.matcher(mobile).matches();
+        return StringUtils.isNotBlank(mobile) && IS_MOBILE.matcher(mobile).matches();
     }
 
     public static boolean isPhone(String phone) {
@@ -86,14 +84,12 @@ public class ValidateUtils {
 
     public static boolean isDate(String dateStr) {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = null;
-
+        Date date;
         try {
             date = df.parse(dateStr);
         } catch (ParseException var4) {
             return false;
         }
-
         return date != null;
     }
 
@@ -103,14 +99,14 @@ public class ValidateUtils {
         if (first == -1) {
             return false;
         } else {
-            SimpleDateFormat df = null;
+            SimpleDateFormat df;
             if (first == last) {
                 df = new SimpleDateFormat("yyyy-MM-dd hh:mm");
             } else {
                 df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
             }
 
-            Date date = null;
+            Date date;
 
             try {
                 date = df.parse(dateTime);
@@ -118,7 +114,7 @@ public class ValidateUtils {
                 return false;
             }
 
-            return date != null;
+            return Objects.nonNull(date);
         }
     }
 
@@ -135,7 +131,7 @@ public class ValidateUtils {
     }
 
     public static boolean isBankCard(String bankCard) {
-        String regex="\\d+";
+        String regex = "\\d+";
         if (!StringUtils.isBlank(bankCard)) {
             String nonCheckCodeCardId = bankCard.substring(0, bankCard.length() - 1);
             if (nonCheckCodeCardId.matches(regex)) {
@@ -215,9 +211,9 @@ public class ValidateUtils {
             return true;
         } else if (obj instanceof Collection && ((Collection) obj).isEmpty()) {
             return true;
-        } else {
-            return obj instanceof Map && ((Map) obj).isEmpty();
+        } else if (obj instanceof Map && ((Map) obj).isEmpty()) {
+            return true;
         }
+        return false;
     }
-
 }

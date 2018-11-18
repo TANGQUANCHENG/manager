@@ -16,10 +16,10 @@ import java.util.List;
 public interface NavigationDao {
 
     /**
-     * 新增
+     * 新增导航菜单
      *
-     * @param a
-     * @return
+     * @param navigation 导航菜单
+     * @return int 影响行数
      */
     @Insert("insert into tbl_shiro_navigation(" +
             "function_name," +
@@ -43,13 +43,13 @@ public interface NavigationDao {
             "#{a.available}," +
             "now()" +
             ")")
-    int addNavigation(@Param("a") Navigation a);
+    int addNavigation(@Param("a") Navigation navigation);
 
     /**
-     * 查询单个资源信息
+     * 查询导航菜单
      *
-     * @param id
-     * @return
+     * @param id 导航菜单id
+     * @return : cn.decentchina.manager.system.vo.NavigationVO
      */
     @Select("SELECT " +
             "T.ID," +
@@ -71,7 +71,7 @@ public interface NavigationDao {
     /**
      * 查询菜单栏的所有父节点
      *
-     * @return
+     * @return : java.util.List<cn.decentchina.manager.system.entity.Navigation>
      */
     @Select("SELECT " +
             "T.ID," +
@@ -87,8 +87,8 @@ public interface NavigationDao {
     /**
      * 查询菜单栏的所有子节点
      *
-     * @param fatherId
-     * @return
+     * @param fatherId 父菜单id
+     * @return : java.util.List<cn.decentchina.manager.system.vo.NavigationVO>
      */
     @Select("SELECT " +
             "T.ID," +
@@ -108,10 +108,10 @@ public interface NavigationDao {
 
 
     /**
-     * 修改资源管理数据
+     * 修改导航菜单
      *
-     * @param a
-     * @return
+     * @param navigation 导航菜单
+     * @return int 影响行数
      */
     @Update("UPDATE TBL_SHIRO_NAVIGATION T " +
             "SET " +
@@ -122,33 +122,33 @@ public interface NavigationDao {
             "T.comment=#{a.comment,jdbcType=VARCHAR}," +
             "T.ICON=#{a.icon,jdbcType=VARCHAR} " +
             " WHERE T.ID=#{a.id} ")
-    int updateNavigation(@Param("a") Navigation a);
+    int updateNavigation(@Param("a") Navigation navigation);
 
     /**
-     * 修改资源状态
+     * 修改导航菜单状态
      *
-     * @param navId
-     * @param available
-     * @return
+     * @param navId     导航菜单id
+     * @param available 是否有效
+     * @return int 影响行数
      */
     @Update("UPDATE TBL_SHIRO_NAVIGATION T SET T.gmt_modified=now(),T.is_available=#{available} WHERE T.ID=#{navId} and parent_id is not null ")
     int updateStatus(@Param("navId") Integer navId, @Param("available") Boolean available);
 
 
     /**
-     * 删除选中的菜单
+     * 删除选中的导航菜单
      *
-     * @param id
-     * @return
+     * @param id 导航菜单id
+     * @return int 影响行数
      */
     @Delete("DELETE FROM TBL_SHIRO_NAVIGATION  WHERE ID=#{id}  OR parent_id=#{id}")
     int deleteNavigation(@Param("id") Integer id);
 
 
     /**
-     * 查询所有功能
+     * 查询所有导航菜单
      *
-     * @return
+     * @return : java.util.List<cn.decentchina.manager.system.vo.NavigationVO>
      */
     @Select("SELECT " +
             "T.ID," +
@@ -165,10 +165,11 @@ public interface NavigationDao {
             "T.is_available as available " +
             "FROM TBL_SHIRO_NAVIGATION T  order by t.sort")
     List<NavigationVO> queryAll();
+
     /**
      * 查询菜单
      *
-     * @return
+     * @return : java.util.List<cn.decentchina.manager.system.vo.NavigationVO>
      */
     @Select("SELECT " +
             "T.ID," +
@@ -184,6 +185,4 @@ public interface NavigationDao {
             "T.is_available as available " +
             "FROM TBL_SHIRO_NAVIGATION T where T.type='MENU' order by t.sort")
     List<NavigationVO> queryMenus();
-
-
 }

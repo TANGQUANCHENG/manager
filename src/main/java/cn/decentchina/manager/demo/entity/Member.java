@@ -1,8 +1,10 @@
 package cn.decentchina.manager.demo.entity;
 
 import cn.decentchina.manager.demo.enums.GenderEnum;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -33,11 +35,13 @@ public class Member {
     /**
      * 创建时间
      */
-    private Date createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime createTime;
     /**
      * 修改时间
      */
-    private Date modifyTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime modifyTime;
 
     /**
      * 头像

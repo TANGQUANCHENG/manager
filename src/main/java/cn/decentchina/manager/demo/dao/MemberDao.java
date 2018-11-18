@@ -18,16 +18,16 @@ import java.util.List;
 public interface MemberDao {
 
     /**
-     * 新增
+     * 插入
      *
-     * @param member
-     * @return
+     * @param member 成员
+     * @return : int 影响行数
      */
     @Insert("insert into tbl_member (" +
             "member_name ," +
             "age ," +
             "gender," +
-            "avatar,"+
+            "avatar," +
             "gmt_create) " +
             "values( " +
             "#{member.name}," +
@@ -40,8 +40,8 @@ public interface MemberDao {
     /**
      * 删除
      *
-     * @param id
-     * @return
+     * @param id 成员id
+     * @return : int 影响行数
      */
     @Delete("delete from tbl_member where id=#{id}")
     int deleteMember(@Param("id") Integer id);
@@ -49,8 +49,8 @@ public interface MemberDao {
     /**
      * 修改
      *
-     * @param member
-     * @return
+     * @param member 成员
+     * @return : int 影响行数
      */
     @Update("update tbl_member set " +
             " member_name=#{member.name} ," +
@@ -64,7 +64,7 @@ public interface MemberDao {
      * 信息分页查询
      *
      * @param memberQueryDTO 搜索条件
-     * @return
+     * @return : java.util.List<cn.decentchina.manager.demo.vo.MemberVO>
      */
     @SelectProvider(type = MemberDaoProvider.class, method = "queryMemberList")
     List<MemberVO> queryList(@Param("dto") MemberQueryDTO memberQueryDTO);
@@ -72,8 +72,8 @@ public interface MemberDao {
     /**
      * 用于选中下载
      *
-     * @param ids
-     * @return
+     * @param ids 成员id
+     * @return : java.util.List<cn.decentchina.manager.demo.vo.MemberVO>
      */
     @Select("  select id," +
             " member_name as name," +
@@ -86,8 +86,9 @@ public interface MemberDao {
     List<MemberVO> queryByIds(@Param("ids") String ids);
 
     /**
-     * 查询全部
-     * @return
+     * 查询全部成员
+     *
+     * @return : java.util.List<cn.decentchina.manager.demo.entity.Member>
      */
     @Select("  select id," +
             " member_name as name," +
@@ -95,6 +96,6 @@ public interface MemberDao {
             " gender," +
             " gmt_create as createTime," +
             " gmt_modified as modifyTime" +
-            " from tbl_member " )
+            " from tbl_member ")
     List<Member> queryAll();
 }

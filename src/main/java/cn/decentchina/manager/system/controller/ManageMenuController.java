@@ -15,13 +15,14 @@ public class ManageMenuController {
 
     /**
      * 跳转到页面（角色的权限）
-     * @return
+     *
+     * @param id 权限id
+     * @return : org.springframework.web.servlet.ModelAndView
      */
     @RequestMapping("/{id}")
-    public ModelAndView toRoleManage(@PathVariable Integer id){
-        ModelAndView md=new ModelAndView("admin/roleManage");
-        md.addObject("roleId",id);
+    public ModelAndView toRoleManage(@PathVariable Integer id) {
+        ModelAndView md = new ModelAndView("admin/roleManage");
+        md.addObject("roleId", id);
         return md;
     }
-
 }

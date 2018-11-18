@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TreeVO implements java.io.Serializable{
+public class TreeVO {
 
     private Integer total;
 

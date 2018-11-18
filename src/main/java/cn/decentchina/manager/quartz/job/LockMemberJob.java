@@ -2,7 +2,6 @@ package cn.decentchina.manager.quartz.job;
 
 import cn.decentchina.manager.demo.dao.MemberDao;
 import cn.decentchina.manager.demo.entity.Member;
-import cn.decentchina.manager.quartz.thread.DemoThread;
 import cn.decentchina.manager.quartz.thread.MemberThread;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
@@ -11,10 +10,9 @@ import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
@@ -27,22 +25,18 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 @Component
 public class LockMemberJob implements Job {
 
-    @Autowired
+    @Resource
     private MemberDao memberDao;
     /**
      * 线程池
      */
-    private ListeningExecutorService executorService =
+    private static final ListeningExecutorService EXECUTOR_SERVICE =
             MoreExecutors.listeningDecorator(new ScheduledThreadPoolExecutor(10,
                     new BasicThreadFactory.Builder().namingPattern("MemberThread-pool-%d").daemon(true).build()));
 
     @Override
     public void execute(JobExecutionContext context) {
         List<Member> memberList = memberDao.queryAll();
-        for (Member order : memberList) {
-            executorService.submit(new MemberThread(order));
-        }
-        // 等待所有线程运行结束后关闭
-        executorService.shutdown();
+        memberList.forEach(member -> EXECUTOR_SERVICE.execute(new MemberThread(member)));
     }
 }

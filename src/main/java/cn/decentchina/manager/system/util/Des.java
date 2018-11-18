@@ -5,23 +5,25 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
 import javax.crypto.spec.IvParameterSpec;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author 唐全成
  */
 public class Des {
 
-    private static final int TWO=2;
+    private static final int TWO = 2;
+
     /**
      * 加密
      *
-     * @param data
-     * @param sKey
-     * @return
+     * @param data 数据 字节数组
+     * @param sKey key
+     * @return : byte[]
      */
     public static byte[] encrypt(byte[] data, String sKey) {
         try {
-            byte[] key = sKey.getBytes();
+            byte[] key = sKey.getBytes(StandardCharsets.UTF_8.name());
             // 初始化向量
             IvParameterSpec iv = new IvParameterSpec(key);
             DESKeySpec desKey = new DESKeySpec(key);
@@ -44,13 +46,13 @@ public class Des {
     /**
      * 解密
      *
-     * @param src
-     * @param sKey
-     * @return
-     * @throws Exception
+     * @param src  数据 字节数组
+     * @param sKey key
+     * @return : byte[]
+     * @throws Exception 异常
      */
     public static byte[] decrypt(byte[] src, String sKey) throws Exception {
-        byte[] key = sKey.getBytes();
+        byte[] key = sKey.getBytes(StandardCharsets.UTF_8.name());
         // 初始化向量
         IvParameterSpec iv = new IvParameterSpec(key);
         // 创建一个DESKeySpec对象
@@ -70,13 +72,13 @@ public class Des {
     /**
      * 将二进制转换成16进制
      *
-     * @param buf
-     * @return
+     * @param buf 数据 字节数组
+     * @return : java.lang.String
      */
     public static String parseByte2HexStr(byte[] buf) {
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < buf.length; i++) {
-            String hex = Integer.toHexString(buf[i] & 0xFF);
+        StringBuilder sb = new StringBuilder();
+        for (byte b : buf) {
+            String hex = Integer.toHexString(b & 0xFF);
             if (hex.length() == 1) {
                 hex = '0' + hex;
             }
@@ -88,8 +90,8 @@ public class Des {
     /**
      * 将16进制转换为二进制
      *
-     * @param hexStr
-     * @return
+     * @param hexStr 16进制数据
+     * @return : byte[]
      */
     public static byte[] parseHexStr2Byte(String hexStr) {
         if (hexStr.length() < 1) {

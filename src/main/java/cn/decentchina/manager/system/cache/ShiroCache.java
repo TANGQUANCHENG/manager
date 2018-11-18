@@ -15,12 +15,12 @@ import java.util.concurrent.TimeUnit;
  * @date 2018-05-24
  */
 @SuppressWarnings("unchecked")
-public class ShiroCache <K, V> implements Cache<K, V> {
+public class ShiroCache<K, V> implements Cache<K, V> {
 
     private static final String REDIS_SHIRO_CACHE = "shiro-cache:";
     private String cacheKey;
     private RedisTemplate<K, V> redisTemplate;
-    private long globExpire = 60;
+    private long globExpire = 60L;
 
     @SuppressWarnings("rawtypes")
     public ShiroCache(String name, RedisTemplate client) {

@@ -11,9 +11,9 @@ import cn.decentchina.manager.system.service.NavigationService;
 import cn.decentchina.manager.system.vo.AdminVO;
 import cn.decentchina.manager.system.vo.NavigationVO;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -23,16 +23,20 @@ import java.util.List;
 @Service
 public class NavigationServiceImpl implements NavigationService {
 
-
-    @Autowired
+    @Resource
     private NavigationDao navigationDao;
-    @Autowired
+    @Resource
     private RoleNavRelationDao roleNavRelationDao;
-    @Autowired
+    @Resource
     private AdminService adminService;
-    @Autowired
+    @Resource
     private FilterChainDefinitionsService filterChainDefinitionsService;
 
+    /**
+     * 查询全部导航
+     *
+     * @return : java.util.List<cn.decentchina.manager.system.vo.NavigationVO>
+     */
     @Override
     public List<NavigationVO> queryAll() {
         List<NavigationVO> navigationVOS = navigationDao.queryAll();
@@ -40,6 +44,13 @@ public class NavigationServiceImpl implements NavigationService {
         return navigationVOS;
     }
 
+    /**
+     * 新增导航菜单
+     *
+     * @param navigation 导航菜单
+     * @return : cn.decentchina.manager.common.dto.SimpleMessage
+     * @throws Exception 异常
+     */
     @Override
     public SimpleMessage addNavigation(Navigation navigation) throws Exception {
 
@@ -59,6 +70,13 @@ public class NavigationServiceImpl implements NavigationService {
         return new SimpleMessage(ErrorCodeEnum.OK);
     }
 
+    /**
+     * 修改导航菜单
+     *
+     * @param navigation 导航菜单
+     * @return : cn.decentchina.manager.common.dto.SimpleMessage
+     * @throws Exception 异常
+     */
     @Override
     public SimpleMessage updateNavigation(Navigation navigation) throws Exception {
         AdminVO currentAdmin = adminService.getCurrentAdmin();
@@ -75,6 +93,13 @@ public class NavigationServiceImpl implements NavigationService {
         return new SimpleMessage(ErrorCodeEnum.OK);
     }
 
+    /**
+     * 删除导航菜单
+     *
+     * @param id 导航菜单id
+     * @return : cn.decentchina.manager.common.dto.SimpleMessage
+     * @throws Exception 异常
+     */
     @Override
     public SimpleMessage deleteNavigation(Integer id) throws Exception {
 
@@ -91,11 +116,24 @@ public class NavigationServiceImpl implements NavigationService {
         return new SimpleMessage(ErrorCodeEnum.OK);
     }
 
+    /**
+     * 查询一级菜单
+     *
+     * @return : java.util.List<cn.decentchina.manager.system.entity.Navigation>
+     */
     @Override
     public List<Navigation> queryFirstLevel() {
         return navigationDao.queryParents();
     }
 
+    /**
+     * 修改菜单状态
+     *
+     * @param id     菜单id
+     * @param status 菜单状态
+     * @return : java.util.List<cn.decentchina.manager.system.entity.Navigation>
+     * @throws Exception 异常
+     */
     @Override
     public SimpleMessage updateStatus(Integer id, Boolean status) throws Exception {
 

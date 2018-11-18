@@ -9,12 +9,12 @@ import cn.decentchina.manager.system.service.RoleService;
 import cn.decentchina.manager.system.vo.NavigationVO;
 import cn.decentchina.manager.system.vo.RoleVO;
 import cn.decentchina.manager.system.vo.TreeVO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -23,21 +23,20 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("bind")
-public class BindController extends AppExceptionHandler{
+public class BindController {
 
-    @Autowired
+    @Resource
     private NavigationService navigationService;
-
-    @Autowired
+    @Resource
     private RoleService roleService;
-
-    @Autowired
+    @Resource
     private BindService bindService;
 
     /**
-     * 跳转页面
+     * 跳转到页面
      *
-     * @return
+     * @param roleId 权限id
+     * @return : org.springframework.web.servlet.ModelAndView
      */
     @RequestMapping("")
     public ModelAndView toPage(Integer roleId) {
@@ -52,7 +51,8 @@ public class BindController extends AppExceptionHandler{
     /**
      * 请求所有的导航
      *
-     * @return
+     * @return : cn.decentchina.manager.system.vo.TreeVO
+     * @author : zhongzq
      */
     @RequestMapping("/allNav")
     public TreeVO queryAllNavigation() {
@@ -63,7 +63,7 @@ public class BindController extends AppExceptionHandler{
     /**
      * 请求所有的角色
      *
-     * @return
+     * @return : java.util.List<cn.decentchina.manager.system.vo.RoleVO>
      */
     @RequestMapping("/allRole")
     public List<RoleVO> queryAllRole() {
@@ -73,7 +73,9 @@ public class BindController extends AppExceptionHandler{
     /**
      * 新增角色与资源的关联关系
      *
-     * @param dto
+     * @param dto 角色与资源的关联关系
+     * @return : cn.decentchina.manager.common.dto.SimpleMessage
+     * @throws Exception 异常
      */
     @RequestMapping("/addDutyNavBinding")
     public SimpleMessage addDutyNavBinding(RoleNavBindingDTO dto) throws Exception {
@@ -83,8 +85,9 @@ public class BindController extends AppExceptionHandler{
     /**
      * 解除绑定关系
      *
-     * @param relationIds
-     * @return
+     * @param relationIds 绑定关系id
+     * @return : cn.decentchina.manager.common.dto.SimpleMessage
+     * @throws Exception 异常
      */
     @RequestMapping("/relieveBind")
     public SimpleMessage relieveBind(Integer[] relationIds) throws Exception {
@@ -92,6 +95,12 @@ public class BindController extends AppExceptionHandler{
     }
 
 
+    /**
+     * 绑定权限
+     *
+     * @param roleId 权限id
+     * @return : org.springframework.web.servlet.ModelAndView
+     */
     @RequestMapping("/toBind/{roleId}")
     public ModelAndView toBindByRole(@PathVariable Integer roleId) {
         ModelAndView md = new ModelAndView("admin/editRoleNav");
@@ -99,6 +108,12 @@ public class BindController extends AppExceptionHandler{
         return md;
     }
 
+    /**
+     * 获取权限数据
+     *
+     * @param roleId 权限id
+     * @return : cn.decentchina.manager.system.vo.TreeVO
+     */
     @RequestMapping("/getData/{roleId}")
     public TreeVO getDataByRole(@PathVariable Integer roleId) {
         //查询全部菜单

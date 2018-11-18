@@ -1,13 +1,15 @@
 package cn.decentchina.manager.system.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * @author 唐全成
  * @date 2018-05-18
  */
+@SuppressWarnings("unused")
 @Data
 public class RoleNavRelation {
 
@@ -26,9 +28,10 @@ public class RoleNavRelation {
     /**
      * 创建时间
      */
-    private Date createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private LocalDateTime createTime;
 
-    public RoleNavRelation(Integer roleId, Integer navigationId, Date createTime) {
+    public RoleNavRelation(Integer roleId, Integer navigationId, LocalDateTime createTime) {
         this.roleId = roleId;
         this.navigationId = navigationId;
         this.createTime = createTime;

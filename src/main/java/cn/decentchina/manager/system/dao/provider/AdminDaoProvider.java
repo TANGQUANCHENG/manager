@@ -8,13 +8,14 @@ import java.util.HashMap;
  * @author 唐全成
  * @date 2018-05-18
  */
+@SuppressWarnings("unused")
 public class AdminDaoProvider {
 
     /**
      * 管理员信息分页查询
      *
-     * @param map
-     * @return
+     * @param map 参数
+     * @return : java.lang.String
      */
     public String queryAdminListPage(HashMap<String, Object> map) {
         StringBuffer sql = new StringBuffer(200);
@@ -39,10 +40,10 @@ public class AdminDaoProvider {
     /**
      * 查询条件封装
      *
-     * @param map
-     * @param sql
+     * @param map 参数
+     * @param sql sql
      */
-    public void queryCondition(HashMap<String, Object> map, StringBuffer sql) {
+    private void queryCondition(HashMap<String, Object> map, StringBuffer sql) {
         String searchText = (String) map.get("searchText");
         if (StringUtils.isNotBlank(searchText)) {
             sql.append(" and ( instr(a.name,#{searchText})>0 or instr(r.name,#{searchText})>0 or instr(a.phone_no,#{searchText})>0 )");

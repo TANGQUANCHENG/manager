@@ -16,8 +16,8 @@ public class PublicKeyServiceImpl implements PublicKeyService {
     /**
      * 获取公钥
      *
-     * @param httpServletRequest
-     * @return
+     * @param httpServletRequest 请求
+     * @return : java.util.HashMap<java.lang.String,java.lang.String>
      */
     @Override
     public HashMap<String, String> getPublicKey(HttpServletRequest httpServletRequest) {

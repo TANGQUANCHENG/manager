@@ -8,6 +8,7 @@ import javax.servlet.ServletResponse;
 
 /**
  * description:自定义过滤器 *允许shiro通过或集过滤权限
+ *
  * @author 唐全成
  * @date 2018/3/19
  */
@@ -21,9 +22,9 @@ public class CustomRolesAuthorizationFilter extends AuthorizationFilter {
         if (rolesArray == null || rolesArray.length == 0) {
             return true;
         }
-        for (int i = 0; i < rolesArray.length; i++) {
+        for (String role : rolesArray) {
             //若当前用户是rolesArray中的任何一个，则有权限访问
-            if (subject.hasRole(rolesArray[i])) {
+            if (subject.hasRole(role)) {
                 return true;
             }
         }
