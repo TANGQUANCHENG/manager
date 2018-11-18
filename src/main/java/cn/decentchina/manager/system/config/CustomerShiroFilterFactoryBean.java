@@ -30,8 +30,6 @@ public class CustomerShiroFilterFactoryBean extends BaseShiroFactoryBean {
 
     private ShiroChainService shiroChainService;
 
-    @Resource
-    private CustomerConfig customerConfig;
 
     public CustomerShiroFilterFactoryBean(ShiroChainService shiroChainService) {
         this.shiroChainService = shiroChainService;

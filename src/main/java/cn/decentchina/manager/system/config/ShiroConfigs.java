@@ -45,6 +45,8 @@ public class ShiroConfigs {
     private CustomerConfig customerConfig;
     @Resource
     private MyShiroRealm myShiroRealm;
+    @Resource
+    private RedisSessionDAO redisSessionDAO;
 
     @SuppressWarnings("unchecked")
     @Bean(name = "shiroFilter")
@@ -174,12 +176,6 @@ public class ShiroConfigs {
     }
 
 
-    @SuppressWarnings("unchecked")
-    public RedisSessionDAO redisSessionDAO() {
-        RedisSessionDAO sessionDAO = new RedisSessionDAO();
-        sessionDAO.redisTemplate = redisTemplate;
-        return sessionDAO;
-    }
 
     @SuppressWarnings("unchecked")
     @Bean
@@ -210,7 +206,7 @@ public class ShiroConfigs {
             sessionManager.setSessionIdCookieEnabled(true);
             sessionManager.setSessionIdCookie(getSessionIdCookie());
             sessionManager.setCacheManager(redisCacheManager());
-            sessionManager.setSessionDAO(redisSessionDAO());
+            sessionManager.setSessionDAO(redisSessionDAO);
         }
         //shiro过期配置，未配置则为1800000（30分钟）
         Long sessionTimeOut = customerConfig.getSessionTimeOut();
