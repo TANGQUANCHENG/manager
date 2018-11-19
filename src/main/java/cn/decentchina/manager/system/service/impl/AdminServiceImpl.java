@@ -36,7 +36,7 @@ import java.util.List;
 @Service
 public class AdminServiceImpl implements AdminService {
 
-    private static final String DEFAULT_PASSWORD = "123456a";
+    private static final String DEFAULT_PASSWORD = "Abc123##";
 
     private static final int MINIMUM_ACCOUNT_LENGTH = 2;
 
@@ -108,7 +108,7 @@ public class AdminServiceImpl implements AdminService {
             return new SimpleMessage(ErrorCodeEnum.INVALID_PARAMS, "该账号已存在");
         }
         if (StringUtils.isBlank(adminUser.getLoginPwd()) || !ValidateUtils.isLegalPassword(adminUser.getLoginPwd())) {
-            return new SimpleMessage(ErrorCodeEnum.INVALID_PARAMS, "新密码必须为6-12位数字密码组合");
+            return new SimpleMessage(ErrorCodeEnum.INVALID_PARAMS, "新密码至少为8位数字、大小写字母、特殊符号组合");
         }
 
         String salt = SecurityUtil.getRandomStr(8);

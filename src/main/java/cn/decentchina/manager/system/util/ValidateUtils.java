@@ -33,7 +33,8 @@ public class ValidateUtils {
     private static Pattern IS_MAC = Pattern.compile("^([0-9a-fA-F]{2})(([\\s:-][0-9a-fA-F]{2}){5})$");
     private static Pattern IS_PASSPORT = Pattern.compile("^1[45][0-9]{7}|G[0-9]{8}|E[0-9]{8}|P[0-9]{7}|S[0-9]{7,8}|D[0-9]+$");
     private static Pattern IS_LETTER_DIGIT_OR_CHINESE = Pattern.compile("^[·a-z0-9A-Z\u4e00-\u9fa5]+$");
-    private static Pattern IS_LEGAL_PASSWORD = Pattern.compile("^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,12}$");
+    private static Pattern IS_LEGAL_PASSWORD = Pattern.compile("^(?![A-Za-z0-9]+$)(?![a-z0-9\\W]+$)(?![A-Za-z\\W]+$)" +
+            "(?![A-Z0-9\\W]+$)[a-zA-Z0-9\\W]{8,}$");
 
     public ValidateUtils() {
     }
