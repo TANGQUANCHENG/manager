@@ -10,6 +10,7 @@ import cn.decentchina.manager.demo.service.CellService;
 import cn.decentchina.manager.demo.service.MemberService;
 import cn.decentchina.manager.demo.vo.DataCell;
 import cn.decentchina.manager.demo.vo.MemberVO;
+import cn.decentchina.manager.handler.AppExceptionHandler;
 import cn.decentchina.manager.system.vo.Page;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.ui.Model;
@@ -32,7 +33,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("member")
-public class MemberController {
+public class MemberController  {
     @Resource
     private MemberService memberService;
     @Resource
@@ -70,7 +71,7 @@ public class MemberController {
      * @return : cn.decentchina.manager.system.vo.Page<cn.decentchina.manager.demo.vo.MemberVO>
      */
     @RequestMapping("/list")
-    public Page<MemberVO> queryPage(Page page, MemberQueryDTO queryDTO) {
+    public Page<MemberVO> queryPage(Page page, MemberQueryDTO queryDTO) throws Exception {
         return memberService.queryList(page, queryDTO);
     }
 
@@ -169,15 +170,15 @@ public class MemberController {
      */
     @RequestMapping("/testDrawImg")
     public void testDrawImg(HttpServletResponse response) throws IOException {
-        String[] heads = {"店铺", "销售额", "预算", "达成率"};
+        String[] heads = {"品牌","产品", "正常库存", "冻结库存", "回收量"};
         List<DataCell> list = new ArrayList<>(30);
-        DataCell cell = new DataCell("高新万达一店", "7849.40", " 20000.00 ", "39%");
-        DataCell cell1 = new DataCell("普利街店", "7849.40", " 20000.00 ", "39%");
-        DataCell cell2 = new DataCell("汇隆广场店", "7849.40", " 20000.00 ", "39%");
-        DataCell cell3 = new DataCell("滨河码头店", "7849.40", " 20000.00 ", "39%");
-        DataCell cell4 = new DataCell("滨河物流店", "7849.40", " 20000.00 ", "39%");
-        DataCell cell5 = new DataCell("华信店", "7849.40", " 20000.00 ", "39%");
-        DataCell cell6 = new DataCell("大明湖店", "7849.40", " 20000.00 ", "39%");
+        DataCell cell = new DataCell("星巴克", "中杯通兑伙伴券", " 300 ", "20" ,"20");
+        DataCell cell1 = new DataCell("星巴克", "大杯饮品券", " 200 ", "500","20");
+        DataCell cell2 = new DataCell("星巴克", "中杯全国券", " 200 ", "33","20");
+        DataCell cell3 = new DataCell("肯德基", "蛋挞2只", " 2000 ", "10","20");
+        DataCell cell4 = new DataCell("肯德基", "早餐粥", " 200 ", "53","20");
+        DataCell cell5 = new DataCell("肯德基", "100元代金券", " 24 ", "78","20");
+        DataCell cell6 = new DataCell("京东E卡", "京东E卡1000元", " 3 ", "5","20");
         list.add(cell);
         list.add(cell1);
         list.add(cell2);

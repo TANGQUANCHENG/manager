@@ -48,7 +48,7 @@ public class CellServiceImpl implements CellService {
         //画背景
         graphics.setColor(new Color(0, 112, 192));
         //画标题
-        graphics.drawString("2018-10-12", imgWidth / 2 - 50, padding * 2);
+        graphics.drawString("2019-05-13 10:30", imgWidth / 2 - 50, padding * 2);
         //画表头
         for (int i = 0; i < heads.length; i++) {
             graphics.drawString(heads[i], i * 120 + padding * 2, padding * 2 + trHeight);
@@ -61,6 +61,7 @@ public class CellServiceImpl implements CellService {
             graphics.drawString(cell.getAmount(), 120 + padding * 2, i * 36 + padding * 2);
             graphics.drawString(cell.getBudget(), 2 * 120 + padding * 2, i * 36 + padding * 2);
             graphics.drawString(cell.getRate(), 3 * 120 + padding * 2, i * 36 + padding * 2);
+            graphics.drawString(cell.getRate(), 4 * 120 + padding * 2, i * 36 + padding * 2);
         }
         ImageIO.write(image, "jpg", file);
         long fileLength = file.length();

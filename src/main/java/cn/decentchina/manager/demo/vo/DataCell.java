@@ -21,4 +21,6 @@ public class DataCell {
     private String budget;
 
     private String rate;
+
+    private String collect;
 }

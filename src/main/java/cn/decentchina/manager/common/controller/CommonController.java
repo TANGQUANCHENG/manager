@@ -3,7 +3,8 @@ package cn.decentchina.manager.common.controller;
 import cn.decentchina.manager.common.dto.SimpleMessage;
 import cn.decentchina.manager.common.enums.ErrorCodeEnum;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,9 +14,16 @@ import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.awt.image.RenderedImage;
 /**
  * @author 唐全成
  * @date 2018-08-31
@@ -87,6 +95,20 @@ public class CommonController {
         } else {
             return new SimpleMessage(ErrorCodeEnum.OK);
         }
+    }
+
+
+    public static void main(String[] args) throws IOException {
+
+        JEditorPane jEditorPane=new JEditorPane(new URL("http://www.baidu.com/"));
+
+        jEditorPane.setSize(3000,3000);
+
+        BufferedImage bufferedImage=new BufferedImage(jEditorPane.getWidth(),jEditorPane.getHeight(),BufferedImage.TYPE_INT_ARGB);
+
+        SwingUtilities.paintComponent(bufferedImage.createGraphics(),jEditorPane,new JPanel(),0,0,bufferedImage.getWidth(),bufferedImage.getHeight());
+
+        ImageIO.write(bufferedImage,"png",new File("output.png"));
     }
 
 }

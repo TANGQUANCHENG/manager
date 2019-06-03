@@ -348,6 +348,10 @@
             return;
         }
         $("#addForm").form("submit", {
+            onSubmit:function(request){
+                console.log(request)
+                request['header']='a=22'
+            },
             success: function (data) {
                 try {
                     data = eval('(' + data + ')');
