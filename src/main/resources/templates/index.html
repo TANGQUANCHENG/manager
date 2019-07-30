@@ -131,10 +131,15 @@
 <script src="https://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
 <script>
     document.getElementById("indexFrame").style.height= document.documentElement.clientHeight-90+"px";
-    jQuery.validator.addMethod("isNormalPwd", function(value, element) {
-        var tel = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,12}$/;
+//    jQuery.validator.addMethod("isNormalPwd", function(value, element) {
+//        var tel = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,12}$/;
+//        return this.optional(element) || (tel.test(value));
+//    }, "请输入6-12位字母数字组合");
+
+    jQuery.validator.addMethod("isNormalPwd", function (value, element) {
+        var tel = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{8,}$/;
         return this.optional(element) || (tel.test(value));
-    }, "请输入6-12位字母数字组合");
+    }, "请输入至少8位数字、大小写字母、特殊符号组合");
     $("#updateForm").validate({
         rules: {
             oldPassword: {

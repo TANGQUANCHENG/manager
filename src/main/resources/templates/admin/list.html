@@ -151,10 +151,15 @@
 <script th:src="@{/js/pinyinUtil.js}"></script>
 <script>
 
+//    jQuery.validator.addMethod("isNormalPwd", function (value, element) {
+//        var tel = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,12}$/;
+//        return this.optional(element) || (tel.test(value));
+//    }, "请输入6-12位字母数字组合");
+
     jQuery.validator.addMethod("isNormalPwd", function (value, element) {
-        var tel = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,12}$/;
+        var tel = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{8,}$/;
         return this.optional(element) || (tel.test(value));
-    }, "请输入6-12位字母数字组合");
+    }, "请输入至少8位数字、大小写字母、特殊符号组合");
     $("#addForm").validate({
         rules: {
             name: {

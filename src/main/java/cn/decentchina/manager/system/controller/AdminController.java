@@ -118,7 +118,7 @@ public class AdminController {
             return new SimpleMessage(ErrorCodeEnum.INVALID_PARAMS, "原密码或新密码不能为空");
         }
         if (!ValidateUtils.isLegalPassword(newPwd)) {
-            return new SimpleMessage(ErrorCodeEnum.INVALID_PARAMS, "新密码必须为6-12位数字密码组合");
+            return new SimpleMessage(ErrorCodeEnum.INVALID_PARAMS, "新密码至少为8位数字、大小写字母、特殊符号组合");
         }
         return adminService.updatePassword(oldPwd, newPwd);
     }
