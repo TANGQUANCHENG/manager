@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>订单结果页面</title>
+    <style>
+        .main {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+        }
+
+        .confirm-result {
+            width: 100%;
+            height: 200px;
+            text-align: center;
+            line-height: 50px;
+            background-color: #77e0ad;
+            border-radius: 5px;
+            color: #666;
+            padding-top: 50px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="main">
+    这里是商户结果页面
+    <div class="confirm-result">
+       商户订单批次号： [[${param.batch_no}]]
+       商户编号： [[${param.app_id}]]
+    </div>
+</div>
+</body>
+</html>

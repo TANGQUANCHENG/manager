@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0"/>
+    <title>选择产品</title>
+    <style>
+
+        .main{
+            width: 100%;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+        #order{
+            width: 100%;
+            height: 200px;
+            text-align: center;
+            line-height: 200px;
+            border-radius: 5px;
+            background-color: #d59392;
+        }
+
+    </style>
+</head>
+<body>
+<!--<div th:include="common :: header"></div>-->
+<div class="main">
+    商户下单页面
+    <div id="order">
+        星巴克中杯通兑伙伴券
+    </div>
+    <!--<input type="text"/>-->
+</div>
+<script th:attr="src=@{/js/jquery.js}"></script>
+</div>
+<script>
+    $("#order").click(function () {
+        $.ajax({
+            type: "GET",
+            url: "/shiro/order",
+            data: {},
+            dataType: "json",
+            success: function (data) {
+                if(data.errorCode==200){
+                    window.location.href=data.errorMsg;
+                }
+            },
+            beforeSend: function () {
+            }
+        });
+    })
+</script>
+</body>
+</html>
