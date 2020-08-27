@@ -3,10 +3,10 @@ package cn.decentchina.manager.demo.service;
 import cn.decentchina.manager.demo.dao.AqyCodeDao;
 import cn.decentchina.manager.demo.entity.AqyCode;
 import cn.decentchina.manager.system.util.HttpClient;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,6 @@ public class AqyService {
     @Autowired
     private AqyCodeDao aqyCodeDao;
 
-    @Scheduled(cron = "0/5 * * * * ? ")
     public void processor() throws IOException {
         AqyCode aqyCode = aqyCodeDao.queryUnDealed(1);
         if(aqyCode==null){

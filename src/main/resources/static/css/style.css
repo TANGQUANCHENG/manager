@@ -929,7 +929,7 @@ body.modal-open,
 }
 /*.sb-collapsed .cl-vnavigation li:hover ul{display: block !important;}
 	.sb-collapsed .cl-vnavigation li.ocult ul{display:none !important;}
-	
+
 */
 /*End Collapsed*/
 .cl-vnavigation li a i {
@@ -1241,7 +1241,7 @@ input::-webkit-input-speech-button {
 .login-container .header .logo-img {
   margin-right: 3px;
   float: left;
-  margin-left: 35%;
+  margin-left: 26%;
 }
 .login-container .block-flat .content {
   padding: 30px;

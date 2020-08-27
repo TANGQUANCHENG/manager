@@ -21,7 +21,7 @@
         <div class="block-flat">
             <div class="header">
                 <h3 class="text-center" id="loginHeader">
-                    <img class="logo-img" th:attr="src=@{/images/logo.png}" alt="logo"/>template</h3>
+                    <img class="logo-img" th:attr="src=@{/images/logo.png}" alt="logo"/>通用管理平台模板</h3>
             </div>
             <div>
                 <form style="margin-bottom: 0px !important;" class="form-horizontal" id="loginForm">
@@ -32,8 +32,7 @@
                                         <span class="input-group-addon">
                                             <i class="fa fa-user"></i>
                                         </span>
-                                    <input type="text" placeholder="请输入用户名" name="phoneNo" class="form-control"
-                                           maxlength="11">
+                                    <input type="text" placeholder="请输入用户名" name="phoneNo" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -56,10 +55,7 @@
             </div>
         </div>
         <div class="text-center out-links">
-            <a href="#" id="ipt-test">&copy; 2018 山东鼎信网络科技有限公司</a>
-        </div><br/><br/><br/>
-        <div class="text-center out-links">
-            <a href="/shiro/commodityList" >测试下单</a>
+            <a href="#" id="ipt-test">&copy; 2020 Tom出品</a>
         </div>
     </div>
 </div>
@@ -103,7 +99,7 @@
                 },
                 loginPwd: {
                     required: true,
-                    isNormalPwd: true
+                    // isNormalPwd: true
                 }
             },
             errorClass: "help-inline",

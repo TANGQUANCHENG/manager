@@ -9,15 +9,14 @@ import cn.decentchina.manager.common.util.StringHelpers;
 import cn.decentchina.manager.system.util.HttpClient;
 import cn.decentchina.manager.system.util.HttpUtil;
 import cn.decentchina.manager.system.util.Md5;
-import com.decent.framework.util.AesUtil;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -193,8 +192,8 @@ public class CommonController {
     public String orderNotify(OrderNotifyDTO dto) throws UnsupportedEncodingException {
         log.info("接收到订单通知：{}", dto);
         if (StringUtils.isNotBlank(dto.getData())) {
-            String decrypt = AesUtil.decrypt(dto.getData(), "tMD2nXwcb5R3bzrC", "I9WetNeSpJDCqOse");
-            log.info("接收到订单通知，data：{}", decrypt);
+//            String decrypt = AesUtil.decrypt(dto.getData(), "tMD2nXwcb5R3bzrC", "I9WetNeSpJDCqOse");
+//            log.info("接收到订单通知，data：{}", decrypt);
         }
         return "success";
     }
@@ -208,8 +207,8 @@ public class CommonController {
     public String orderChangeNotify(OrderNotifyDTO dto) throws UnsupportedEncodingException {
         log.info("接收到订单状态改变通知：{}", dto);
         if (StringUtils.isNotBlank(dto.getData())) {
-            String decrypt = AesUtil.decrypt(dto.getData(), "tMD2nXwcb5R3bzrC", "I9WetNeSpJDCqOse");
-            log.info("接收到订单通知，data：{}", decrypt);
+//            String decrypt = AesUtil.decrypt(dto.getData(), "tMD2nXwcb5R3bzrC", "I9WetNeSpJDCqOse");
+//            log.info("接收到订单通知，data：{}", decrypt);
         }
         return "success";
     }
@@ -250,43 +249,14 @@ public class CommonController {
         log.info("下单结果：{}", result);
         ObjectMapper mapper = new ObjectMapper();
         JsonNode jsonNode = mapper.readTree(result);
-        int errorCode = jsonNode.get("code").getIntValue();
+        int errorCode = jsonNode.get("code").intValue();
         if (errorCode != SUCCESS_CODE) {
             log.error("下单不成功：,{}", result);
         }
-        String cashierUrl = jsonNode.get("cashier_url").getTextValue();
+        String cashierUrl = jsonNode.get("cashier_url").toString();
         return new SimpleMessage(SUCCESS_CODE, cashierUrl);
     }
 
-    @RequestMapping("test")
-    public void test() throws IOException {
-        UsrInfo usrInfo = new UsrInfo();
-        usrInfo.setApp_id("8913");
-//        usrInfo.setGoods_no("11001004");
-        usrInfo.setTime_stamp(String.valueOf(System.currentTimeMillis()));
-        String result = HttpClient.post("http://172.16.0.245:8059/api/goods/list", getAddTypeNoticeParams(usrInfo),
-                "utf-8", 30000, 30000);
-        log.info("请求品牌接口，响应：{}", result);
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode jsonNode = mapper.readTree(result);
-        String data = jsonNode.get("data").getTextValue();
-        String timestamp = jsonNode.get("time_stamp").getTextValue();
-        String message = jsonNode.get("message").getTextValue();
-        String sign = jsonNode.get("sign").getTextValue();
-        Integer code = jsonNode.get("code").getIntValue();
-        String localString = "code=" + code + "&data=" + data + "&message=" + message + "&time_stamp="
-                + timestamp + "&tradeKey=snBN6cj4i3P5NPyeetdjZiSBR7K5HGXR";
-        String localSign = Md5.crypt(localString).toUpperCase();
-        log.info("本地签名：{}", localSign);
-        boolean equals = StringUtils.equals(sign, localSign);
-        log.info("验证签名：{}", equals);
-        try {
-            String decrypt = AesUtil.decrypt(data, "tMD2nXwcb5R3bzrC", "I9WetNeSpJDCqOse");
-            log.info("解密内容：,{}", decrypt);
-        } catch (UnsupportedEncodingException e) {
-            log.error("解密异常：{}", e);
-        }
-    }
 
     /**
      * 构建参数
