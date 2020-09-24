@@ -56,8 +56,8 @@ public class BindController {
      */
     @RequestMapping("/allNav")
     public TreeVO queryAllNavigation() {
-        List<NavigationVO> navigationVOS = navigationService.queryAll();
-        return new TreeVO(navigationVOS.size(), navigationVOS);
+        List<NavigationVO> navigations = navigationService.queryAll();
+        return new TreeVO(navigations.size(), navigations);
     }
 
     /**
@@ -117,19 +117,19 @@ public class BindController {
     @RequestMapping("/getData/{roleId}")
     public TreeVO getDataByRole(@PathVariable Integer roleId) {
         //查询全部菜单
-        List<NavigationVO> navigationVOS = navigationService.queryAll();
+        List<NavigationVO> navigations = navigationService.queryAll();
         //根据角色id查询
         TreeVO treeVO = bindService.queryByRole(roleId);
         List<NavigationVO> rows = treeVO.getRows();
 
         if (rows != null && !rows.isEmpty()) {
-            navigationVOS.forEach(navigationVO -> rows.forEach(n -> {
+            navigations.forEach(navigationVO -> rows.forEach(n -> {
                 if (navigationVO.getId().equals(n.getId())) {
                     navigationVO.setSelected(true);
                 }
             }));
         }
-        return new TreeVO(navigationVOS.size(), navigationVOS);
+        return new TreeVO(navigations.size(), navigations);
     }
 
 }

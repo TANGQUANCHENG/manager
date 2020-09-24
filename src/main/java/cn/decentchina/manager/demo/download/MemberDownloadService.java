@@ -25,16 +25,16 @@ public class MemberDownloadService {
     private MemberDao memberDao;
 
     public void download(String[] titles, ServletOutputStream out, MemberQueryDTO dto) {
-        List<MemberVO> memberVOS = memberDao.queryList(dto);
-        writeResponseProcessor(memberVOS, titles, out);
+        List<MemberVO> members = memberDao.queryList(dto);
+        writeResponseProcessor(members, titles, out);
     }
 
     public void chooseDownload(String[] titles, ServletOutputStream out, Integer[] ids) {
-        List<MemberVO> memberVOS = memberDao.queryByIds(StringUtils.join(ids, ","));
-        writeResponseProcessor(memberVOS, titles, out);
+        List<MemberVO> members = memberDao.queryByIds(StringUtils.join(ids, ","));
+        writeResponseProcessor(members, titles, out);
     }
 
-    private void writeResponseProcessor(List<MemberVO> memberVOS, String[] titles, ServletOutputStream out) {
+    private void writeResponseProcessor(List<MemberVO> members, String[] titles, ServletOutputStream out) {
         try {
             // 第一步，创建一个workbook，对应一个Excel文件
             HSSFWorkbook workbook = new HSSFWorkbook();
@@ -56,11 +56,11 @@ public class MemberDownloadService {
                 hssfCell.setCellStyle(hssfCellStyle);
             }
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            if (!memberVOS.isEmpty()) {
-                int size = memberVOS.size();
+            if (!members.isEmpty()) {
+                int size = members.size();
                 for (int i = 0; i < size; i++) {
                     hssfRow = hssfSheet.createRow(i + 1);
-                    MemberVO memberVO = memberVOS.get(i);
+                    MemberVO memberVO = members.get(i);
                     hssfRow.createCell(0).setCellValue(memberVO.getName());
                     hssfRow.createCell(1).setCellValue(memberVO.getAge());
                     hssfRow.createCell(2).setCellValue(memberVO.getGender() == null
@@ -75,7 +75,7 @@ public class MemberDownloadService {
                 workbook.write(out);
                 out.flush();
                 out.close();
-                log.info("会员信息导出成功，行数：{}", memberVOS.size());
+                log.info("会员信息导出成功，行数：{}", members.size());
             } catch (Exception e) {
                 log.info("会员信息导出失败，{}", e);
             } finally {

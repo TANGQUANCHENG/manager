@@ -119,11 +119,11 @@ public class ValidateUtils {
         }
     }
 
-    public static boolean isURL(String url) {
+    public static boolean isUrl(String url) {
         return IS_URL.matcher(url).matches();
     }
 
-    public static boolean isIP(String ip) {
+    public static boolean isIp(String ip) {
         return IS_IP.matcher(ip).matches();
     }
 

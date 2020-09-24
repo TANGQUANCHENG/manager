@@ -22,6 +22,7 @@ import java.net.SocketTimeoutException;
 import java.util.List;
 
 /**
+ * @author 81072
  * http请求工具类
  * Created by 王元鑫 on 2015/7/22.
  */

@@ -133,8 +133,8 @@ public class BindServiceImpl implements BindService {
      */
     @Override
     public TreeVO queryByRole(Integer roleId) {
-        List<NavigationVO> navigationVOS = roleNavRelationDao.queryByRole(roleId);
-        return new TreeVO(navigationVOS.size(), navigationVOS);
+        List<NavigationVO> navigations = roleNavRelationDao.queryByRole(roleId);
+        return new TreeVO(navigations.size(), navigations);
     }
 
     /**

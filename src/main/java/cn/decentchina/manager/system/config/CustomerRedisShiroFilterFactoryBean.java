@@ -53,8 +53,8 @@ public class CustomerRedisShiroFilterFactoryBean extends BaseShiroFactoryBean {
 
         Map<String, String> filterChainDefinitionMap = this.getFilterChainDefinitionMap();
         ShiroConfigs.defaultFilterChain(filterChainDefinitionMap);
-        List<ShiroChainVO> shiroChainVOS = shiroChainService.queryShiroChain();
-        shiroChainVOS.forEach(chain ->
+        List<ShiroChainVO> shiroChains = shiroChainService.queryShiroChain();
+        shiroChains.forEach(chain ->
                 filterChainDefinitionMap.put(chain.getUrl(),
                         "roleOrFilter[" + chain.getRoles() + "," + Constants.SUPER_ADMIN + "]"));
         filterChainDefinitionMap.put("/**", "authc");

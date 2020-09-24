@@ -47,8 +47,8 @@ public class NavigationController {
      */
     @RequestMapping("/list")
     public TreeVO queryList() {
-        List<NavigationVO> navigationVOS = navigationService.queryAll();
-        return new TreeVO(navigationVOS.size(), navigationVOS);
+        List<NavigationVO> navigations = navigationService.queryAll();
+        return new TreeVO(navigations.size(), navigations);
     }
 
     /**

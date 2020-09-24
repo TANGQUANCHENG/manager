@@ -52,8 +52,8 @@ public class CustomerShiroFilterFactoryBean extends BaseShiroFactoryBean {
         Map<String, String> sortedMap = new LinkedHashMap<>(16);
         sortedMap.putAll(filterChainDefinitionMap);
         ShiroConfigs.defaultFilterChain(sortedMap);
-        List<ShiroChainVO> shiroChainVOS = shiroChainService.queryShiroChain();
-        shiroChainVOS.forEach(chain ->
+        List<ShiroChainVO> shiroChains = shiroChainService.queryShiroChain();
+        shiroChains.forEach(chain ->
                 sortedMap.put(chain.getUrl(),
                         Constants.CUSTOMER_SHIRO_FILTER + "[" + chain.getRoles() + "," + Constants.SUPER_ADMIN + "]"));
         sortedMap.put("/**", "authc");

@@ -21,7 +21,7 @@ public class PublicKey {
         try {
             Map<String,Object> keyMap= SecurityUtil.getKeyMap();
             RSAPublicKey publicKey=(RSAPublicKey)keyMap.get(Constants.PUBLIC_KEY);
-            publicKeyMap.put(Constants.PUBLIC_KEY, RsaUtil.encryptBASE64(publicKey.getEncoded()));
+            publicKeyMap.put(Constants.PUBLIC_KEY, RsaUtil.encryptBase64(publicKey.getEncoded()));
             String randomStr=(String)keyMap.get(Constants.RANDOM_STR);
             publicKeyMap.put(Constants.RANDOM_STR,randomStr);
             //将密钥和随机字符串绑定到session

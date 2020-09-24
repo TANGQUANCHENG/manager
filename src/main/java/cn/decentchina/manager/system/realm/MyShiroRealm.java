@@ -62,8 +62,8 @@ public class MyShiroRealm extends AuthorizingRealm {
             //判断是否为超级管理员
             if (currentAdmin.getSuperAdmin() != null && currentAdmin.getSuperAdmin()) {
                 roles.add(Constants.SUPER_ADMIN);
-                List<NavigationVO> navigationVOS = shiroChainService.queryAll();
-                navigationVOS.forEach(n -> {
+                List<NavigationVO> navigations = shiroChainService.queryAll();
+                navigations.forEach(n -> {
                     if (StringUtils.isNotBlank(n.getUrl())) {
                         permissions.add(n.getUrl());
                     }

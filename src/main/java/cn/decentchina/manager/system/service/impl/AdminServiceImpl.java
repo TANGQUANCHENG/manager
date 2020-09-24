@@ -55,8 +55,8 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Page<AdminVO> queryAdminListPage(Page page, String searchText) {
         PageHelper.startPage(page.getPageNumber(), page.getPageSize());
-        List<AdminVO> adminVOS = adminDao.queryAdminListPage(searchText);
-        return new Page<>(adminVOS);
+        List<AdminVO> admins = adminDao.queryAdminListPage(searchText);
+        return new Page<>(admins);
     }
 
     /**

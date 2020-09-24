@@ -24,6 +24,11 @@ public interface AqyCodeDao {
     @Update("update tbl_aqy_code set remark=#{remark}, status=1 , processing_time =now() where id=#{id}")
     int update(@Param("id") Integer id, @Param("remark") String remark);
 
+    /**
+     * 查询未处理信息
+     * @param amount
+     * @return
+     */
     @Select(" select id,code,status from tbl_aqy_code where status=0 limit #{amount}")
     AqyCode queryUnDealed(@Param("amount") Integer amount);
 

@@ -39,9 +39,9 @@ public class NavigationServiceImpl implements NavigationService {
      */
     @Override
     public List<NavigationVO> queryAll() {
-        List<NavigationVO> navigationVOS = navigationDao.queryAll();
-        navigationVOS.forEach(n -> n.setSelected(false));
-        return navigationVOS;
+        List<NavigationVO> navigations = navigationDao.queryAll();
+        navigations.forEach(n -> n.setSelected(false));
+        return navigations;
     }
 
     /**

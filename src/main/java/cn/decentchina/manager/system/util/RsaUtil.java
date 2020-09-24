@@ -22,7 +22,7 @@ public class RsaUtil {
      * @return : byte[]
      * @throws Exception 异常
      */
-    public static byte[] decryptBASE64(String key) throws Exception {
+    public static byte[] decryptBase64(String key) throws Exception {
         return (new BASE64Decoder()).decodeBuffer(key);
     }
 
@@ -33,7 +33,7 @@ public class RsaUtil {
      * @return : java.lang.String
      * @throws Exception 异常
      */
-    public static String encryptBASE64(byte[] key) throws Exception {
+    public static String encryptBase64(byte[] key) throws Exception {
         return (new BASE64Encoder()).encodeBuffer(key);
     }
 
@@ -46,7 +46,7 @@ public class RsaUtil {
      * @throws Exception 异常
      */
     public static String decrypt(RSAPrivateKey privateKey, String data) throws Exception {
-        return new String(decryptByPrivateKey(decryptBASE64(data), encryptBASE64(privateKey.getEncoded())), StandardCharsets.UTF_8.name());
+        return new String(decryptByPrivateKey(decryptBase64(data), encryptBase64(privateKey.getEncoded())), StandardCharsets.UTF_8.name());
     }
 
     /**
@@ -59,7 +59,7 @@ public class RsaUtil {
      */
     public static byte[] decryptByPrivateKey(byte[] data, String key) throws Exception {
         // 对密钥解密
-        byte[] keyBytes = decryptBASE64(key);
+        byte[] keyBytes = decryptBase64(key);
         // 取得私钥
         PKCS8EncodedKeySpec pkcs8KeySpec = new PKCS8EncodedKeySpec(keyBytes);
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
